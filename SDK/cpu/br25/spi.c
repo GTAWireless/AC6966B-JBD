@@ -563,7 +563,7 @@ int spi_dma_recv(spi_dev spi, void *buf, u32 len)
 int spi_dma_send(spi_dev spi, const void *buf, u32 len)
 {
     u8 id = spi_get_info_id(spi);
-
+    // spi_set_baud(spi,spi_get_info_clock(spi));
     /* ASSERT((u32)buf % 4 == 0, "spi dma addr need 4-aligned"); */
     spi_dir_out(spi_regs[id]);
     spi_w_reg_dma_addr(spi_regs[id], (u32)buf);

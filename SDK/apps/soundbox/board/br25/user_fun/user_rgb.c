@@ -606,11 +606,13 @@ void user_rgb_fun_init(void){
 
     rgb->info->spi_buff = malloc(sizeof(SPI_COLOUR)*rgb->info->number);
     if(!rgb->info->spi_buff){
+        printf("rgb init mallocc error\n");
         return;
     }
     rgb->info->rgb_buff = malloc(sizeof(RGB_COLOUR)*rgb->info->number);
     if(!rgb->info->rgb_buff){
         free(rgb->info->spi_buff);
+        printf("rgb init mallocc error 1\n");
         return;
     }
     user_rgb_mode_set(USER_RGB_AUTO_SW,rgb);

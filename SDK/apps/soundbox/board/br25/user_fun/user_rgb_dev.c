@@ -101,7 +101,7 @@ void user_rgb_send(void *priv){
         // spi_open(rgb->spi_port);
         return;
     }
-
+    printf(">>>> clck spi %d sys %d\n",clk_get("spi"),clk_get("sys"));
     if(rgb->init_flag && rgb && !rgb->updata_flag && rgb->init_flag && rgb->spi_buff && rgb->rgb_buff){
         rgb->rend_flag = 1;
         user_rgb_set_all(rgb->spi_buff,rgb->rgb_buff,rgb->number);
