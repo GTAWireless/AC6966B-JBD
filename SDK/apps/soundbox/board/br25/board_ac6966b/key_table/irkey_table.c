@@ -109,7 +109,7 @@ const u16 fm_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
         KEY_VOL_UP,		KEY_VOL_UP,		KEY_VOL_UP,		KEY_VOL_UP,		KEY_NULL,		KEY_NULL
     },
     [9] = {
-        KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
+        KEY_NULL,		KEY_FM_SCAN_ALL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
     },
     [10] = {
         KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL

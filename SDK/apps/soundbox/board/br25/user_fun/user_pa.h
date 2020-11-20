@@ -5,8 +5,8 @@
 
 
 typedef struct USER_PA_CTL_IO {
-    u32 port_mute;//双io控制 pa开关io口
-    u32 port_abd;//双io控制 pa类型io口
+    u32 port_mute;//mute io口
+    u32 port_abd;//abd io口
     u8 port_io_init_ok;//初始化ok
 
     //如果是单线功放 下面两个设置不起作用
@@ -36,11 +36,18 @@ typedef struct pa_internal{
     void (*service)(void *pa);//服务函数
     u16 service_id;
 
+    //单线 脉冲型功放控制
+    u16 switching_id;//切换ad、d类型 注册定时器返回的id
+    u8  switching_delay_flag;//脉冲型功放 切换类型时前面有 拉低10Ms 再拉高20Ms 的信号，用于存放前面信号发送标志
+    u8  target_type;//切换功放的目标类型
+
     //双io控制功放
     void (*mute_2pin)(void *pa,u8 cmd);
     void (*abd_2pin)(void *pa,u8 cmd);
-    //单io控制功放
-    void (*abd_and_mute)(void *pa,u8 cmd);
+    //单io控制功放 电压型
+    void (*abd_and_mute_voltage)(void *pa,u8 cmd);
+    //单io控制功放 脉冲型
+    void (*abd_and_mute_pulse)(void *pa,u8 cmd);
 }PA_IN_STRL;
 
 
@@ -51,16 +58,12 @@ enum {
     PA_CLASS_D,
     PA_MUTE,
     PA_UMUTE,
-};
-enum {
-    PA_MODE_1,//双线功放
-    PA_MODE_2,//单线电压功放
-    PA_MODE_3,//单线脉冲功放
-    PA_MODE_MAX,//
+    PA_NULL,
 };
 
 /**********************模块内部使用**************************/
-void user_pa_in_abd_and_mute(void *pa,u8 cmd);//单io 功放
+void user_pa_in_abd_and_mute_voltage(void *pa,u8 cmd);//单io 电压功放
+void user_pa_in_abd_and_mute_pulse(void *priv,u8 cmd);//单io 脉冲功放
 void user_pa_in_mute(void *pa,u8 cmd);//双io功放 mute
 void user_pa_in_abd(void *pa,u8 cmd);//双io功放 abd
 void user_pa_in_strl(void *pa,u8 cmd);//模块功放控制接口 

@@ -5,10 +5,12 @@
 #define USER_DEV_SD0	"sd0"
 #define USER_DEV_SD1	"sd1"
 
-#define USER_PA_MODE_1 1//双io功放
-#define USER_PA_MODE_2 2//单io功放 电压
-#define USER_PA_MODE_3 3//单io功放 脉冲
-#define USER_PA_MODE_AUTO 3//自动检测
+#define USER_PA_MODE_0 0//双io功放 低mute
+#define USER_PA_MODE_1 (USER_PA_MODE_0+1)//双io功放 高mute
+#define USER_PA_MODE_2 (USER_PA_MODE_1+1)//单io功放 电压
+#define USER_PA_MODE_3 (USER_PA_MODE_2+1)//单io功放 脉冲
+#define USER_PA_MODE_MAX (USER_PA_MODE_3+1)
+#define USER_PA_MODE_AUTO USER_PA_MODE_3//自动检测
 
 #define USER_PA_MUTE_H    1//高mute
 #define USER_PA_MUTE_L    0//低mute
@@ -20,8 +22,12 @@
 #define USER_RGB_LOOP_MODE_2    2//非单色闪烁循环
 #define USER_RGB_LOOP_MODE_3    3//单色闪烁循环
 
+#define USER_UDELAY_TIMER JL_TIMER3//微妙延时使用的定时器 地址
+#define USER_UDELAY_TIMER_IRQ IRQ_TIME3_IDX//微妙延时使用的定时器 终端号
+
+
 #define USER_PA_EN  1//功放总开关
-#define USER_PA_CLASS USER_PA_MODE_2//功放类型
+#define USER_PA_CLASS USER_PA_MODE_AUTO//功放类型
 
 #define USER_SDK_BUG_1  0//使用tone_play_with_callback_by_name该接口播放提示音 有概率出现没有声音出来 之后也没有声音。主要是解码没唤醒导致
 #define USER_SDK_BUG_2  1//linein 模式下 采用dac L进 dac R出的方式，进linein之后声音小
