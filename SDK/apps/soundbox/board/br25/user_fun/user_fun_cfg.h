@@ -94,6 +94,18 @@ enum {
     USER_TWS_SYNC_EQ_MODE,
     USER_TWS_SYNC_MAX,
 };
+enum {
+    USER_GPIO_HI,//高阻态 High impedance
+    USER_GPIO_OUT_H,//输出高 io实现
+    USER_GPIO_OUT_L,//输出低 io实现
+    USER_GPIO_IN_IO,//DIE 设为1 检测高低电平
+    USER_GPIO_IN_AD,//DIE 设为0 检测ad值
+    USER_GPIO_IN_IO_PU,//上拉 IO 输入
+    USER_GPIO_IN_IO_PD,//下拉 IO 输入
+    USER_GPIO_IN_AD_PU,//上拉 AD 输入
+    USER_GPIO_IN_AD_PD,//下拉 AD 输入
+    USER_GPIO_SET_MAX,
+};
 
 #define DIFFERENCE(a,b) ((a > b) ? (a-b) : (b-a))//差值
 
@@ -134,4 +146,6 @@ int user_ex_mic_get_reverb(void);
 u8 user_power_off_class(u8 cmd);
 void user_message_filtering(int key_event);
 u8 user_key_set_sys_vol_flag(u8 cmd);
+void user_udelay(u32 usec);
+void user_attr_gpio_set(u32 gpio,u8 cmd,int delay_cnt);
 #endif

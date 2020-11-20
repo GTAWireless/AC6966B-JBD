@@ -55,15 +55,15 @@ void clock_remove_set(u32 type)
 
 const struct clock_type  clock_enum[] = {
 
-    { BT_IDLE_CLOCK     	, (24), "	BT_IDLE_CLOCK      " },
-    { MUSIC_IDLE_CLOCK  	, (24), "	MUSIC_IDLE_CLOCK   " },
-    { FM_IDLE_CLOCK     	, (12), "	FM_IDLE_CLOCK      " },
-    { LINEIN_IDLE_CLOCK 	, (96), "	LINEIN_IDLE_CLOCK  " },
-    { PC_IDLE_CLOCK     	, (120), "	PC_IDLE_CLOCK      " },
-    { REC_IDLE_CLOCK    	, (12), "	REC_IDLE_CLOCK     " },
-    { RTC_IDLE_CLOCK    	, (12), "	RTC_IDLE_CLOCK     " },
-    { SPDIF_IDLE_CLOCK  	, (12), "	SPDIF_IDLE_CLOCK   " },
-    { BOX_IDLE_CLOCK  		, (24), "	BOX_IDLE_CLOCK   " },
+    { BT_IDLE_CLOCK     	, (192), "	BT_IDLE_CLOCK      " },
+    { MUSIC_IDLE_CLOCK  	, (192), "	MUSIC_IDLE_CLOCK   " },
+    { FM_IDLE_CLOCK     	, (192), "	FM_IDLE_CLOCK      " },
+    { LINEIN_IDLE_CLOCK 	, (192), "	LINEIN_IDLE_CLOCK  " },
+    { PC_IDLE_CLOCK     	, (192), "	PC_IDLE_CLOCK      " },
+    { REC_IDLE_CLOCK    	, (192), "	REC_IDLE_CLOCK     " },
+    { RTC_IDLE_CLOCK    	, (192), "	RTC_IDLE_CLOCK     " },
+    { SPDIF_IDLE_CLOCK  	, (192), "	SPDIF_IDLE_CLOCK   " },
+    { BOX_IDLE_CLOCK  		, (192), "	BOX_IDLE_CLOCK   " },
 
 
     { DEC_SBC_CLK	, (32), "DEC_SBC_CLK	 " },

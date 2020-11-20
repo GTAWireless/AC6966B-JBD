@@ -1,4 +1,7 @@
 #include "user_fun_cfg.h"
+#if (!TCFG_UI_LED7_ENABLE)
+#define led7_clear_all_icon()   
+#endif
 #if USER_VBAT_CHECK_EN
 USER_POWER_INFO user_power_io={
     .pro = IO_PORTB_06,
@@ -7,6 +10,103 @@ USER_POWER_INFO user_power_io={
 };
 #endif
 
+
+static void user_udelay_init(void){
+    bit_clr_ie(USER_UDELAY_TIMER_IRQ);
+}
+
+void user_udelay(u32 usec)
+{
+    USER_UDELAY_TIMER->CON = BIT(14);//0x4000;
+    USER_UDELAY_TIMER->CNT = 0;
+    USER_UDELAY_TIMER->PRD = 6  * usec;
+    USER_UDELAY_TIMER->CON = BIT(0)|BIT(3)|BIT(4);//BIT(0)定时计数模式 BIT(3):晶振为时钟源 BIT(4):4分频
+    while ((USER_UDELAY_TIMER->CON & BIT(15)) == 0);
+    USER_UDELAY_TIMER->CON = BIT(14); 
+}
+
+__attribute__((weak)) void user_attr_gpio_set(u32 gpio,u8 cmd,int delay_cnt){
+    JL_PORT_FLASH_TypeDef *p =NULL;
+    u32 por = NO_CONFIG_PORT;
+
+    if(gpio<=IO_PORTA_15){
+        p = JL_PORTA;
+        por = gpio-IO_PORTA_00;
+    }else if(gpio<=IO_PORTB_15){
+        p = JL_PORTB;
+        por = gpio-IO_PORTB_00;
+    }else if(gpio<=IO_PORTC_15){
+        p = JL_PORTC;
+        por = gpio-IO_PORTC_00;
+    }else if(gpio<=IO_PORTD_07){
+        p = JL_PORTD;
+        por = gpio-IO_PORTD_00;
+    }
+
+    if(!p || NO_CONFIG_PORT==por){
+        return;
+    }
+
+    switch(cmd){
+    case USER_GPIO_HI:
+    case USER_GPIO_IN_IO:
+        p->DIR  |=   BIT(por);
+        p->PD   &=~  BIT(por);
+        p->PU   &=~  BIT(por);
+        p->DIE  |=   BIT(por);
+        break;
+    case USER_GPIO_IN_AD:
+        p->DIR  |=   BIT(por);
+        p->PD   &=~  BIT(por);
+        p->PU   &=~  BIT(por);
+        p->DIE  &=~  BIT(por); 
+        break;
+    case USER_GPIO_OUT_H:
+        p->DIR  &=~  BIT(por);
+        p->PD   &=~  BIT(por);
+        p->PU   &=~  BIT(por);
+        p->DIE  |=   BIT(por);
+        p->OUT  |=   BIT(por);
+        break;
+    case USER_GPIO_OUT_L:
+        p->DIR  &=~  BIT(por);
+        p->PD   &=~  BIT(por);
+        p->PU   &=~  BIT(por);
+        p->DIE  |=   BIT(por);
+        p->OUT  &=~  BIT(por);
+        break;
+    case USER_GPIO_IN_IO_PU:
+        p->DIR  |=   BIT(por);
+        p->PD   &=~  BIT(por);
+        p->PU   |=   BIT(por);
+        p->DIE  |=   BIT(por);
+        break;
+    case USER_GPIO_IN_IO_PD:
+        p->DIR  |=   BIT(por);
+        p->PD   |=   BIT(por);
+        p->PU   &=~  BIT(por);
+        p->DIE  |=   BIT(por);
+        break;
+    case USER_GPIO_IN_AD_PU:
+        p->DIR  |=   BIT(por);
+        p->PD   &=~  BIT(por);
+        p->PU   |=   BIT(por);
+        p->DIE  &=~  BIT(por);
+        break;
+    case USER_GPIO_IN_AD_PD:
+        p->DIR  |=   BIT(por);
+        p->PD   |=   BIT(por);
+        p->PU   &=~  BIT(por);
+        p->DIE  &=~  BIT(por);
+        break;
+    default:
+        break;
+    }
+
+    if(delay_cnt){
+        delay(60);
+    }
+}
 void user_message_filtering(int key_event){   
     switch(key_event){
         case KEY_VOL_DOWN:
@@ -797,6 +897,7 @@ void user_fun_io_init(void){
 
 //开机 功能初始化
 void user_fun_init(void){
+    user_udelay_init();
     user_pa_ex_init();
 
     user_4ad_check_init(user_4ad_fun_features);
@@ -813,4 +914,8 @@ void user_fun_init(void){
 
     user_rgb_fun_init();
     user_low_power_show(0);
+	
+    // extern void user_print_timer(void);
+    // sys_s_hi_timer_add(NULL,user_print_timer,500);
+    // user_print_timer();
 }
