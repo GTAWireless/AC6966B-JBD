@@ -1212,7 +1212,7 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,music_player_get_play_status,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,tone_get_status,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_record_status,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_set_mode,pl
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_check_class_mode,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,gpio_read,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_io_init,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_del,pl

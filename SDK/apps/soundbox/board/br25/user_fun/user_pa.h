@@ -26,7 +26,7 @@ typedef struct USER_PA_CTL_IO {
 
 typedef struct pa_internal{
     PA_CTL_IO *pa_io;
-    u8 pa_mode;//存放双线单线功放标志
+    u8 pa_mode;//功放类型 
     //最终调用控制功放
     void (*mute)(void *pa,u8 cmd);
     void (*abd)(void *pa,u8 cmd);
