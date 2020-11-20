@@ -1,6 +1,6 @@
 #include "user_fun_cfg.h"
 
-#if USER_RGB_EN
+#if (defined(USER_RGB_EN) && USER_RGB_EN)
 
 
 
@@ -10,21 +10,29 @@ void user_rgb_set_only(SPI_COLOUR *spi_buff,RGB_COLOUR *rgb){
         return;
     }
 
+    u8 code0=USER_RGB_CODE0;
+    u8 code1=USER_RGB_CODE1;
+
+    #if (defined(USER_RGB_LEVEL_FLIP) && USER_RGB_LEVEL_FLIP)
+//        code0 = ~code0;
+ //       code1 = ~code1;
+    #endif
+
     for(int i=0;i<8;i++){
         if(rgb->r&BIT(7-i)){
-            spi_buff->r[i]=USER_RGB_CODE1;
+            spi_buff->r[i]=code1;
         }else{
-            spi_buff->r[i]=USER_RGB_CODE0;
+            spi_buff->r[i]=code0;
         }
         if(rgb->g&BIT(7-i)){
-            spi_buff->g[i]=USER_RGB_CODE1;
+            spi_buff->g[i]=code1;
         }else{
-            spi_buff->g[i]=USER_RGB_CODE0;
+            spi_buff->g[i]=code0;
         }
         if(rgb->b&BIT(7-i)){
-            spi_buff->b[i]=USER_RGB_CODE1;
+            spi_buff->b[i]=code1;
         }else{
-            spi_buff->b[i]=USER_RGB_CODE0;
+            spi_buff->b[i]=code0;
         }
     }
 }
@@ -101,7 +109,7 @@ void user_rgb_send(void *priv){
         // spi_open(rgb->spi_port);
         return;
     }
-    printf(">>>> clck spi %d sys %d\n",clk_get("spi"),clk_get("sys"));
+    // printf(">>>> clck spi %d sys %d\n",clk_get("spi"),clk_get("sys"));
     if(rgb->init_flag && rgb && !rgb->updata_flag && rgb->init_flag && rgb->spi_buff && rgb->rgb_buff){
         rgb->rend_flag = 1;
         user_rgb_set_all(rgb->spi_buff,rgb->rgb_buff,rgb->number);

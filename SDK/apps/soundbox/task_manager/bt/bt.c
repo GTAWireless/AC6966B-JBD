@@ -784,15 +784,18 @@ int bt_key_event_handler(struct sys_event *event)
 
 #if TCFG_USER_TWS_ENABLE
     case  KEY_EQ_MODE:
+    r_printf("BT KEY_EQ_MODE");
 #if(TCFG_EQ_ENABLE == 1)
     if (tws_api_get_tws_state() & TWS_STA_SIBLING_CONNECTED) {
         if (tws_api_get_role() == TWS_ROLE_MASTER) {
-            u8 ret = user_eq_mode_sw(EQ_MODE_NEXT);//eq_mode_sw();
-            user_bt_tws_sync_msg_send(USER_TWS_SYNC_EQ_MODE,ret);
+            r_printf(">>>>>  tws con  MASTER\n");
+            u8 ret_ = user_eq_mode_sw(EQ_MODE_NEXT);//eq_mode_sw();
+            user_bt_tws_sync_msg_send(USER_TWS_SYNC_EQ_MODE,ret_);
         }
         ret = true;
+    }else{
+        user_eq_mode_sw(EQ_MODE_NEXT);
     }
-    
 #endif
     break;
 
