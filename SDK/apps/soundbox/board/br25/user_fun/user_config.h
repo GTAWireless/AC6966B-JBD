@@ -9,8 +9,8 @@
 #define USER_PA_MODE_1 (USER_PA_MODE_0+1)//双io功放 高mute
 #define USER_PA_MODE_2 (USER_PA_MODE_1+1)//单io功放 电压
 #define USER_PA_MODE_3 (USER_PA_MODE_2+1)//单io功放 脉冲
-#define USER_PA_MODE_MAX (USER_PA_MODE_3+1)
-#define USER_PA_MODE_AUTO USER_PA_MODE_3//自动检测
+#define USER_PA_MODE_AUTO (USER_PA_MODE_3+1)//自动检测
+#define USER_PA_MODE_MAX (USER_PA_MODE_AUTO+1)
 
 #define USER_PA_MUTE_H    1//高mute
 #define USER_PA_MUTE_L    0//低mute

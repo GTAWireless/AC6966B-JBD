@@ -711,8 +711,8 @@ void user_sys_vol_callback_fun(u32 *vol){
         if(app_audio_get_volume(APP_AUDIO_STATE_MUSIC) != cur_ad_vol){
             u8 volume = cur_ad_vol;
             // app_audio_set_volume(APP_AUDIO_STATE_MUSIC, volume, 1);
-            UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
             user_set_and_sync_sys_vol(volume);
+            UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
         }
     }
 
