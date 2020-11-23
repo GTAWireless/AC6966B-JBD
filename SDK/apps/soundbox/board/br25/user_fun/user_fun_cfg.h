@@ -60,12 +60,12 @@
 
 #define USER_EQ_BASS_AD_MAX    (420)//430
 #define USER_EQ_BASS_AD_MIN    (50)//62
-#define USER_EQ_BASS_GAIN_MIN  (-6)//最小增益
+#define USER_EQ_BASS_GAIN_MIN  (-12)//最小增益
 #define USER_EQ_BASS_GAIN_MAX  (6)//最大增益
 
 #define USER_EQ_TERBLE_AD_MAX    (950)//962
 #define USER_EQ_TERBLE_AD_MIN    (590)//599
-#define USER_EQ_TERBLE_GAIN_MIN  (-6)//最小增益
+#define USER_EQ_TERBLE_GAIN_MIN  (-12)//最小增益
 #define USER_EQ_TERBLE_GAIN_MAX  (6)//最大增益
 
 #define USER_EQ_MIC_AD_MAX    (950)//962
