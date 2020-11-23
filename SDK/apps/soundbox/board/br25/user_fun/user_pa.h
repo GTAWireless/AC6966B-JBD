@@ -44,10 +44,8 @@ typedef struct pa_internal{
     //双io控制功放
     void (*mute_2pin)(void *pa,u8 cmd);
     void (*abd_2pin)(void *pa,u8 cmd);
-    //单io控制功放 电压型
-    void (*abd_and_mute_voltage)(void *pa,u8 cmd);
-    //单io控制功放 脉冲型
-    void (*abd_and_mute_pulse)(void *pa,u8 cmd);
+    //单io控制功放 电压型、脉冲型
+    void (*abd_and_mute)(void *pa,u8 cmd);
 }PA_IN_STRL;
 
 

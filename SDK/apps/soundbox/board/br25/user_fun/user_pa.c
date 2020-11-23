@@ -39,10 +39,8 @@ PA_IN_STRL pa_in_fun = {
     //双io控制功放
     .mute_2pin  = user_pa_in_mute,
     .abd_2pin   = user_pa_in_abd,
-    //单io控制功放voltage
-    .abd_and_mute_voltage   =  user_pa_in_abd_and_mute,
-    //单io控制功放pulse
-    .abd_and_mute_pulse     =  user_pa_in_abd_and_mute,
+    //单io控制功放voltage、pulse
+    .abd_and_mute   =  user_pa_in_abd_and_mute,
 };
 
 
@@ -591,19 +589,16 @@ int user_pa_in_pin_init(void *pa){
     
     if(USER_PA_MODE_2 == pa_ctrl->pa_mode ||USER_PA_MODE_3 == pa_ctrl->pa_mode){
         //单io控制条件不满足 
-        if(!pa_ctrl->abd_and_mute_voltage || !pa_ctrl->abd_and_mute_pulse){
+        if(!pa_ctrl->abd_and_mute){
             puts("pa pin 1 error\n");
             pa_ctrl->pa_io->port_io_init_ok = 0;
             return -1;
         }
-        if(USER_PA_MODE_2 == pa_ctrl->pa_mode){
-            pa_ctrl->mute = pa_ctrl->abd_and_mute_voltage;
-            pa_ctrl->abd = pa_ctrl->abd_and_mute_voltage;            
-        }else{
-            pa_ctrl->mute = pa_ctrl->abd_and_mute_pulse;
-            pa_ctrl->abd = pa_ctrl->abd_and_mute_pulse;
-        }
-        printf(">>>>>>>>>  pa pin 1  %x %x %x\n",pa_ctrl->abd,pa_ctrl->abd_and_mute_pulse,user_pa_in_abd_and_mute);
+        
+        pa_ctrl->mute = pa_ctrl->abd_and_mute;
+        pa_ctrl->abd = pa_ctrl->abd_and_mute;
+
+        printf(">>>>>>>>>  pa pin 1  %x %x %x\n",pa_ctrl->abd,pa_ctrl->abd_and_mute,user_pa_in_abd_and_mute);
 
     }else if((USER_PA_MODE_0 == pa_ctrl->pa_mode) || (USER_PA_MODE_1 == pa_ctrl->pa_mode)){
         //双io控制条件不满足
