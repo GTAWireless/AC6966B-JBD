@@ -54,10 +54,6 @@ copy br25loader.bin soundbox\standard\br25loader.bin
 del soundbox\standard\isd_config.ini
 del soundbox\standard\tone.cfg
 
-
-
-
-
-copy soundbox\standard\isd_config_sdk.ini soundbox\standard\isd_config.ini
-copy soundbox\standard\tone_20201113.cfg soundbox\standard\tone.cfg
-soundbox\standard\download.bat
+copy soundbox\standard\isd_config_pf.ini soundbox\standard\isd_config.ini
+copy soundbox\standard\tone_P_1105.cfg soundbox\standard\tone.cfg
+soundbox\standard\download_printf.bat

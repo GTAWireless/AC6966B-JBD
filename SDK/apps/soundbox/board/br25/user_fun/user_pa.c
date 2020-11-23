@@ -613,6 +613,7 @@ int user_pa_check_class_mode(void *pa){
     }
 
     printf(">>>>>>>>00  pa mode %d ab%d mute%d\n",pa_ctrl->pa_mode,pa_info->port_ab_io_status,pa_info->port_mute_io_status);
+    // for(;;);
     return 0;
 }
 /*
