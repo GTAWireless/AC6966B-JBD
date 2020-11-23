@@ -19,7 +19,7 @@ void user_udelay(u32 usec)
 {
     USER_UDELAY_TIMER->CON = BIT(14);//0x4000;
     USER_UDELAY_TIMER->CNT = 0;
-    USER_UDELAY_TIMER->PRD = 6  * usec;
+    USER_UDELAY_TIMER->PRD = (24/4)  * usec;//延时时间=时钟源频率/分频系数*计数次数
     USER_UDELAY_TIMER->CON = BIT(0)|BIT(3)|BIT(4);//BIT(0)定时计数模式 BIT(3):晶振为时钟源 BIT(4):4分频
     while ((USER_UDELAY_TIMER->CON & BIT(15)) == 0);
     USER_UDELAY_TIMER->CON = BIT(14); 

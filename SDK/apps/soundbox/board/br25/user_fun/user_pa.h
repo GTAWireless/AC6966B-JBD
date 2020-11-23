@@ -44,10 +44,8 @@ typedef struct pa_internal{
     //双io控制功放
     void (*mute_2pin)(void *pa,u8 cmd);
     void (*abd_2pin)(void *pa,u8 cmd);
-    //单io控制功放 电压型
-    void (*abd_and_mute_voltage)(void *pa,u8 cmd);
-    //单io控制功放 脉冲型
-    void (*abd_and_mute_pulse)(void *pa,u8 cmd);
+    //单io控制功放 电压型、脉冲型
+    void (*abd_and_mute)(void *pa,u8 cmd);
 }PA_IN_STRL;
 
 
@@ -62,8 +60,7 @@ enum {
 };
 
 /**********************模块内部使用**************************/
-void user_pa_in_abd_and_mute_voltage(void *pa,u8 cmd);//单io 电压功放
-void user_pa_in_abd_and_mute_pulse(void *priv,u8 cmd);//单io 脉冲功放
+void user_pa_in_abd_and_mute(void *pa,u8 cmd);//单io 电压功放 脉冲功放
 void user_pa_in_mute(void *pa,u8 cmd);//双io功放 mute
 void user_pa_in_abd(void *pa,u8 cmd);//双io功放 abd
 void user_pa_in_strl(void *pa,u8 cmd);//模块功放控制接口 

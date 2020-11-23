@@ -1185,8 +1185,7 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_in_service,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_in_mute,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_in_abd,pl
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_in_abd_and_mute_voltage,pl
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_in_abd_and_mute_pulse,pl
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_in_abd_and_mute,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_automute,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_mic,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_linein,pl

@@ -39,10 +39,8 @@ PA_IN_STRL pa_in_fun = {
     //双io控制功放
     .mute_2pin  = user_pa_in_mute,
     .abd_2pin   = user_pa_in_abd,
-    //单io控制功放voltage
-    .abd_and_mute_voltage   =  user_pa_in_abd_and_mute_voltage,
-    //单io控制功放pulse
-    .abd_and_mute_pulse     =  user_pa_in_abd_and_mute_pulse,
+    //单io控制功放voltage、pulse
+    .abd_and_mute   =  user_pa_in_abd_and_mute,
 };
 
 
@@ -136,7 +134,7 @@ void user_print_timer(void){
  * host_level:首个脉冲点位高低 1:高 0:低
  * time：每个脉冲的时间 微妙为单位
  * **/
-__attribute__((weak)) void user_pulse_generation(u32 gpio,int cnt,bool host_level,u32 utime){
+__attribute__((weak)) void user_pulse_generation(u32 gpio,bool host_level,int cnt,u32 utime){
     if((NO_CONFIG_PORT == gpio) || !cnt){
         return;
     }
@@ -176,16 +174,17 @@ __attribute__((weak)) void user_pa_class_switching(void *priv){
     switch(pa->target_type){
     case PA_CLASS_AB:
         if(USER_PA_MODE_3 == pa->pa_mode){
-            user_pulse_generation(pa->pa_io->port_mute,7,0,69);
+            user_pulse_generation(pa->pa_io->port_mute,0,7,69);
         }else if(USER_PA_MODE_2 == pa->pa_mode){
-            user_pulse_generation(pa->pa_io->port_mute,4,1,9);
+            user_pulse_generation(pa->pa_io->port_mute,1,7,9);
+            user_attr_gpio_set(pa->pa_io->port_mute,USER_GPIO_HI,0);
         }
         break;
     case PA_CLASS_D:
         if(USER_PA_MODE_3 == pa->pa_mode){
-            user_pulse_generation(pa->pa_io->port_mute,1,0,69);
+            user_pulse_generation(pa->pa_io->port_mute,0,1,69);
         }else if(USER_PA_MODE_2 == pa->pa_mode){
-            user_pulse_generation(pa->pa_io->port_mute,2,1,9);
+            user_pulse_generation(pa->pa_io->port_mute,1,2,9);
         }
         break;
     default:
@@ -198,6 +197,11 @@ __attribute__((weak)) void user_pa_class_switching(void *priv){
 }
 
 /*user_pa_in_abd_and_mute_pulse
+USER_PA_MODE_2:
+*单io口 脉冲型、电压型功放 类型切换函数入口
+*d类：低50ms->高10微妙->低10微妙->保持高电平
+*ab类：低50ms->（高10微妙->低10微妙）*7->高阻态
+USER_PA_MODE_3:
  *单io口 脉冲型功放 类型切换函数入口
  * 低电压10微妙->高电压20微妙->ab/d、mute脉冲
  * ab类：7个变化的高低电平 每个电平持续时间70微妙
@@ -206,7 +210,7 @@ __attribute__((weak)) void user_pa_class_switching(void *priv){
  * 控制引脚为配置的mute pin
  * abd pin 初始化之后一直高电平
 */
-void user_pa_in_abd_and_mute_pulse(void *priv,u8 cmd){
+void user_pa_in_abd_and_mute(void *priv,u8 cmd){
     PA_IN_STRL *pa = (PA_IN_STRL *)priv;
     PA_CTL_IO *pa_ctrl = pa->pa_io;
 
@@ -236,19 +240,29 @@ void user_pa_in_abd_and_mute_pulse(void *priv,u8 cmd){
     }else if(PA_UMUTE == cmd){
         printf(">>>>>>>>>>>>>>>>>>>>>   ,,,,,,,,,,,,,,,,\n");        
         if(/*fm_flag*/app_check_curr_task(APP_FM_TASK)){
-            user_pa_in_abd_and_mute_pulse(pa,PA_CLASS_AB);
+            user_pa_in_abd_and_mute(pa,PA_CLASS_AB);
         }else{
-            user_pa_in_abd_and_mute_pulse(pa,PA_CLASS_D);
+            user_pa_in_abd_and_mute(pa,PA_CLASS_D);
         }
     }else if(PA_CLASS_AB == cmd){
         puts(">> PA_CLASS_AB\n");
 
-        pa->target_type = PA_CLASS_AB;        
-        pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,10);
+        pa->target_type = PA_CLASS_AB;
+        if(USER_PA_MODE_2 == pa->pa_mode){
+            // user_pulse_generation(pa->pa_io->port_mute,1,7,9);
+            user_attr_gpio_set(pa->pa_io->port_abd,USER_GPIO_OUT_H,0);
+            pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,50);
+        }else if(USER_PA_MODE_3 == pa->pa_mode){
+            pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,10);
+        }
     }else if(PA_CLASS_D == cmd){
-        puts(">> PA_CLASS_D\n");        
+        puts(">> PA_CLASS_D\n");
         pa->target_type = PA_CLASS_D;
-        pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,10);
+        if(USER_PA_MODE_2 == pa->pa_mode){
+            pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,50);
+        }else if(USER_PA_MODE_3 == pa->pa_mode){
+            pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,10);
+        }
     }else if(PA_INIT == cmd){
         puts(">> pa PA_INIT\n");
         //abd脚开机高电平
@@ -258,68 +272,6 @@ void user_pa_in_abd_and_mute_pulse(void *priv,u8 cmd){
         //user_attr_gpio_set(pa_ctrl->port_mute,USER_GPIO_OUT_L,0);       
     }
 }
-
-/*user_pa_in_abd_and_mute_voltage
- *单io口 电压型功放 类型切换函数入口
- * 
- * ab类：6个变化的高低电平 每个电平持续时间10微妙
- * d类：1个70微妙低电平
- * mute:持续低电平
-*/
-void user_pa_in_abd_and_mute_voltage(void *priv,u8 cmd){
-    PA_IN_STRL *pa = (PA_IN_STRL *)priv;
-    PA_CTL_IO *pa_ctrl = pa->pa_io;
-
-    puts(">> user_pa_in_abd_and_mute_voltage\n");
-
-    if(!pa || (!pa_ctrl) || (NO_CONFIG_PORT == pa_ctrl->port_mute) || (NO_CONFIG_PORT == pa_ctrl->port_abd) || 
-    (!pa_ctrl->port_io_init_ok) || (pa->target_type == cmd)
-    ){
-        r_printf("00pa pulse error pa->target_type:%d cmd:%d",pa->target_type,cmd);
-        return;
-    }
-
-    if(pa->target_type != PA_NULL){
-        if(pa->switching_id){            
-            sys_hi_timeout_del(pa->switching_id);
-            pa->switching_id = 0;
-        }
-        pa->switching_delay_flag = 0;
-    }
-
-    user_attr_gpio_set(pa_ctrl->port_mute,USER_GPIO_OUT_L,0);
-
-    //mute脚来控制功放 a、b、mute切换
-    //abd脚开机高电平 客户做通用pcb 需要
-    if(PA_MUTE == cmd){
-        puts(">> PA_MUTE\n");
-        user_attr_gpio_set(pa_ctrl->port_mute,USER_GPIO_OUT_L,0);
-    }else if(PA_UMUTE == cmd){
-        if(app_check_curr_task(APP_FM_TASK)){
-            user_pa_in_abd_and_mute_voltage(pa,PA_CLASS_AB);
-        }else{
-            user_pa_in_abd_and_mute_voltage(pa,PA_CLASS_D);
-        }
-    }else if(PA_CLASS_AB == cmd){
-        puts(">> PA_CLASS_AB\n");
-        pa->target_type = PA_CLASS_AB;        
-        pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,50);
-    }else if(PA_CLASS_D == cmd){
-        puts(">> PA_CLASS_D\n");
-        //适配脉冲型功放 高10微妙->低10微妙->维持高
-        pa->target_type = PA_CLASS_D;        
-        pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,50);
-        // user_attr_gpio_set(pa_ctrl->port_mute,USER_GPIO_OUT_H,0);
-    }else if(PA_INIT == cmd){
-        puts(">> pa PA_INIT\n");
-        //abd脚开机高电平
-        user_attr_gpio_set(pa_ctrl->port_abd,USER_GPIO_OUT_H,0);
-
-        //mute功放
-        // user_attr_gpio_set(pa_ctrl->port_abd,USER_GPIO_OUT_L,0);
-    }
-}
-
 
 void user_pa_in_mute(void *pa,u8 cmd){
     PA_CTL_IO *pa_ctrl = ((PA_IN_STRL *)pa)->pa_io;
@@ -613,6 +565,7 @@ int user_pa_check_class_mode(void *pa){
     }
 
     printf(">>>>>>>>00  pa mode %d ab%d mute%d\n",pa_ctrl->pa_mode,pa_info->port_ab_io_status,pa_info->port_mute_io_status);
+    // for(;;);
     return 0;
 }
 /*
@@ -636,19 +589,16 @@ int user_pa_in_pin_init(void *pa){
     
     if(USER_PA_MODE_2 == pa_ctrl->pa_mode ||USER_PA_MODE_3 == pa_ctrl->pa_mode){
         //单io控制条件不满足 
-        if(!pa_ctrl->abd_and_mute_voltage || !pa_ctrl->abd_and_mute_pulse){
+        if(!pa_ctrl->abd_and_mute){
             puts("pa pin 1 error\n");
             pa_ctrl->pa_io->port_io_init_ok = 0;
             return -1;
         }
-        if(USER_PA_MODE_2 == pa_ctrl->pa_mode){
-            pa_ctrl->mute = pa_ctrl->abd_and_mute_voltage;
-            pa_ctrl->abd = pa_ctrl->abd_and_mute_voltage;            
-        }else{
-            pa_ctrl->mute = pa_ctrl->abd_and_mute_pulse;
-            pa_ctrl->abd = pa_ctrl->abd_and_mute_pulse;
-        }
-        printf(">>>>>>>>>  pa pin 1  %x %x %x\n",pa_ctrl->abd,pa_ctrl->abd_and_mute_pulse,user_pa_in_abd_and_mute_pulse);
+        
+        pa_ctrl->mute = pa_ctrl->abd_and_mute;
+        pa_ctrl->abd = pa_ctrl->abd_and_mute;
+
+        printf(">>>>>>>>>  pa pin 1  %x %x %x\n",pa_ctrl->abd,pa_ctrl->abd_and_mute,user_pa_in_abd_and_mute);
 
     }else if((USER_PA_MODE_0 == pa_ctrl->pa_mode) || (USER_PA_MODE_1 == pa_ctrl->pa_mode)){
         //双io控制条件不满足
