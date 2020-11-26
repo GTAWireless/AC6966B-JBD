@@ -148,4 +148,5 @@ void user_message_filtering(int key_event);
 u8 user_key_set_sys_vol_flag(u8 cmd);
 void user_udelay(u32 usec);
 void user_attr_gpio_set(u32 gpio,u8 cmd,int delay_cnt);
+void user_mic_vol_key_set(void);
 #endif

@@ -34,13 +34,17 @@ u8 user_adkey_mapping(u8 key){
     #ifdef CONFIG_BOARD_AC6966B
     u8 ad_key_table[][2]={
         {0,3},//mode、tws
+        {1,7},//PREV
         {2,5},//LED OFF、RGB mode
         {4,4},//eq
-        {5,2},//+
-        {7,1},//-
+        {5,2},//next +
+        {7,1},//PREV -
         {8,0},//pp
-        {1,7},//PREV
+        {9,8},//-
         {10,6},//next
+        {11,9},//+
+        {12,10},//mode pp
+        {13,11},//mic vol
     };
     #endif
     #ifdef CONFIG_BOARD_AC6969D_DEMO
@@ -54,7 +58,7 @@ u8 user_adkey_mapping(u8 key){
     };
     #endif
 
-    // printf(">>>>>> key %d\n",key);tp = NO_KEY;
+    printf(">>>>>> key %d\n",key);tp = NO_KEY;
 
     if(NO_KEY == tp)return tp;
 

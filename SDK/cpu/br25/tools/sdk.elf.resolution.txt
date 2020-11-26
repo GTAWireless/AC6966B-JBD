@@ -1110,6 +1110,7 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,mic_effect_set_dvol,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,audio_mic_set_gain,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_mic_ad_2_vol,pl
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_mic_vol_key_set,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_ex_mic_get_vol,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_mic_reverb_updata,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,mic_effect_set_echo_delay,l
@@ -2064,6 +2065,7 @@ obj\Release\apps\soundbox\task_manager\app_common.o
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_power_off,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,usr_timeout_add,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,linein_stop,l
+-r=obj\Release\apps\soundbox\task_manager\app_common.o,user_mic_vol_key_set,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_pa_ex_manual,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_pa_ex_mic,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_rgb_display_bass,l

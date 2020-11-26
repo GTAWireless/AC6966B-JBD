@@ -477,6 +477,7 @@ void user_mic_vol_update(u8 vol){
         #endif
     }
 }
+
 u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
     static int mic_old =-1;
 
@@ -554,19 +555,6 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
     }
     old_average = average;
 
-    // if(DIFFERENCE(old_average,average)<30){
-    //     old_average = average;
-    //     if(!mic_old){
-    //         if(DIFFERENCE(mic_vol,mic_old)<6){
-    //             return mic_old;
-    //         }
-    //     }else if(DIFFERENCE(mic_vol,mic_old)<2){
-    //         return mic_old;
-    //     }
-    // }
-    // old_average = average;
-
-    // mic_vol = mic_vol?mic_vol+USER_EQ_MIC_GAIN_MIN:mic_vol;
     printf(">>>>> mic_old %d mic_vol %d ad %d average %d tp_ad %d\n",mic_old,mic_vol,vol_ad,average,tp_ad);
 
     mic_old = mic_vol;
@@ -575,6 +563,19 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
 
 #endif
     return mic_old;
+}
+
+//按键固定调节mic vol
+void user_mic_vol_key_set(void){
+    static u8 user_mic_vol_grade = 0;
+    u8 tp_grade[8]={};
+
+    user_mic_vol_grade++;
+    if(!user_mic_vol_grade){
+        user_mic_en(0);
+    }else if(1==user_mic_vol_grade){
+        user_mic_en(1);
+    }
 }
 
 u8 user_ex_mic_get_vol(void){
