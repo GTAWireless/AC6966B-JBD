@@ -150,7 +150,10 @@ int app_power_event_handler(struct device_event *dev)
         tone_play_index(p_tone->lowpower, 0);
         break;
     case POWER_EVENT_POWER_LOW:
-        printf(" POWER_EVENT_POWER_LOW");
+        r_printf(" POWER_EVENT_POWER_LOW");
+        //低电关机直接进软关机
+        power_set_soft_poweroff();
+        break;
 #if TCFG_APP_BT_EN
 #if (RCSP_ADV_EN)
         extern u8 adv_tws_both_in_charge_box(u8 type);

@@ -1683,8 +1683,8 @@ static void bt_tws_vol_sync(void *_data, u16 len, bool rx)
         user_key_set_sys_vol_flag(3);
         app_audio_set_volume(APP_AUDIO_STATE_MUSIC, data[0], 1);
         app_audio_set_volume(APP_AUDIO_STATE_CALL, data[1], 1);
-        log_debug("----   bt_tws_sync_volume %d %d \n", data[0], data[1]);
-        log_debug("vol: %d", app_audio_get_volume(APP_AUDIO_CURRENT_STATE));
+        r_printf("----   bt_tws_sync_volume %d %d \n", data[0], data[1]);
+        r_printf("vol: %d", app_audio_get_volume(APP_AUDIO_CURRENT_STATE));
     }
 
 }
@@ -1703,8 +1703,11 @@ void bt_tws_sync_volume()
     data[1] = app_audio_get_volume(APP_AUDIO_STATE_CALL);
 
     log_debug("---- tx  bt_tws_sync_volume %d %d \n", data[0], data[1]);
-
-    tws_api_send_data_to_sibling(data, 2, TWS_FUNC_ID_VOL_SYNC);
+    extern int user_get_tws_state(void);
+    r_f_printf("user tws state %d \n",user_get_tws_state());
+    if(1 == user_get_tws_state()){        
+        tws_api_send_data_to_sibling(data, 2, TWS_FUNC_ID_VOL_SYNC);
+    }
 }
 
 void send_bt_event2local(u8 value)

@@ -646,14 +646,14 @@ void user_4ad_fun_features(u32 *vol){
     user_mic_ad_2_vol(0,vol[USER_MIC_VOL_BIT]);
     user_mic_ad_2_reverb(0,vol[USER_REVER_BOL_BIT]);
 }
-// cmd 1:ad、ir key 2：低电 3:对箱同步
+// cmd 0:ad 1:ir key 2：低电 3:对箱同步
 u8 user_key_set_sys_vol_flag(u8 cmd){
-    static bool user_ir_key_set_sys_bol_flag = 0;
+    static u8 user_ir_key_set_sys_bol_flag = 0;
 #if (defined(USER_SYS_VOL_CHECK_EN) && USER_SYS_VOL_CHECK_EN)  
-    //
-    if(1 == cmd || 0 == cmd){
-        user_ir_key_set_sys_bol_flag = cmd;
+    if(0xff == cmd){
+        return user_ir_key_set_sys_bol_flag;
     }
+    user_ir_key_set_sys_bol_flag = cmd;
 #endif
     return user_ir_key_set_sys_bol_flag;
 }
@@ -681,7 +681,7 @@ void user_sys_vol_callback_fun(u32 *vol){
     cur_ad = cur_ad<USER_SYS_VOL_AD_MIN?0:cur_ad;
 
     //按键调音量之后 如果ad比上一次ad变化不大不设置 系统音量
-    if(user_key_set_sys_vol_flag(0xff) && DIFFERENCE(cur_ad,dif_ad_old)<level_ad*2){
+    if(user_key_set_sys_vol_flag(0xff) && (DIFFERENCE(cur_ad,dif_ad_old)<(level_ad*2))){
         dif_ad_old = cur_ad;
         return;
     }else{
@@ -710,14 +710,16 @@ void user_sys_vol_callback_fun(u32 *vol){
     if(sys_vol_update_flag){
         if(app_audio_get_volume(APP_AUDIO_STATE_MUSIC) != cur_ad_vol){
             u8 volume = cur_ad_vol;
-            // app_audio_set_volume(APP_AUDIO_STATE_MUSIC, volume, 1);
-            user_set_and_sync_sys_vol(volume);
+            app_audio_set_volume(APP_AUDIO_STATE_MUSIC, volume, 1);
+            // user_set_and_sync_sys_vol(volume);
+            r_f_printf("ad vol %d tws sync\n",volume);
+            bt_tws_sync_volume();           
             UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
         }
     }
 
     dif_ad_old = cur_ad;//vol[0];
-    printf(">>>> sys vol ad %d %d %d %d %d %d\n",vol[0],cur_ad,sys_vol_update_flag,cur_ad_vol,cur_vol_ad,app_audio_get_volume(APP_AUDIO_STATE_MUSIC));
+    // printf(">>>> sys vol ad %d %d %d %d %d %d\n",vol[0],cur_ad,sys_vol_update_flag,cur_ad_vol,cur_vol_ad,app_audio_get_volume(APP_AUDIO_STATE_MUSIC));
 #endif    
 }
 

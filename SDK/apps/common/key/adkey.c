@@ -39,6 +39,8 @@ u8 user_adkey_mapping(u8 key){
         {5,2},//+
         {7,1},//-
         {8,0},//pp
+        {1,7},//PREV
+        {10,6},//next
     };
     #endif
     #ifdef CONFIG_BOARD_AC6969D_DEMO

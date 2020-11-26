@@ -107,7 +107,7 @@ struct gpio_platform_data {
 #define     IO_DEBUG_0(i,x)       {JL_PORT##i->DIR &= ~BIT(x), JL_PORT##i->OUT &= ~BIT(x);}
 #define     IO_DEBUG_1(i,x)       {JL_PORT##i->DIR &= ~BIT(x), JL_PORT##i->OUT |= BIT(x);}
 #define     IO_DEBUG_TOGGLE(i,x)  {JL_PORT##i->DIR &= ~BIT(x), JL_PORT##i->OUT ^= BIT(x);}
-
+#define     IO_DEBUG_OUTPUT(i,x)  {JL_PORT##i->DIR &= ~BIT(x), JL_PORT##i->DIE |= BIT(x);}
 
 #else
 #define     IO_DEBUG_0(i,x)         {}
