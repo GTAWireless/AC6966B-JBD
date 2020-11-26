@@ -1901,9 +1901,7 @@ obj\Release\apps\soundbox\power_manage\app_power_manage.o
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,get_tone_config,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tone_play_index,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,printf,l
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_power_off_class,l
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,soft_poweroff_mode,l
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,sys_enter_soft_poweroff,l
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,power_set_soft_poweroff,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tws_api_get_role,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_send_cmd_prepare,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tws_api_get_tws_state,l
@@ -1936,7 +1934,6 @@ obj\Release\apps\soundbox\power_manage\app_power_manage.o
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,check_power_on_voltage,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,clr_wdt,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,os_time_dly,
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,power_set_soft_poweroff,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_reset_vddiom_lev,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_key_low_power_off,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,log_tag_const_i_APP_POWER,l
@@ -2594,6 +2591,7 @@ obj\Release\apps\soundbox\task_manager\bt\bt_tws.o
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,tws_api_cancle_connect_in_esco,l
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,bt_tws_sync_volume,pl
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,app_audio_get_volume,l
+-r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,user_get_tws_state,pl
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,tws_api_send_data_to_sibling,l
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,send_bt_event2local,pl
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,sys_event_notify,l
@@ -2632,7 +2630,6 @@ obj\Release\apps\soundbox\task_manager\bt\bt_tws.o
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,app_task_switch_next,l
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,tws_host_get_local_role,pl
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,bt_tws_connction_status_event_handler,pl
--r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,user_get_tws_state,pl
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,app_get_curr_task,l
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,sys_timeout_del,l
 -r=obj\Release\apps\soundbox\task_manager\bt\bt_tws.o,tws_api_search_sibling_by_code,l
