@@ -554,19 +554,6 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
     }
     old_average = average;
 
-    // if(DIFFERENCE(old_average,average)<30){
-    //     old_average = average;
-    //     if(!mic_old){
-    //         if(DIFFERENCE(mic_vol,mic_old)<6){
-    //             return mic_old;
-    //         }
-    //     }else if(DIFFERENCE(mic_vol,mic_old)<2){
-    //         return mic_old;
-    //     }
-    // }
-    // old_average = average;
-
-    // mic_vol = mic_vol?mic_vol+USER_EQ_MIC_GAIN_MIN:mic_vol;
     printf(">>>>> mic_old %d mic_vol %d ad %d average %d tp_ad %d\n",mic_old,mic_vol,vol_ad,average,tp_ad);
 
     mic_old = mic_vol;
@@ -624,7 +611,11 @@ int user_mic_ad_2_reverb(u8 cmd, u32 reverb_ad){
 
     tp_value = ((tp_ad-USER_EQ_REV_AD_MIN)*(USER_EQ_REV_GAIN_MAX-USER_EQ_REV_GAIN_MIN)*10)/(USER_EQ_REV_AD_MAX-USER_EQ_REV_AD_MIN);    
     tp_value = (tp_value/10)+(tp_value%10>5?1:0);
-    tp_value += USER_EQ_REV_GAIN_MIN;
+    if(tp_value>15){
+        tp_value += USER_EQ_REV_GAIN_MIN;
+    }else{
+        tp_value = 0;
+    }
 
     // printf(">>>>> reverb %d mic_vol %d ad %d\n",reverb_value,tp_value,reverb_ad);
 
