@@ -15,7 +15,7 @@ static void user_udelay_init(void){
     bit_clr_ie(USER_UDELAY_TIMER_IRQ);
 }
 
-void user_udelay(u32 usec)
+__attribute__((weak)) void user_udelay(u32 usec)
 {
     USER_UDELAY_TIMER->CON = BIT(14);//0x4000;
     USER_UDELAY_TIMER->CNT = 0;
@@ -717,7 +717,7 @@ void user_sys_vol_callback_fun(u32 *vol){
     }
 
     dif_ad_old = cur_ad;//vol[0];
-    printf(">>>> sys vol ad %d %d %d %d %d %d\n",vol[0],cur_ad,sys_vol_update_flag,cur_ad_vol,cur_vol_ad,app_audio_get_volume(APP_AUDIO_STATE_MUSIC));
+    // printf(">>>> sys vol ad %d %d %d %d %d %d\n",vol[0],cur_ad,sys_vol_update_flag,cur_ad_vol,cur_vol_ad,app_audio_get_volume(APP_AUDIO_STATE_MUSIC));
 #endif    
 }
 
@@ -910,7 +910,7 @@ void user_fun_init(void){
     // ex_dev_detect_init(& user_mic_check);
     // #endif
     //第一次上电开机 mic上线的消息会丢失 延时检测
-    sys_timeout_add(NULL,user_mic_check_init,3000);
+    // sys_timeout_add(NULL,user_mic_check_init,3000);
 
     user_rgb_fun_init();
     user_low_power_show(0);

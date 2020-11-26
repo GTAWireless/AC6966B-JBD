@@ -9,6 +9,7 @@
 #include "chgbox_ctrl.h"
 
 
+#include "user_fun_cfg.h"
 
 extern void setup_arch();
 extern int audio_dec_init();
@@ -105,7 +106,7 @@ static void app_init()
 
     audio_enc_init();
     audio_dec_init();
-
+    user_pa_dac_pupu();
 #ifdef CONFIG_UPDATA_ENABLE
     update = update_result_deal();
 #endif

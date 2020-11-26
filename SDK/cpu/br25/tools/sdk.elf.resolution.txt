@@ -212,6 +212,7 @@ obj\Release\apps\common\dev_manager\dev_manager.o
 -r=obj\Release\apps\common\dev_manager\dev_manager.o,os_mutex_create,
 -r=obj\Release\apps\common\dev_manager\dev_manager.o,devices_init,l
 -r=obj\Release\apps\common\dev_manager\dev_manager.o,os_sem_post,
+-r=obj\Release\apps\common\dev_manager\dev_manager.o,user_mic_check_init,l
 -r=obj\Release\apps\common\dev_manager\dev_manager.o,os_task_pend,
 -r=obj\Release\apps\common\dev_manager\dev_manager.o,puts,l
 -r=obj\Release\apps\common\dev_manager\dev_manager.o,dev_reg,l
@@ -1151,7 +1152,6 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_pa_ex_init,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_4ad_check_init,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_sys_vol_ad_check_init,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_mic_check_init,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_rgb_fun_init,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,bit_clr_ie,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_power_io,pl
@@ -1161,11 +1161,7 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o
 obj\Release\apps\soundbox\board\br25\user_fun\user_led.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,user_led_io_fun,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,puts,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,gpio_set_pull_down,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,gpio_set_pull_up,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,gpio_set_die,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,gpio_set_direction,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,gpio_set_output_value,l
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,user_attr_gpio_set,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_led.o,user_led_io,pl
 obj\Release\apps\soundbox\board\br25\user_fun\user_mic.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_mic.o,mic_callback_fun,pl
@@ -1213,11 +1209,12 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_record_status,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_check_class_mode,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,gpio_read,l
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_dac_pupu,pl
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,audio_dac_start,l
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,audio_dac_stop,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_io_init,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_del,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_init,pl
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,audio_dac_start,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,audio_dac_stop,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,pa_in_io,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,pa_in_fun,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,app_var,l
@@ -1265,6 +1262,7 @@ obj\Release\apps\soundbox\common\init.o
 -r=obj\Release\apps\soundbox\common\init.o,app_main,l
 -r=obj\Release\apps\soundbox\common\init.o,audio_enc_init,l
 -r=obj\Release\apps\soundbox\common\init.o,audio_dec_init,l
+-r=obj\Release\apps\soundbox\common\init.o,user_pa_dac_pupu,l
 -r=obj\Release\apps\soundbox\common\init.o,update_result_deal,l
 -r=obj\Release\apps\soundbox\common\init.o,get_charge_online_flag,l
 -r=obj\Release\apps\soundbox\common\init.o,check_power_on_voltage,l

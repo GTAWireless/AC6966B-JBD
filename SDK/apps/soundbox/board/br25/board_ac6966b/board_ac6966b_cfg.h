@@ -206,7 +206,7 @@
 //#define KEY_NUM_MAX                        	10
 //#define KEY_NUM                            	3
 #define KEY_IO_NUM_MAX						6
-#define KEY_AD_NUM_MAX						10
+#define KEY_AD_NUM_MAX						12
 #define KEY_IR_NUM_MAX						21
 #define KEY_TOUCH_NUM_MAX					6
 #define KEY_RDEC_NUM_MAX                    6

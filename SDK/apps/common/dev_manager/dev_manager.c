@@ -6,6 +6,8 @@
 #endif
 #include "spi/nor_fs.h"
 
+#include "user_fun_cfg.h"
+
 // *INDENT-OFF*
 
 #define DEV_MANAGER_TASK_NAME							"dev_mg"
@@ -1064,7 +1066,7 @@ static void dev_manager_task(void *p)
 #endif
 
 	os_sem_post(&__this->sem);
-
+	user_mic_check_init();
 	while (1) {
 		res = os_task_pend("taskq", msg, ARRAY_SIZE(msg));
 		switch (res) {
