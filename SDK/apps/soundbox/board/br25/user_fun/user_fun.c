@@ -15,7 +15,7 @@ static void user_udelay_init(void){
     bit_clr_ie(USER_UDELAY_TIMER_IRQ);
 }
 
-void user_udelay(u32 usec)
+__attribute__((weak)) void user_udelay(u32 usec)
 {
     USER_UDELAY_TIMER->CON = BIT(14);//0x4000;
     USER_UDELAY_TIMER->CNT = 0;
@@ -544,9 +544,9 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
     }
     mic_vol = mic_vol?mic_vol+USER_EQ_MIC_GAIN_MIN:mic_vol;
 
-    if(tp_ad<level[3]){
-        if(!mic_old || 1==mic_vol){
-            if(DIFFERENCE(old_average,average)<30){
+    if(tp_ad<((level[2]+level[1])/2)){
+        if(!mic_old /*|| 1==mic_vol*/){
+            if(DIFFERENCE(old_average,average)<6){
                 old_average = average;
                 return mic_old;
             }
@@ -910,7 +910,7 @@ void user_fun_init(void){
     // ex_dev_detect_init(& user_mic_check);
     // #endif
     //第一次上电开机 mic上线的消息会丢失 延时检测
-    sys_timeout_add(NULL,user_mic_check_init,3000);
+    // sys_timeout_add(NULL,user_mic_check_init,3000);
 
     user_rgb_fun_init();
     user_low_power_show(0);

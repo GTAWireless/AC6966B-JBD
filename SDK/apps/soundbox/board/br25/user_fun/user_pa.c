@@ -153,9 +153,11 @@ __attribute__((weak)) void user_pulse_generation(u32 gpio,bool host_level,int cn
 
 __attribute__((weak)) void user_pa_class_switching(void *priv){
     PA_IN_STRL *pa = ((PA_IN_STRL *)priv);
+    r_printf(">>>> user_pa_class_switching");
 
     if(!pa || !(pa->pa_io) || !pa->switching_id || ((NO_CONFIG_PORT == pa->pa_io->port_mute) 
     || (NO_CONFIG_PORT == pa->pa_io->port_abd) || !pa->pa_io->port_io_init_ok)){
+        r_printf(">>>> pa class swt error");
         return;
     }
     if((PA_NULL == pa->target_type)){
@@ -176,7 +178,7 @@ __attribute__((weak)) void user_pa_class_switching(void *priv){
         if(USER_PA_MODE_3 == pa->pa_mode){
             user_pulse_generation(pa->pa_io->port_mute,0,7,69);
         }else if(USER_PA_MODE_2 == pa->pa_mode){
-            user_pulse_generation(pa->pa_io->port_mute,1,7,9);
+            // user_pulse_generation(pa->pa_io->port_mute,1,7,9);
             user_attr_gpio_set(pa->pa_io->port_mute,USER_GPIO_HI,0);
         }
         break;
@@ -215,9 +217,9 @@ void user_pa_in_abd_and_mute(void *priv,u8 cmd){
     PA_CTL_IO *pa_ctrl = pa->pa_io;
 
     if(!pa || (!pa_ctrl) || (NO_CONFIG_PORT == pa_ctrl->port_mute) || (NO_CONFIG_PORT == pa_ctrl->port_abd) || 
-    (!pa_ctrl->port_io_init_ok) || (pa->target_type == cmd)
+    (!pa_ctrl->port_io_init_ok)/* || (pa->target_type == cmd)*/
     ){
-        r_printf("pa pulse error pa->target_type:%d cmd:%d",pa->target_type,cmd);
+        // r_printf("pa pulse error pa->target_type:%d cmd:%d",pa->target_type,cmd);
         return;
     }
 
@@ -249,6 +251,7 @@ void user_pa_in_abd_and_mute(void *priv,u8 cmd){
 
         pa->target_type = PA_CLASS_AB;
         if(USER_PA_MODE_2 == pa->pa_mode){
+            r_printf("pa class mode 2 电压型功放 切AB类\n");
             // user_pulse_generation(pa->pa_io->port_mute,1,7,9);
             user_attr_gpio_set(pa->pa_io->port_abd,USER_GPIO_OUT_H,0);
             pa->switching_id = sys_hi_timeout_add(pa,user_pa_class_switching,50);
@@ -619,7 +622,7 @@ int user_pa_in_pin_init(void *pa){
     return 0;
 }
 
-static void user_pa_dac_pupu(){
+void user_pa_dac_pupu(void){
     user_pa_ex_strl(PA_MUTE);
     delay_2ms(10);
 	extern struct audio_dac_hdl dac_hdl;
@@ -669,7 +672,7 @@ void user_pa_ex_init(void){
 #if USER_PA_EN
     if(pa_in_fun.pa_io->port_io_init_ok){
         pa_in_fun.pa_io->port_io_init_ok = 2;
-        user_pa_dac_pupu();
+        // user_pa_dac_pupu();
         pa_in_fun.service(&pa_in_fun);
     }else{
         pa_in_fun.pa_io->port_io_init_ok = 0;

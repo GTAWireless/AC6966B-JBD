@@ -20,19 +20,19 @@ typedef struct USER_PA_CTL_IO {
     //所需外部状态
     volatile bool pa_mic_online;//mic
     volatile bool pa_linein_mute;//linien
-    volatile bool pa_manual_mute;//手动 
+    volatile bool pa_manual_mute;//手动
     volatile u8 pa_sys_automute;//自动
 }PA_CTL_IO;
 
 typedef struct pa_internal{
     PA_CTL_IO *pa_io;
-    u8 pa_mode;//功放类型 
+    u8 pa_mode;//功放类型
     //最终调用控制功放
     void (*mute)(void *pa,u8 cmd);
     void (*abd)(void *pa,u8 cmd);
-    
+
     int (*init)(void *pa);//初始化io口
-    void (*io_strl)(void *pa,u8 cmd);//内部 pa 控制总入口        
+    void (*io_strl)(void *pa,u8 cmd);//内部 pa 控制总入口
     void (*service)(void *pa);//服务函数
     u16 service_id;
 
@@ -63,7 +63,7 @@ enum {
 void user_pa_in_abd_and_mute(void *pa,u8 cmd);//单io 电压功放 脉冲功放
 void user_pa_in_mute(void *pa,u8 cmd);//双io功放 mute
 void user_pa_in_abd(void *pa,u8 cmd);//双io功放 abd
-void user_pa_in_strl(void *pa,u8 cmd);//模块功放控制接口 
+void user_pa_in_strl(void *pa,u8 cmd);//模块功放控制接口
 int  user_pa_in_pin_init(void *pa);//初始化
 void user_pa_in_service(void *pa);//自动控制功放
 
@@ -76,4 +76,5 @@ void user_pa_ex_mic(u8 cmd);
 void user_pa_ex_linein(u8 cmd);
 bool user_pa_ex_manual(u8 cmd);
 void user_pa_ex_del(void);
+void user_pa_dac_pupu(void);
 #endif

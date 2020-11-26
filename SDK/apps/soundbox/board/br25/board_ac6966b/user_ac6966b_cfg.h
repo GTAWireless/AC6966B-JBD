@@ -26,5 +26,10 @@
 #define USER_SYS_VOL_CHECK_EN 0//旋钮控制系统音量 ad检测
 
 #define USER_CHARGE_WAKE_UP 0//充电唤醒
+
+#if ((USER_LED_EN && USER_RGB_EN) && (IO_PORTB_07 == USER_LED_POR))
+#error "led io 与 rgb io 不能同一个io !!!"
+#endif
+
 #endif
 #endif

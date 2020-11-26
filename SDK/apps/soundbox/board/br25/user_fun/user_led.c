@@ -35,23 +35,19 @@ int user_led_io_fun(void *priv,u8 cmd){
 
     if(LED_IO_INIT == cmd){
         user_print("LED_IO_INIT \n");
-        gpio_set_pull_down(io->por, 0);
-        gpio_set_pull_up(io->por, 0); 
-        gpio_set_die(io->por, 1);
-        gpio_set_direction(io->por,0);
-
         io->init_ok = 1;
         user_led_io_fun(io,LED_POWER_OFF);
     }else if(LED_POWER_ON == cmd){
-        user_print("LED_POWER_ON \n");
-        gpio_set_output_value(io->por,io->on);
+        user_print("LED_POWER_ON \n");        
+        user_attr_gpio_set(io->por,io->on?USER_GPIO_OUT_H:USER_GPIO_OUT_L,0);
         io->status = cmd;
     }else if(LED_POWER_OFF == cmd){
         user_print("LED_POWER_OFF \n");
-        gpio_set_output_value(io->por,!io->on);
+        user_attr_gpio_set(io->por,io->on?USER_GPIO_OUT_L:USER_GPIO_OUT_H,0);
         io->status = cmd;
     }else if(LED_IO_FLIP == cmd){
         user_print("LED_IO_FLIP \n");
+        // io->status = (LED_POWER_OFF == io->status)?LED_POWER_ON:LED_POWER_OFF;
         if(LED_POWER_OFF == io->status){
             user_led_io_fun(io,LED_POWER_ON);
         }else{
