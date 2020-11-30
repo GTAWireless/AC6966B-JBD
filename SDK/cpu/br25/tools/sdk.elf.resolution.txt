@@ -1117,6 +1117,7 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_4ad_fun_features,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_daley_set_sys_vol,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,get_max_sys_vol,l
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,linein_volume_set,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_sys_vol_callback_fun,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,app_audio_get_max_volume,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,usr_timeout_del,l
@@ -1905,6 +1906,7 @@ obj\Release\apps\soundbox\power_manage\app_power_manage.o
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,get_tone_config,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tone_play_index,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,printf,l
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tone_play_with_callback_by_name,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,power_set_soft_poweroff,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tws_api_get_role,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_send_cmd_prepare,l
@@ -1941,6 +1943,7 @@ obj\Release\apps\soundbox\power_manage\app_power_manage.o
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_reset_vddiom_lev,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_key_low_power_off,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,log_tag_const_i_APP_POWER,l
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tone_table,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_var,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,vbat_check_lp_target,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,VBAT_STATUS,pl

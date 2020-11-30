@@ -5,46 +5,40 @@
 
 
 //把单个rgb数据转换成spi数
-void user_rgb_set_only(SPI_COLOUR *spi_buff,RGB_COLOUR *rgb){
+void user_rgb_set_only(SPI_COLOUR *spi_buff,RGB_COLOUR *rgb,RGB_CODE *code){
     if(!spi_buff || !rgb){
         return;
     }
 
-    u8 code0=USER_RGB_CODE0;
-    u8 code1=USER_RGB_CODE1;
-
-    #if (defined(USER_RGB_LEVEL_FLIP) && USER_RGB_LEVEL_FLIP)
-//        code0 = ~code0;
- //       code1 = ~code1;
-    #endif
-
     for(int i=0;i<8;i++){
         if(rgb->r&BIT(7-i)){
-            spi_buff->r[i]=code1;
+            spi_buff->r[i]=code->code_1;
         }else{
-            spi_buff->r[i]=code0;
+            spi_buff->r[i]=code->code_0;
         }
         if(rgb->g&BIT(7-i)){
-            spi_buff->g[i]=code1;
+            spi_buff->g[i]=code->code_1;
         }else{
-            spi_buff->g[i]=code0;
+            spi_buff->g[i]=code->code_0;
         }
         if(rgb->b&BIT(7-i)){
-            spi_buff->b[i]=code1;
+            spi_buff->b[i]=code->code_1;
         }else{
-            spi_buff->b[i]=code0;
+            spi_buff->b[i]=code->code_0;
         }
     }
 }
 
 //把所有颜色数据转换成spi数据
-void user_rgb_set_all(SPI_COLOUR *spi_buff,RGB_COLOUR *rgb,u8 number){
+void user_rgb_set_all(SPI_COLOUR *spi_buff,RGB_COLOUR *rgb,u8 number,RGB_CODE *code){
     if(!spi_buff || !rgb || !number){
         return;
     }
-
+    
+    SPI_COLOUR *P=spi_buff;
+    
     for(int i=0;i<number;i++){
-        user_rgb_set_only(&(spi_buff[i]),&(rgb[i]));
+        user_rgb_set_only(P+i,rgb+i,code);
     }
     return;
 }
@@ -112,7 +106,7 @@ void user_rgb_send(void *priv){
     // printf(">>>> clck spi %d sys %d\n",clk_get("spi"),clk_get("sys"));
     if(rgb->init_flag && rgb && !rgb->updata_flag && rgb->init_flag && rgb->spi_buff && rgb->rgb_buff){
         rgb->rend_flag = 1;
-        user_rgb_set_all(rgb->spi_buff,rgb->rgb_buff,rgb->number);
+        user_rgb_set_all(rgb->spi_buff,rgb->rgb_buff,rgb->number,&(rgb->code));
         rgb->rend_flag = 0;
         int send_ret = spi_dma_send(rgb->spi_port,(u8*)rgb->spi_buff,sizeof(SPI_COLOUR)*rgb->number);
         if(send_ret<0){
@@ -145,7 +139,7 @@ void user_rgb_power_off(void *priv){
     rgb->rend_flag = 1;
     
     user_rgb_clear_colour(rgb);
-    user_rgb_set_all(rgb->spi_buff,rgb->rgb_buff,rgb->number);
+    user_rgb_set_all(rgb->spi_buff,rgb->rgb_buff,rgb->number,&(rgb->code));
     spi_dma_send(rgb->spi_port,(u8*)rgb->spi_buff,sizeof(SPI_COLOUR)*rgb->number);
     sys_timeout_add(rgb,user_rgb_delay_close_spi,30);
 

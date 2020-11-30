@@ -133,6 +133,28 @@ void power_event_to_user(u8 event)
     sys_event_notify(&e);
 }
 
+//*----------------------------------------------------------------------------*/
+/**@brief    music 模式提示音播放结束处理
+   @param
+   @return
+   @note
+*/
+/*----------------------------------------------------------------------------*/
+static void  power_off_tone_play_end_callback(void *priv, int flag)
+{
+    u32 index = (u32)priv;
+
+
+    switch (index) {
+    case IDEX_TONE_POWER_OFF:
+        ///提示音播放结束， 启动播放器播放
+        power_set_soft_poweroff();
+        break;
+    default:
+        break;
+    }
+}
+
 int app_power_event_handler(struct device_event *dev)
 {
     int ret = false;
@@ -152,7 +174,14 @@ int app_power_event_handler(struct device_event *dev)
     case POWER_EVENT_POWER_LOW:
         r_printf(" POWER_EVENT_POWER_LOW");
         //低电关机直接进软关机
-        power_set_soft_poweroff();
+        // power_set_soft_poweroff();
+        {
+            int err =  tone_play_with_callback_by_name(tone_table[IDEX_TONE_POWER_OFF], 1, power_off_tone_play_end_callback, (void *)IDEX_TONE_POWER_OFF);
+            if (err) {
+                power_set_soft_poweroff();
+            }    
+        }
+           
         break;
 #if TCFG_APP_BT_EN
 #if (RCSP_ADV_EN)

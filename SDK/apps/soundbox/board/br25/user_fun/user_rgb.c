@@ -22,8 +22,15 @@ RGB_INFO user_rgb_info={
     .number = USER_RGB_NUMBER,
     .spi_scan_time = 20,
     .spi_port = USER_RGB_DATA,//SPI2,
+    .code = {
+        .code_0 = USER_RGB_CODE0,
+        .code_1 = USER_RGB_CODE1,
+    },
+
+    #if USER_RGB_BUFF_MALLOC_EN
     .rgb_buff = NULL,
     .spi_buff = NULL,
+    #endif
 };
 RGB_FUN user_rgb_fun = {
     .power_off = 0,
@@ -76,17 +83,27 @@ void user_rgb_dac_energy_get(void * priv){
     }
 
     if(dac_energy_max){
-        fre_cnt = (rgb->info->number*dac_energy)/dac_energy_max;
+        fre_cnt = ((rgb->info->number)*dac_energy)/dac_energy_max;
     }else{
         fre_cnt = 0;
     }
 
+    // if(fre_cnt>rgb->info->number && (rgb->light_number == rgb->info->number)){
+    //     fre_cnt = 0;
+    // }
 
-    if(rgb->light_number<fre_cnt && rgb->light_number<rgb->info->number){
+    if(rgb->light_number<fre_cnt){
         rgb->light_number++;
-    }else if(rgb->light_number>fre_cnt && rgb->light_number){
+    }else if(rgb->light_number>fre_cnt){
         rgb->light_number--;
     }
+    // if(rgb->light_number<fre_cnt && rgb->light_number<rgb->info->number){
+    //     rgb->light_number++;
+    // }else if(rgb->light_number>fre_cnt && rgb->light_number){
+    //     rgb->light_number--;
+    // }else if(rgb->light_number && rgb->light_number == fre_cnt){
+    //     rgb->light_number--;
+    // }
 
     // printf(">>> dac energy %d\n",rgb->light_number);
     // rgb->dac_energy = dac_energy;
@@ -311,6 +328,14 @@ void user_rgb_display_mode_1(void *priv){
         亮度：0~255(光的强弱)
         效果：颜色与亮度的叠加
     */
+   static int tp_light =0;
+   static int tp_kk = 0;
+
+    tp_kk = rgb->light_number/6;
+    tp_light += tp_kk;
+
+    tp_light %=rgb->info->number;
+    r_printf(".......... lin %d",tp_light);
     for(int i = 0;i<rgb->info->number;i++){
         if(rgb->brightness_table[i]<=(RGB_BRIGHTNESS_LEVEL/RGB_BRIGHTNESS_SEGMENT)){
             color_brightness = (255/RGB_BRIGHTNESS_LEVEL)*RGB_BRIGHTNESS_SEGMENT*rgb->brightness_table[i];
@@ -334,7 +359,7 @@ void user_rgb_display_mode_1(void *priv){
         tp_brightness = (color_brightness*rgb->cur_colour.b)/0xff;
         tp_buff.b = tp_brightness;
 
-        user_rgb_colour_only_set(rgb->info,&tp_buff,(rgb->info->number-i-1));
+        user_rgb_colour_only_set(rgb->info,&tp_buff,(rgb->info->number-i)+tp_light);
     }
 
 }
@@ -349,8 +374,10 @@ void user_rgb_display_mode_2(void *priv){
     // random_number(7,30);
     // timer_get_ms();
 
-    s32 display_number = timer_get_sec()%(rgb->info->number);
-    // printf(">>>>>>>>>>>>%d\n",display_number);
+    s32 display_number = rgb->light_number%rgb->info->number;//timer_get_sec()%(rgb->info->number);
+    // display_number=display_number<rgb->info->number?display_number+1:display_number;
+    display_number /=2;
+    printf(">>>>>>>>>>>>%d\n",display_number);
     display_number = display_number>=(rgb->info->number>>1)?(rgb->info->number>>1)-(display_number%(rgb->info->number>>1))-2:display_number;
 
     for(int i = 0;i<=display_number;i++){
@@ -543,27 +570,45 @@ u8 user_rgb_mode_set(USER_GRB_MODE mode,void *priv){
         return rgb->cur_mode;
     }
 
+    #if (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_1)
+    USER_GRB_MODE cycle_mode[]={
+    USER_RGB_MODE_1,//节奏渐变 旋转
+    USER_RGB_MODE_2,//对称 升降
+    USER_RGB_MODE_3,//渐变
+    USER_RGB_MODE_4,//三色 旋转
+    USER_RGB_MODE_5,//渐变 闪烁
+    USER_RGB_MODE_6,//红色 闪烁
+    USER_RGB_MODE_7,//绿色 闪烁
+    USER_RGB_MODE_8,//蓝色 闪烁
+    USER_RGB_MODE_9,//白色 闪烁
+    USER_RGB_MODE_OFF,//关灯         
+    };
+    #elif (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_2)
+    USER_GRB_MODE cycle_mode[]={
+    USER_RGB_MODE_1,//节奏渐变 旋转
+    USER_RGB_MODE_2,//对称 升降
+    USER_RGB_MODE_3,//渐变  
+    USER_RGB_MODE_OFF,//关灯
+    };
+    #elif (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_3)
+    USER_GRB_MODE cycle_mode[]={
+    USER_RGB_MODE_5,//渐变 闪烁
+    USER_RGB_MODE_6,//红色 闪烁
+    USER_RGB_MODE_7,//绿色 闪烁
+    USER_RGB_MODE_8,//蓝色 闪烁
+    USER_RGB_MODE_9,//白色 闪烁    
+    USER_RGB_MODE_OFF,//关灯    
+    };
+    #endif
+    static u8 cur_mode = -1; 
     switch (mode){
     case USER_RGB_AUTO_SW:
-        if(rgb->cur_mode+1>=USER_RGB_MODE_MAX){
-            #if (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_1)
-            rgb->cur_mode = USER_RGB_MODE_1;
-            #elif (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_2)
-            rgb->cur_mode = USER_RGB_MODE_1;
-            #elif (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_3)
-            rgb->cur_mode = USER_RGB_MODE_5;
-            #endif
-        }else{
-            rgb->cur_mode++;
-            #if (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_1)
-            #elif (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_2)
-            if(USER_RGB_MODE_5 == rgb->cur_mode){
-                rgb->cur_mode = USER_RGB_MODE_OFF;
-            }
-            #elif (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_3)
-            #endif
-
+        r_printf("cur_mode %d %d",cur_mode,sizeof(cycle_mode)/sizeof(cycle_mode[0]));
+        cur_mode++;
+        if(cur_mode>=sizeof(cycle_mode)/sizeof(cycle_mode[0])){
+            cur_mode = 0;
         }
+        rgb->cur_mode = cycle_mode[cur_mode];
         printf("user rgb mode %d\n",rgb->cur_mode);
         break;
     case USER_RGB_SYS_VOL:
@@ -604,6 +649,7 @@ void user_rgb_fun_init(void){
         return;
     }
 
+    #if USER_RGB_BUFF_MALLOC_EN
     rgb->info->spi_buff = malloc(sizeof(SPI_COLOUR)*rgb->info->number);
     if(!rgb->info->spi_buff){
         printf("rgb init mallocc error\n");
@@ -615,6 +661,8 @@ void user_rgb_fun_init(void){
         printf("rgb init mallocc error 1\n");
         return;
     }
+    #endif
+
     user_rgb_mode_set(USER_RGB_AUTO_SW,rgb);
 
     // printf(">>>>>>>>>>>>>> user spi %d\n",user_rgb_fun.info->spi_port);
