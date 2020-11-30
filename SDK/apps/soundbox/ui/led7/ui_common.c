@@ -13,6 +13,19 @@ static void led7_show_hi(void *hd)
     dis->lock(0);
 }
 
+static void led7_show_mic_volume(void *hd, u8 vol)
+{
+    LCD_API *dis = (LCD_API *)hd;
+    dis->lock(1);
+    dis->clear();
+    dis->setXY(0, 0);
+    dis->show_char('V');
+    dis->show_char(' ');
+    dis->show_number(vol / 10);
+    dis->show_number(vol % 10);
+    dis->lock(0);
+}
+
 static void led7_show_volume(void *hd, u8 vol)
 {
     LCD_API *dis = (LCD_API *)hd;
@@ -143,6 +156,9 @@ void ui_common(void *hd, void *private, u8 menu, u32 arg)//公共显示
     switch (menu) {
     case MENU_POWER_UP:
         led7_show_hi(hd);
+        break;
+    case MENU_MIC_VOL:
+        led7_show_mic_volume(hd, arg & 0xff);
         break;
     case MENU_MAIN_VOL:
         led7_show_volume(hd, arg & 0xff);

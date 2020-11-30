@@ -1702,9 +1702,9 @@ void bt_tws_sync_volume()
     data[0] = app_audio_get_volume(APP_AUDIO_STATE_MUSIC);
     data[1] = app_audio_get_volume(APP_AUDIO_STATE_CALL);
 
-    log_debug("---- tx  bt_tws_sync_volume %d %d \n", data[0], data[1]);
+    r_printf("---- tx  bt_tws_sync_volume %d %d \n", data[0], data[1]);
     extern int user_get_tws_state(void);
-    r_f_printf("user tws state %d \n",user_get_tws_state());
+    r_printf("user tws state %d \n",user_get_tws_state());
     if(1 == user_get_tws_state()){        
         tws_api_send_data_to_sibling(data, 2, TWS_FUNC_ID_VOL_SYNC);
     }

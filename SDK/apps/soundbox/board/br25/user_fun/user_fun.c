@@ -387,6 +387,7 @@ int user_eq_mode_sw(u8 cmd){
     return user_eq_mode;
 }
 
+//低音
 void user_eq_bass_terble_set(int bass,int terble){
     #if USER_EQ_LIVE_UPDATE
     eq_tab_custom[USER_EQ_BASS_INDEX].gain = bass<<20;
@@ -397,6 +398,7 @@ void user_eq_bass_terble_set(int bass,int terble){
     return;
 }
 
+//高音
 void user_bass_terble_updata(u32 bass_ad,u32 terble_ad){
     static int bass_old =0,terble_old = 0;
 
@@ -435,46 +437,33 @@ void user_bass_terble_updata(u32 bass_ad,u32 terble_ad){
         user_eq_bass_terble_set(bass_old,terble_old);
     }
 }
+
+//mic 开关
 void user_mic_en(u8 en){
     SFR(JL_ANA->ADA_CON0,29,1,en);
 }
 
+//旋钮设置mic 音量
 void user_mic_vol_update(u8 vol){
-    
-    static int mic_effect_dvol = -1;
-    static bool mic_status_old = 0;
     static u8 mic_old = 0;
     
     bool mic_in_status = user_get_mic_status();
     // printf(">>>>>> mic in status %d\n",mic_in_status);
-    if(!user_record_status(0xff) && \
-    ((mic_in_status && !mic_status_old)||
-     mic_old != vol)){
-
-        mic_old = vol;
-        mic_status_old = mic_in_status;
-
+    if(!user_record_status(0xff) && mic_in_status && (mic_old != vol)){
         // printf(">>>>> mic_old %d vol %d\n",mic_old,vol);
         #if USER_MIC_MUSIC_VOL_SEPARATE
         mic_effect_set_dvol(mic_old);
         #else
-        if(mic_old <= 0){
-            // mic_effect_dvol = 1;
-            mic_effect_dvol = mic_effect_get_dvol();
-            mic_effect_set_dvol(0);
+        if(!vol){
             user_mic_en(0);
-
-        }else{
-            if(mic_effect_dvol >= 0){
-                mic_effect_dvol = -1;
-                mic_effect_set_dvol(mic_effect_dvol);
-                
-                user_mic_en(1);
-            }
+        }else if(!mic_old){
+            user_mic_en(1);
         }
         printf(">>>>>>>>>>>>>>>> set mic vol %d\n",mic_old);
-        audio_mic_set_gain(mic_old);
+        audio_mic_set_gain(vol);
         #endif
+
+        mic_old = vol;      
     }
 }
 
@@ -567,15 +556,37 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
 
 //按键固定调节mic vol
 void user_mic_vol_key_set(void){
-    static u8 user_mic_vol_grade = 0;
-    u8 tp_grade[8]={};
+    static u8 user_mic_vol_grade = 0xff;
+    u8 tp_grade[]={0,1,2,3,4,5,6,7,8,9,10};
 
+    bool mic_in_status = user_get_mic_status();
+    // printf(">>>>>> mic in status %d\n",mic_in_status);
+    if(user_record_status(0xff) ||  !mic_in_status ){
+        return;
+    }
+    
+    if(0xff == user_mic_vol_grade){
+        for(int i = 0;i<sizeof(tp_grade);i++){
+            if(USER_MIC_DEFAULT_GAIN<=tp_grade[i]){
+                user_mic_vol_grade = i;
+                r_printf(">>>>>>>>>>>>>  mic vol default grad %d %d",i,tp_grade[i]);
+                break;
+            }
+        }
+    }
     user_mic_vol_grade++;
+    if(user_mic_vol_grade>=sizeof(tp_grade)){
+        user_mic_vol_grade = 0;
+    }
+
     if(!user_mic_vol_grade){
         user_mic_en(0);
     }else if(1==user_mic_vol_grade){
         user_mic_en(1);
     }
+    r_printf(">>>>>>>>>>>>>  key set mic vol %d",tp_grade[user_mic_vol_grade]);
+    audio_mic_set_gain(tp_grade[user_mic_vol_grade]);
+    UI_SHOW_MENU(MENU_MIC_VOL, 1000, tp_grade[user_mic_vol_grade], NULL);
 }
 
 u8 user_ex_mic_get_vol(void){
@@ -659,6 +670,35 @@ u8 user_key_set_sys_vol_flag(u8 cmd){
     return user_ir_key_set_sys_bol_flag;
 }
 
+u16 user_delay_set_vol_id = 0;
+void user_daley_set_sys_vol(void *priv){
+    u32 tp = (u32)priv;
+    s8 vol = tp;
+
+    if(vol<0 && vol>get_max_sys_vol()){
+        user_delay_set_vol_id = 0;
+        return;
+    }
+
+    s8 get_vol = app_audio_get_volume(APP_AUDIO_STATE_MUSIC);
+    if(vol != get_vol){
+        if(DIFFERENCE(vol,get_vol)>4){
+            app_audio_set_volume(APP_AUDIO_STATE_MUSIC, vol>get_vol?get_vol+4:get_vol-4, 1);
+            UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
+            bt_tws_sync_volume();
+            user_delay_set_vol_id = sys_s_hi_timerout_add(priv,user_daley_set_sys_vol,100);
+            return;
+        }else{
+            app_audio_set_volume(APP_AUDIO_STATE_MUSIC, vol, 1);
+            UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
+            bt_tws_sync_volume();
+        }
+    }
+
+    user_delay_set_vol_id = 0;
+}
+
+//旋钮 调系统音量
 void user_sys_vol_callback_fun(u32 *vol){
 #if (defined(USER_SYS_VOL_CHECK_EN) && USER_SYS_VOL_CHECK_EN)    
     #define USER_SYS_VOL_AD_MAX 1000
@@ -710,12 +750,30 @@ void user_sys_vol_callback_fun(u32 *vol){
 
     if(sys_vol_update_flag){
         if(app_audio_get_volume(APP_AUDIO_STATE_MUSIC) != cur_ad_vol){
-            u8 volume = cur_ad_vol;
-            app_audio_set_volume(APP_AUDIO_STATE_MUSIC, volume, 1);
+            u32 volume = cur_ad_vol;
+
+            if(user_delay_set_vol_id)sys_s_hi_timeout_del(user_delay_set_vol_id);
+
+            if(APP_BT_TASK == app_get_curr_task()){
+                r_printf("ad vol %d tws sync\n",volume);
+                extern int user_get_tws_state(void);
+
+                if((tws_api_get_tws_state() & TWS_STA_SIBLING_CONNECTED) && (tws_api_get_role() == TWS_ROLE_SLAVE)){
+                    //对箱从机旋钮不设置音量
+                }else{
+                    user_delay_set_vol_id = sys_s_hi_timerout_add((void *)volume,user_daley_set_sys_vol,100);
+                    // app_audio_set_volume(APP_AUDIO_STATE_MUSIC, volume, 1);
+                    // UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
+                    // bt_tws_sync_volume();
+                }
+
+            }else{
+                user_delay_set_vol_id = sys_s_hi_timerout_add((void *)volume,user_daley_set_sys_vol,100);
+                // app_audio_set_volume(APP_AUDIO_STATE_MUSIC, volume, 1);
+                // UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
+            }
             // user_set_and_sync_sys_vol(volume);
-            r_f_printf("ad vol %d tws sync\n",volume);
-            bt_tws_sync_volume();           
-            UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
+            
         }
     }
 
@@ -801,15 +859,6 @@ u16 user_fun_get_vbat(void){
     u32 vddio_m = 0;
     u32 tp_ad = adc_get_value(user_power_io.ch);
 
-    // static u32 vbat_scan_time = 0;
-    // if(timer_get_ms()>3000 && timer_get_ms()-vbat_scan_time>30){
-    //     vbat_scan_time = timer_get_ms();
-    //     adc_remove_sample_ch(user_power_io.ch);
-    //     user_vbat_check_init();
-    // }else{
-    //     return tp;
-    // }
-
     vddio_m  = 220+(TCFG_LOWPOWER_VDDIOM_LEVEL-VDDIOM_VOL_22V)*20;
 
     // printf("user vbat >>>> ad:%d vbat:%dV\n",tp_ad,(vddio_m*2*tp_ad)/0x3ffL);
@@ -893,6 +942,7 @@ void user_del_time(void){
 
 //开机 io口初始化
 void user_fun_io_init(void){
+    user_mic_en(0);
     user_pa_ex_io_init();
     user_sd_power(1);
     user_vbat_check_init();
@@ -917,7 +967,7 @@ void user_fun_init(void){
 
     user_rgb_fun_init();
     user_low_power_show(0);
-	
+	// user_mic_en(1);
     // extern void user_print_timer(void);
     // sys_s_hi_timer_add(NULL,user_print_timer,500);
     // user_print_timer();

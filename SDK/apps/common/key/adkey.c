@@ -58,7 +58,7 @@ u8 user_adkey_mapping(u8 key){
     };
     #endif
 
-    printf(">>>>>> key %d\n",key);tp = NO_KEY;
+    // printf(">>>>>> key %d\n",key);tp = NO_KEY;
 
     if(NO_KEY == tp)return tp;
 

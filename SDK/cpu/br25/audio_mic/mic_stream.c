@@ -392,7 +392,7 @@ bool mic_stream_start(struct __mic_stream  *stream)
 {
     if (stream) {
         u8 tp_mic_vol = user_ex_mic_get_vol();
-        if(0xff!= tp_mic_vol){
+        if(0xff== tp_mic_vol){
             tp_mic_vol = USER_MIC_DEFAULT_GAIN;
         }
         printf(">>>>>>>>>>>>> open mic  vol %d\n",tp_mic_vol);
@@ -404,8 +404,13 @@ bool mic_stream_start(struct __mic_stream  *stream)
             audio_mic_add_output(&stream->adc_output);
             audio_mic_start(&stream->mic_ch);
             log_i("mic_stream_start ok 11\n");
+            extern void user_mic_en(u8 en);
+            if(0 ==  tp_mic_vol){
+                user_mic_en(0);
+            }
             return true;
         }
+
     }
     return false;
 }

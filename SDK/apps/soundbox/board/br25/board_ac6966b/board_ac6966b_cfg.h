@@ -262,6 +262,7 @@
 #define USER_0500K    (500)//50k
 #define USER_0802K    (802)//80.2k
 #define USER_0812K    (812)//81.2k
+#define USER_0910K    (910)//91k
 #define USER_1000K    (1000)
 #define USER_NULLK   (2200)
 
@@ -282,7 +283,7 @@
 #define USER_R_KEY_10 USER_0240K
 #define USER_R_KEY_11 USER_0340K
 #define USER_R_KEY_12 USER_0500K
-#define USER_R_KEY_13 USER_0812K
+#define USER_R_KEY_13 USER_0910K
 #define USER_R_KEY_14 USER_NULLK
 
 #define TCFG_ADKEY_AD0(x)      (((x) * USER_R_KEY_00)  / (USER_R_KEY_00  + R_UP))                                //0R
