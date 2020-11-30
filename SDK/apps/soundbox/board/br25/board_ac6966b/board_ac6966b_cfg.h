@@ -206,7 +206,7 @@
 //#define KEY_NUM_MAX                        	10
 //#define KEY_NUM                            	3
 #define KEY_IO_NUM_MAX						6
-#define KEY_AD_NUM_MAX						12
+#define KEY_AD_NUM_MAX						15
 #define KEY_IR_NUM_MAX						21
 #define KEY_TOUCH_NUM_MAX					6
 #define KEY_RDEC_NUM_MAX                    6
@@ -259,7 +259,10 @@
 #define USER_0240K    (240)//24k
 #define USER_0330K    (330)
 #define USER_0340K    (340)//34k
+#define USER_0500K    (500)//50k
 #define USER_0802K    (802)//80.2k
+#define USER_0812K    (812)//81.2k
+#define USER_0910K    (910)//91k
 #define USER_1000K    (1000)
 #define USER_NULLK   (2200)
 
@@ -279,8 +282,8 @@
 #define USER_R_KEY_09 USER_0180K
 #define USER_R_KEY_10 USER_0240K
 #define USER_R_KEY_11 USER_0340K
-#define USER_R_KEY_12 USER_0802K
-#define USER_R_KEY_13 USER_NULLK
+#define USER_R_KEY_12 USER_0500K
+#define USER_R_KEY_13 USER_0910K
 #define USER_R_KEY_14 USER_NULLK
 
 #define TCFG_ADKEY_AD0(x)      (((x) * USER_R_KEY_00)  / (USER_R_KEY_00  + R_UP))                                //0R

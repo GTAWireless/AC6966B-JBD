@@ -462,7 +462,10 @@ int app_common_key_msg_deal(struct sys_event *event)
         }
         #endif
         break;
-
+    case USER_KEY_MIC_VOL:
+        r_printf("USER_KEY_MIC_VOL");
+        user_mic_vol_key_set();
+        break;
     case KEY_IR_MUTE:
         puts("KEY_IR_MUTE\n");
         user_pa_ex_manual(0xaa);

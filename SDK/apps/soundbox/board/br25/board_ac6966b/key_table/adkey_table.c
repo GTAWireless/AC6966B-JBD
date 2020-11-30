@@ -35,18 +35,18 @@ const u16 bt_key_ad_table[KEY_AD_NUM_MAX][KEY_EVENT_MAX] = {
     [7] = {
         KEY_MUSIC_PREV, KEY_NULL,      KEY_NULL,       KEY_NULL,		KEY_NULL,       KEY_NULL
     },
-    // [8] = {
-    //     KEY_EQ_MODE,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [9] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [10] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [11] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
+    [8] = {
+        KEY_VOL_DOWN,	KEY_VOL_DOWN,	KEY_VOL_DOWN,			KEY_VOL_DOWN,		KEY_NULL,	KEY_NULL
+    },
+    [9] = {
+        KEY_VOL_UP,		KEY_VOL_UP,			KEY_VOL_UP,			KEY_VOL_UP,		KEY_NULL,			KEY_NULL
+    },   
+    [10] = {
+        KEY_MUSIC_PP,		KEY_CHANGE_MODE,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
+    [11] = {
+        USER_KEY_MIC_VOL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
     // [12] = {
     //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
     // },
@@ -86,18 +86,18 @@ const u16 fm_key_ad_table[KEY_AD_NUM_MAX][KEY_EVENT_MAX] = {
     [7] = {
         KEY_FM_PREV_STATION, KEY_NULL,      KEY_NULL,       KEY_NULL,		KEY_NULL,       KEY_NULL
     },
-    // [8] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [9] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [10] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [11] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
+    [8] = {
+        KEY_VOL_DOWN,	KEY_VOL_DOWN,	KEY_VOL_DOWN,			KEY_VOL_DOWN,		KEY_NULL,	KEY_NULL
+    },
+    [9] = {
+        KEY_VOL_UP,		KEY_VOL_UP,			KEY_VOL_UP,			KEY_VOL_UP,		KEY_NULL,			KEY_NULL
+    }, 
+    [10] = {
+        KEY_FM_SCAN_ALL,		KEY_CHANGE_MODE,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
+    [11] = {
+        USER_KEY_MIC_VOL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
     // [12] = {
     //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
     // },
@@ -137,18 +137,18 @@ const u16 linein_key_ad_table[KEY_AD_NUM_MAX][KEY_EVENT_MAX] = {
     [7] = {
         KEY_NULL, KEY_NULL,      KEY_NULL,       KEY_NULL,		KEY_NULL,       KEY_NULL
     },
-    // [8] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [9] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [10] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [11] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
+    [8] = {
+        KEY_VOL_DOWN,	KEY_VOL_DOWN,	KEY_VOL_DOWN,			KEY_VOL_DOWN,		KEY_NULL,	KEY_NULL
+    },
+    [9] = {
+        KEY_VOL_UP,		KEY_VOL_UP,			KEY_VOL_UP,			KEY_VOL_UP,		KEY_NULL,			KEY_NULL
+    }, 
+    [10] = {
+        KEY_MUSIC_PP,		KEY_CHANGE_MODE,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
+    [11] = {
+        USER_KEY_MIC_VOL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
     // [12] = {
     //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
     // },
@@ -188,18 +188,18 @@ const u16 music_key_ad_table[KEY_AD_NUM_MAX][KEY_EVENT_MAX] = {
     [7] = {
         KEY_MUSIC_PREV, KEY_NULL,      KEY_NULL,       KEY_NULL,		KEY_NULL,       KEY_NULL
     },
-    // [8] = {
-    //     KEY_EQ_MODE,							KEY_NULL,				KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
-    // },
-    // [9] = {
-    //     KEY_NULL,							KEY_NULL,				KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
-    // },
-    // [10] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [11] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
+    [8] = {
+        KEY_VOL_DOWN,	KEY_VOL_DOWN,	KEY_VOL_DOWN,			KEY_VOL_DOWN,		KEY_NULL,	KEY_NULL
+    },
+    [9] = {
+        KEY_VOL_UP,		KEY_VOL_UP,			KEY_VOL_UP,			KEY_VOL_UP,		KEY_NULL,			KEY_NULL
+    }, 
+    [10] = {
+        KEY_MUSIC_PP,		KEY_CHANGE_MODE,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
+    [11] = {
+        USER_KEY_MIC_VOL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
     // [12] = {
     //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
     // },
@@ -442,18 +442,18 @@ const u16 idle_key_ad_table[KEY_AD_NUM_MAX][KEY_EVENT_MAX] = {
     [7] = {
         KEY_NULL, KEY_NULL,      KEY_NULL,       KEY_NULL,		KEY_NULL,       KEY_NULL
     },
-    // [8] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [9] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [10] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
-    // [11] = {
-    //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
-    // },
+    [8] = {
+        KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
+    [9] = {
+        KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
+    [10] = {
+        KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
+    [11] = {
+        KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
+    },
     // [12] = {
     //     KEY_NULL,		KEY_NULL,			KEY_NULL,			KEY_NULL,		KEY_NULL,			KEY_NULL
     // },

@@ -36,6 +36,7 @@ enum {
 
     MENU_SHOW_STRING,
     MENU_MAIN_VOL,
+    MENU_MIC_VOL,
     MENU_SET_EQ,
     MENU_SET_PLAY_MODE,
 
