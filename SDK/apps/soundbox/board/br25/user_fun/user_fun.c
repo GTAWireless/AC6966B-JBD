@@ -685,17 +685,28 @@ void user_daley_set_sys_vol(void *priv){
     }
 
     s8 get_vol = app_audio_get_volume(APP_AUDIO_STATE_MUSIC);
+    s8 set_sys_vol = 0;
+
     if(vol != get_vol){
         if(DIFFERENCE(vol,get_vol)>4){
-            app_audio_set_volume(APP_AUDIO_STATE_MUSIC, vol>get_vol?get_vol+4:get_vol-4, 1);
-            UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
-            bt_tws_sync_volume();
-            user_delay_set_vol_id = sys_s_hi_timerout_add(priv,user_daley_set_sys_vol,100);
-            return;
+            set_sys_vol = vol>get_vol?get_vol+4:get_vol-4;
+        }else{
+            set_sys_vol = vol;
+        }
+
+        extern int linein_volume_set(u8 vol);
+        if(APP_LINEIN_TASK == app_get_curr_task()){
+            linein_volume_set(set_sys_vol);
         }else{
             app_audio_set_volume(APP_AUDIO_STATE_MUSIC, vol, 1);
-            UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
-            bt_tws_sync_volume();
+        }
+    
+        UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
+        bt_tws_sync_volume();
+        get_vol = app_audio_get_volume(APP_AUDIO_STATE_MUSIC);
+        if(vol!=get_vol){
+            user_delay_set_vol_id = sys_s_hi_timerout_add(priv,user_daley_set_sys_vol,100);
+            return;
         }
     }
 
