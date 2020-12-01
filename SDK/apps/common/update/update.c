@@ -10,6 +10,7 @@
 #include "btcontroller_modules.h"
 #include "uart_update.h"
 
+#include "user_fun_cfg.h"
 #if TCFG_UI_ENABLE
 #include "ui/ui_api.h"
 #endif
@@ -162,6 +163,11 @@ int update_result_deal()
     if (result == UPDATA_NON || 0 == result) {
         return 0;
     }
+    extern void user_udelay_init(void);
+    user_udelay_init();
+    user_pa_ex_uptata(1);
+    user_pa_ex_strl(PA_CLASS_D);
+    UI_SHOW_MENU(MENU_UPDATA, 0, 0, NULL);
 #ifdef UPDATE_VOICE_REMIND
 #endif
     if (result == UPDATA_SUCC) {
@@ -173,6 +179,7 @@ int update_result_deal()
         led_update_finish();
 #endif
     }
+
     extern u8 get_max_sys_vol(void);
     while (1) {
         clear_wdt();
@@ -209,7 +216,7 @@ int update_result_deal()
             //enter_sys_soft_poweroff();
         }
     }
-
+    user_pa_ex_uptata(0);
     return 1;
 }
 

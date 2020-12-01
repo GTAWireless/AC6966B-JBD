@@ -553,7 +553,8 @@ void vbat_check(void *priv)
                         }
                         
                     }else{
-                        user_low_power_show(2);//低电闪烁
+                        // user_low_power_show(2);//低电闪烁
+                        user_low_power_show(1);//低电常亮
                         power_event_to_user(POWER_EVENT_POWER_WARNING);
                     }
                 }

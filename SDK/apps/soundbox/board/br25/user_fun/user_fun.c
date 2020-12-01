@@ -11,7 +11,7 @@ USER_POWER_INFO user_power_io={
 #endif
 
 
-static void user_udelay_init(void){
+void user_udelay_init(void){
     bit_clr_ie(USER_UDELAY_TIMER_IRQ);
 }
 
@@ -126,7 +126,8 @@ void user_message_filtering(int key_event){
 
 
 //设置低电图标 显示、取消；获取低电图标显示状态
-bool user_low_power_show(u8 cmd){
+//cmd 1:常亮 2：闪烁 0：熄灭
+u8 user_low_power_show(u8 cmd){
     static u8 low_power_icon = 0;
 
     //获取状态 开机过滤时间 关机状态返回
@@ -148,10 +149,11 @@ bool user_low_power_show(u8 cmd){
         printf(">>>>>     low power icon %d\n",low_power_icon);
     }
 
-    return low_power_icon?1:0;
+    return low_power_icon;//?1:0;
 }
+
 void user_led7_flash_lowpower(void){
-    bool ret = user_low_power_show(0xff);
+    u8 ret = user_low_power_show(0xff);
     if(2 == ret){
         led7_flash_icon(LED7_CHARGE);
     }else if(1 == ret){

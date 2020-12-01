@@ -77,6 +77,7 @@ enum {
     MENU_REFRESH,
     MENU_CLEAR_WIN,
     MENU_POWER_OFF,
+    MENU_UPDATA,
     MENU_MAIN = 0xff,
 };
 
