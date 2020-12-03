@@ -1044,7 +1044,9 @@ REGISTER_LP_TARGET(bt_dec_lp_target) = {
     .is_idle = bt_dec_idle_query,
 };
 
-
+bool user_bt_dec_runing(void){
+    return !bt_dec_idle_query();
+}
 
 /*----------------------------------------------------------------------------*/
 /**@brief    蓝牙模式 eq drc 打开

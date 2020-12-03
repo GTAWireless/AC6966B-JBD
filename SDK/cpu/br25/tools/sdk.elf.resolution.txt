@@ -1211,8 +1211,7 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,delay_2ms,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,delay,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_strl,pl
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,get_call_status,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,a2dp_get_status,l
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_bt_dec_runing,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,music_player_get_play_status,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,tone_get_status,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_record_status,l
@@ -1907,8 +1906,8 @@ obj\Release\apps\soundbox\power_manage\app_power_manage.o
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_power_event_handler,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,ui_update_status,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,printf,l
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tone_play_with_callback_by_name,l
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,power_set_soft_poweroff,l
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_power_off_class,l
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_task_put_key_msg,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tws_api_get_role,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_send_cmd_prepare,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tws_api_get_tws_state,l
@@ -1942,10 +1941,10 @@ obj\Release\apps\soundbox\power_manage\app_power_manage.o
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,check_power_on_voltage,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,clr_wdt,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,os_time_dly,
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,power_set_soft_poweroff,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_reset_vddiom_lev,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_key_low_power_off,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,log_tag_const_i_APP_POWER,l
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,tone_table,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_var,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,vbat_check_lp_target,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,VBAT_STATUS,pl
@@ -2069,7 +2068,7 @@ obj\Release\apps\soundbox\task_manager\app_common.o
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,mic_effect_stop,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,mic_effect_start,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_led_io_fun,l
--r=obj\Release\apps\soundbox\task_manager\app_common.o,user_power_off_class,l
+-r=obj\Release\apps\soundbox\task_manager\app_common.o,power_event_to_user,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_power_off,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,usr_timeout_add,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,linein_stop,l
@@ -2798,7 +2797,6 @@ obj\Release\apps\soundbox\task_manager\idle\idle.o
 -r=obj\Release\apps\soundbox\task_manager\idle\idle.o,ui_set_main_menu,l
 -r=obj\Release\apps\soundbox\task_manager\idle\idle.o,user_power_off_class,l
 -r=obj\Release\apps\soundbox\task_manager\idle\idle.o,user_sd_power,l
--r=obj\Release\apps\soundbox\task_manager\idle\idle.o,power_set_soft_poweroff,l
 -r=obj\Release\apps\soundbox\task_manager\idle\idle.o,sys_key_event_enable,l
 -r=obj\Release\apps\soundbox\task_manager\idle\idle.o,sdx_dev_detect_timer_del,l
 -r=obj\Release\apps\soundbox\task_manager\idle\idle.o,usb_detect_timer_del,l
@@ -3491,6 +3489,7 @@ obj\Release\cpu\br25\audio_dec\audio_dec_bt.o
 -r=obj\Release\cpu\br25\audio_dec\audio_dec_bt.o,bt_audio_is_running,pl
 -r=obj\Release\cpu\br25\audio_dec\audio_dec_bt.o,bt_media_is_running,pl
 -r=obj\Release\cpu\br25\audio_dec\audio_dec_bt.o,bt_phone_dec_is_running,pl
+-r=obj\Release\cpu\br25\audio_dec\audio_dec_bt.o,user_bt_dec_runing,pl
 -r=obj\Release\cpu\br25\audio_dec\audio_dec_bt.o,a2dp_eq_drc_open,pl
 -r=obj\Release\cpu\br25\audio_dec\audio_dec_bt.o,user_eq_init_ok,l
 -r=obj\Release\cpu\br25\audio_dec\audio_dec_bt.o,eq_get_filter_info,l

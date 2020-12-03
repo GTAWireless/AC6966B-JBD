@@ -11,7 +11,7 @@
 #if TCFG_APP_BT_EN
 const u16 bt_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
     [0] = {
-        KEY_IR_PPOWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
+        KEY_IR_POWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
     },
     [1] = {
         KEY_CHANGE_MODE,		USER_KEY_RGB_BASS,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
@@ -82,7 +82,7 @@ const u16 bt_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
 #if TCFG_APP_FM_EN
 const u16 fm_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
     [0] = {
-        KEY_IR_PPOWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
+        KEY_IR_POWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
     },
     [1] = {
         KEY_CHANGE_MODE,		USER_KEY_RGB_BASS,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
@@ -153,7 +153,7 @@ const u16 fm_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
 #if TCFG_APP_LINEIN_EN
 const u16 linein_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
     [0] = {
-        KEY_IR_PPOWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
+        KEY_IR_POWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
     },
     [1] = {
         KEY_CHANGE_MODE,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
@@ -224,7 +224,7 @@ const u16 linein_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
 #if TCFG_APP_MUSIC_EN
 const u16 music_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
     [0] = {
-        KEY_IR_PPOWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
+        KEY_IR_POWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
     },
     [1] = {
         KEY_CHANGE_MODE,		USER_KEY_RGB_BASS,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
@@ -578,7 +578,7 @@ const u16 spdif_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
  ***********************************************************/
 const u16 idle_key_ir_table[KEY_IR_NUM_MAX][KEY_EVENT_MAX] = {
     [0] = {
-        KEY_IR_PPOWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
+        KEY_IR_POWER,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL
     },
     [1] = {
         KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL,		KEY_NULL

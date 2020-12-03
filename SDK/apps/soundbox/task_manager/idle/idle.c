@@ -282,7 +282,7 @@ static int idle_key_event_opr(struct sys_event *event)
     case KEY_POWER_ON_HOLD:
         idle_key_poweron_deal(key_event - KEY_POWER_ON);
         break;
-    case KEY_IR_PPOWER:
+    case KEY_IR_POWER:
         cpu_reset();
         break;
     }
@@ -466,7 +466,9 @@ static void idle_app_start()
     u8 power_class = user_power_off_class(0xff);
     if(1 == power_class){//低电关机
         user_sd_power(0);
+        #if (defined(USER_LOW_POWER_OFF_SOFTR_EN) && USER_LOW_POWER_OFF_SOFTR_EN)
         power_set_soft_poweroff();
+        #endif
         return;
     }else if(2 == power_class){//遥控器关机
         user_sd_power(1);

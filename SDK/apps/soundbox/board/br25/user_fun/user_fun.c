@@ -160,6 +160,7 @@ void user_led7_flash_lowpower(void){
         led7_show_icon(LED7_CHARGE);
     }else if(0 == ret){
         led7_clear_icon(LED7_CHARGE);
+        led7_clear_all_icon();
     }else if(0x55 == ret){
         led7_clear_icon(LED7_CHARGE);
         led7_clear_all_icon();

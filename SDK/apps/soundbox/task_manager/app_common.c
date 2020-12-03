@@ -433,8 +433,8 @@ int app_common_key_msg_deal(struct sys_event *event)
         // user_tws_sync_info();
         break;
 
-    case KEY_IR_PPOWER:
-        puts("KEY_IR_PPOWER\n");
+    case KEY_IR_POWER:
+        puts("KEY_IR_POWER\n");
         // {
         //     static u8 kkkk = 0;
         //     kkkk++;
@@ -445,10 +445,16 @@ int app_common_key_msg_deal(struct sys_event *event)
         //     break;
         // }
         // power_event_to_user(POWER_EVENT_POWER_WARNING);
-        // break;
+        power_event_to_user(POWER_EVENT_POWER_LOW);
+        break;
+
+        if(APP_IDLE_TASK != app_get_curr_task()){
+            // user_power_off_class(2);
+        }    
+    case USER_LOW_POWER_OFF:
         #if USER_IR_POWER
-        if(APP_IDLE_TASK != app_get_curr_task()){            
-            user_power_off_class(2);          
+        if(APP_IDLE_TASK != app_get_curr_task()){
+            // user_power_off_class(2);
             user_power_off();
 
             sys_hi_timeout_add((void *)(timer_get_ms()),user_ir_power_off,200);

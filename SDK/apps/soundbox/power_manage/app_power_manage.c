@@ -176,7 +176,12 @@ int app_power_event_handler(struct device_event *dev)
         // break;
     case POWER_EVENT_POWER_LOW:
         r_printf(" POWER_EVENT_POWER_LOW");
+        //低电关机需要关闭sdgp引脚供电设备
+        user_power_off_class(1);
+
         //低电关机直接进软关机
+        app_task_put_key_msg(USER_LOW_POWER_OFF,0);
+        break;
         // power_set_soft_poweroff();
         {
             int err =  tone_play_with_callback_by_name(tone_table[IDEX_TONE_POWER_OFF], 1, power_off_tone_play_end_callback, (void *)IDEX_TONE_POWER_OFF);
@@ -191,8 +196,7 @@ int app_power_event_handler(struct device_event *dev)
         extern u8 adv_tws_both_in_charge_box(u8 type);
         adv_tws_both_in_charge_box(1);
 #endif
-        //低电关机需要关闭sdgp引脚供电设备
-        user_power_off_class(1);
+
         
         soft_poweroff_mode(1);  ///强制关机
         sys_enter_soft_poweroff(NULL);
@@ -443,6 +447,10 @@ void vbat_check(void *priv)
     u8 down_sys_vol_flag = 0;
     u8 detect_cnt = 60;
 
+    if(user_power_off_class(0xff)){
+        return;
+    }
+    
     if (cur_timer_period == VBAT_TIMER_10_S) {
         vbat_timer_update(50);
         cur_timer_period = VBAT_TIMER_2_MS;

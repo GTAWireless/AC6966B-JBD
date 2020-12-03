@@ -27,6 +27,8 @@
 
 #define USER_CHARGE_WAKE_UP 0//充电唤醒
 
+#define USER_LOW_POWER_OFF_SOFTR_EN 0//低电关机是否进低功耗
+
 #if ((USER_LED_EN && USER_RGB_EN) && (IO_PORTB_07 == USER_LED_POR))
 #error "led io 与 rgb io 不能同一个io !!!"
 #endif

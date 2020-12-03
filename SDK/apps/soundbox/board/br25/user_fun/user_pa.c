@@ -430,22 +430,12 @@ void user_pa_in_service(void *pa){
     //各个模式特有mute
 
     if (app_check_curr_task(APP_BT_TASK)){
-        if ((get_call_status() == BT_CALL_ACTIVE) ||
-            (get_call_status() == BT_CALL_OUTGOING) ||
-            (get_call_status() == BT_CALL_ALERT) ||
-            (get_call_status() == BT_CALL_INCOMING)) {
-            //通话过程不允许mute pa
+        extern bool user_bt_dec_runing(void);
+        if(user_bt_dec_runing()){
             pa_sys_auto_mute = 0;
-            puts(">> bt L\n");
         }else{
-            //防止切歌时开关功放
-            if(BT_MUSIC_STATUS_STARTING == a2dp_get_status()){
-                pa_sys_auto_mute = 0;
-            }else if(BT_MUSIC_STATUS_SUSPENDING == a2dp_get_status()){
-                pa_sys_auto_mute = 1;
-            }
+            pa_sys_auto_mute = 1;
         }
-
     }
     #if TCFG_APP_MUSIC_EN
     else if (app_check_curr_task(APP_MUSIC_TASK)){
