@@ -198,6 +198,8 @@ static void mic_effect_fade_run(struct __mic_effect *effect)
             } else {
                 effect->p_echo_hdl->echo_parm_obj.delay ++;
             }
+			//修复调echo延时有杂音
+            effect->p_echo_hdl->echo_parm_obj.delay = effect->fade.delay;
         }
         if (effect->p_echo_hdl->echo_parm_obj.decayval != effect->fade.decayval) {
             update = 1;

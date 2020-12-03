@@ -20,6 +20,7 @@ PA_CTL_IO pa_in_io = {
     .pa_linein_mute = 0,
     .pa_mic_online = 0,
     .pa_manual_mute = 0,
+    .pa_updata = 0,
 };
 
 PA_IN_STRL pa_in_fun = {
@@ -80,6 +81,14 @@ bool user_pa_ex_manual(u8 cmd){
     return pa_in_fun.pa_io->pa_manual_mute;
 }
 
+void user_pa_ex_uptata(u8 cmd){
+    if(1 == cmd){//升级
+        pa_in_fun.pa_io->pa_updata = cmd;
+    }else if(!cmd){//升级完成
+        pa_in_fun.pa_io->pa_updata = cmd;
+    }
+    
+}
 void user_print_timer(void){
     g_printf("===============star===================");
     int i =0;
@@ -483,6 +492,11 @@ void user_pa_in_service(void *pa){
 
     //录音
     if(user_record_status(0xff)){
+        pa_sys_auto_mute = 0;
+    }
+
+    //升级
+    if(pa_ctrl->pa_updata){
         pa_sys_auto_mute = 0;
     }
 

@@ -21,6 +21,7 @@ typedef struct USER_PA_CTL_IO {
     volatile bool pa_mic_online;//mic
     volatile bool pa_linein_mute;//linien
     volatile bool pa_manual_mute;//手动
+    volatile bool pa_updata;//升级
     volatile u8 pa_sys_automute;//自动
 }PA_CTL_IO;
 
@@ -75,6 +76,7 @@ void user_pa_ex_automute(u8 cmd);
 void user_pa_ex_mic(u8 cmd);
 void user_pa_ex_linein(u8 cmd);
 bool user_pa_ex_manual(u8 cmd);
+void user_pa_ex_uptata(u8 cmd);
 void user_pa_ex_del(void);
 void user_pa_dac_pupu(void);
 #endif

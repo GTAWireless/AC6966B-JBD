@@ -59,24 +59,24 @@
 #define USER_REVER_BOL_BIT  3
 
 #define USER_EQ_BASS_AD_MAX    (420)//430
-#define USER_EQ_BASS_AD_MIN    (50)//62
+#define USER_EQ_BASS_AD_MIN    (65)//62
 #define USER_EQ_BASS_GAIN_MIN  (-12)//最小增益
 #define USER_EQ_BASS_GAIN_MAX  (6)//最大增益
 
 #define USER_EQ_TERBLE_AD_MAX    (950)//962
-#define USER_EQ_TERBLE_AD_MIN    (590)//599
+#define USER_EQ_TERBLE_AD_MIN    (595)//599
 #define USER_EQ_TERBLE_GAIN_MIN  (-12)//最小增益
 #define USER_EQ_TERBLE_GAIN_MAX  (6)//最大增益
 
 #define USER_EQ_MIC_AD_MAX    (950)//962
 #define USER_EQ_MIC_AD_MIN    (590)//599
-#define USER_EQ_MIC_GAIN_MIN  (3)//最小增益
+#define USER_EQ_MIC_GAIN_MIN  (4)//最小增益
 #define USER_EQ_MIC_GAIN_MAX  (10)//最大增益
 
-#define USER_EQ_REV_AD_MAX    (430)//430
-#define USER_EQ_REV_AD_MIN    (55)//62
+#define USER_EQ_REV_AD_MAX    (420)//430
+#define USER_EQ_REV_AD_MIN    (62)//62
 #define USER_EQ_REV_GAIN_MIN  (100)//最小增益
-#define USER_EQ_REV_GAIN_MAX  (200)//最大增益
+#define USER_EQ_REV_GAIN_MAX  (300)//最大增益
 
 typedef struct user_power_io_info {
     u8 pro;

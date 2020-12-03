@@ -528,7 +528,7 @@ void app_audio_volume_down(u8 value)
 
 void app_audio_state_switch(u8 state, s16 max_volume)
 {
-    r_printf("audio state old:%s,new:%s,vol:%d\n", audio_state[__this->state], audio_state[state], max_volume);
+    r_printf("audio state old:%s,new:%s,vol:%d tone:%d thisstate:%d state:%d\n", audio_state[__this->state], audio_state[state], max_volume,APP_AUDIO_STATE_WTONE,__this->state,state);
 
     __this->prev_state = __this->state;
     __this->state = state;
@@ -552,7 +552,7 @@ void app_audio_state_switch(u8 state, s16 max_volume)
         __this->max_volume[state] = 15;
     }
 #endif
-
+r_printf("1audio state old:%s,new:%s,vol:%d tone:%d thisstate:%d state:%d\n", audio_state[__this->state], audio_state[state], max_volume,APP_AUDIO_STATE_WTONE,__this->state,state);
 }
 
 void app_audio_state_exit(u8 state)

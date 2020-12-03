@@ -164,13 +164,16 @@ int app_power_event_handler(struct device_event *dev)
     case POWER_EVENT_POWER_NORMAL:
         ui_update_status(STATUS_EXIT_LOWPOWER);
         break;
-    case POWER_EVENT_POWER_WARNING:
-        puts("POWER_EVENT_POWER_WARNING power manage\n");
-        ui_update_status(STATUS_LOWPOWER);        
-        /* tone_play(TONE_LOW_POWER); */
-        STATUS *p_tone = get_tone_config();
-        tone_play_index(p_tone->lowpower, 0);
-        break;
+    // case POWER_EVENT_POWER_WARNING:
+        // puts("POWER_EVENT_POWER_WARNING power manage\n");
+        // ui_update_status(STATUS_LOWPOWER);        
+        // /* tone_play(TONE_LOW_POWER); */
+        // user_down_sys_vol_cnt(10);
+        // user_dow_sys_vol_10();
+        // delay2ms(50);
+        // STATUS *p_tone = get_tone_config();
+        // tone_play_index(p_tone->lowpower, 0);
+        // break;
     case POWER_EVENT_POWER_LOW:
         r_printf(" POWER_EVENT_POWER_LOW");
         //低电关机直接进软关机
@@ -179,7 +182,7 @@ int app_power_event_handler(struct device_event *dev)
             int err =  tone_play_with_callback_by_name(tone_table[IDEX_TONE_POWER_OFF], 1, power_off_tone_play_end_callback, (void *)IDEX_TONE_POWER_OFF);
             if (err) {
                 power_set_soft_poweroff();
-            }
+            }    
         }
            
         break;
@@ -533,7 +536,7 @@ void vbat_check(void *priv)
                     }
                 }
                 
-                user_down_sys_vol_cnt(10);
+                // user_down_sys_vol_cnt(10);
 
                 //20s 播一次 5次之后关机
                 
@@ -546,6 +549,7 @@ void vbat_check(void *priv)
                     if(tp_low_war_cnt>=5){
                         tp_low_war_cnt = 0;
                         printf(">>>>>>>>> power off low\n");
+                        user_down_sys_vol_cnt(10);
                         power_event_to_user(POWER_EVENT_POWER_LOW);
                         if(vbat_timer){
                             sys_timer_del(vbat_timer);
@@ -553,9 +557,12 @@ void vbat_check(void *priv)
                         }
                         
                     }else{
-                        user_low_power_show(2);//低电闪烁
+                        // user_low_power_show(2);//低电闪烁
+                        user_low_power_show(1);//低电常亮
                         power_event_to_user(POWER_EVENT_POWER_WARNING);
                     }
+                }else{
+                    user_down_sys_vol_cnt(10);
                 }
             }else if(low_dow_sys_vol_cnt> (detect_cnt / 2)){
                 low_dow_sys_vol_cnt = 0;

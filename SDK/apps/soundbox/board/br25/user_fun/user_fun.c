@@ -11,7 +11,7 @@ USER_POWER_INFO user_power_io={
 #endif
 
 
-static void user_udelay_init(void){
+void user_udelay_init(void){
     bit_clr_ie(USER_UDELAY_TIMER_IRQ);
 }
 
@@ -126,7 +126,8 @@ void user_message_filtering(int key_event){
 
 
 //设置低电图标 显示、取消；获取低电图标显示状态
-bool user_low_power_show(u8 cmd){
+//cmd 1:常亮 2：闪烁 0：熄灭
+u8 user_low_power_show(u8 cmd){
     static u8 low_power_icon = 0;
 
     //获取状态 开机过滤时间 关机状态返回
@@ -148,10 +149,11 @@ bool user_low_power_show(u8 cmd){
         printf(">>>>>     low power icon %d\n",low_power_icon);
     }
 
-    return low_power_icon?1:0;
+    return low_power_icon;//?1:0;
 }
+
 void user_led7_flash_lowpower(void){
-    bool ret = user_low_power_show(0xff);
+    u8 ret = user_low_power_show(0xff);
     if(2 == ret){
         led7_flash_icon(LED7_CHARGE);
     }else if(1 == ret){
@@ -401,24 +403,59 @@ void user_eq_bass_terble_set(int bass,int terble){
 //高音
 void user_bass_terble_updata(u32 bass_ad,u32 terble_ad){
     static int bass_old =0,terble_old = 0;
-
+    static s32 bass_ad_old = 0,terble_ad_old = 0;
     s32 bass  = bass_ad,terble = terble_ad;
+    bool updata_flag = 0;
 
     //无效值
-    if((512-20) < bass_ad || (512+20) > terble_ad  || user_record_status(0xff) || \
-    !user_eq_init_ok(0xff) || timer_get_sec()<6 || APP_RECORD_TASK == app_get_curr_task() || \
+    if(user_record_status(0xff) || !user_eq_init_ok(0xff) || \
+    timer_get_sec()<6 || APP_RECORD_TASK == app_get_curr_task() || \
     app_get_curr_task() == APP_FM_TASK){
         return;
     }
 
-    if((USER_EQ_BASS_AD_MIN-10) > bass_ad){
-        bass_ad = USER_EQ_BASS_AD_MIN;
+    if( USER_EQ_BASS_AD_MIN > bass_ad){
+        bass = USER_EQ_BASS_AD_MIN;
+    }else if( USER_EQ_BASS_AD_MAX < bass_ad){
+        bass = USER_EQ_BASS_AD_MAX;
     }
 
-    if((USER_EQ_TERBLE_AD_MIN-10) > terble){
+    if(USER_EQ_TERBLE_AD_MIN > terble_ad){
         terble = USER_EQ_TERBLE_AD_MIN;
+    }else if( USER_EQ_TERBLE_AD_MAX < terble_ad){
+        terble = USER_EQ_TERBLE_AD_MAX;
     }
 
+    // r_printf("         bass=%d  %d  terble=%d %d",bass,bass_ad,terble,terble_ad);
+    //ad 滤抖
+    if((USER_EQ_BASS_AD_MIN != bass_ad_old) && (USER_EQ_BASS_AD_MIN == bass)){
+        r_printf("bass=%d terble=%d 1",bass,terble);
+        bass_ad_old = bass;
+        updata_flag = 1;
+    }else if((USER_EQ_BASS_AD_MAX != bass_ad_old) && (USER_EQ_BASS_AD_MAX == bass)){
+        r_printf("2");
+        bass_ad_old = bass;
+        updata_flag = 1;
+    }else if(DIFFERENCE(bass_ad_old,bass)>8){
+        r_printf("3");
+        bass_ad_old = bass;
+        updata_flag = 1;
+    }else if((USER_EQ_TERBLE_AD_MIN != terble_ad_old) && (USER_EQ_TERBLE_AD_MIN == terble)){
+        r_printf(">>>>>>4");
+        terble_ad_old = terble;
+        updata_flag = 1;
+    }else if((USER_EQ_TERBLE_AD_MAX != terble_ad_old) && (USER_EQ_TERBLE_AD_MAX == terble)){
+        r_printf(">>>>>>>>>>>5");
+        terble_ad_old = terble;
+        updata_flag = 1;
+    }else if(DIFFERENCE(terble_ad_old,terble)>5){
+        r_printf(">>>>>>>>>>>>>>>>>>>>>>6");
+        terble_ad_old = terble;
+        updata_flag = 1;
+    }else{
+        // r_printf("7");
+        return;
+    }
 
     bass = ((bass-USER_EQ_BASS_AD_MIN)*(USER_EQ_BASS_GAIN_MAX-USER_EQ_BASS_GAIN_MIN))/(USER_EQ_BASS_AD_MAX-USER_EQ_BASS_AD_MIN);
     terble = ((terble-USER_EQ_TERBLE_AD_MIN)*(USER_EQ_TERBLE_GAIN_MAX-USER_EQ_TERBLE_GAIN_MIN))/(USER_EQ_TERBLE_AD_MAX-USER_EQ_TERBLE_AD_MIN);
@@ -428,13 +465,20 @@ void user_bass_terble_updata(u32 bass_ad,u32 terble_ad){
     if(bass_old!=bass || terble_old!=terble){
         if(bass_old!=bass){
             bass_old = bass;
+            updata_flag = 1;
         }
         if(terble_old!=terble){
             terble_old = terble;
+            updata_flag = 1;
+        }
+        
+
+
+        if(updata_flag){
+            printf("                                               eq bass %d terble %d\n",bass_old,terble_old);
+            user_eq_bass_terble_set(bass_old,terble_old);            
         }
 
-        // printf(">>>>> eq bass %d terble %d\n",bass_old,terble_old);
-        user_eq_bass_terble_set(bass_old,terble_old);
     }
 }
 
@@ -448,22 +492,19 @@ void user_mic_vol_update(u8 vol){
     static u8 mic_old = 0;
     
     bool mic_in_status = user_get_mic_status();
-    // printf(">>>>>> mic in status %d\n",mic_in_status);
-    if(!user_record_status(0xff) && mic_in_status && (mic_old != vol)){
-        // printf(">>>>> mic_old %d vol %d\n",mic_old,vol);
+    if(mic_old != vol){
         #if USER_MIC_MUSIC_VOL_SEPARATE
         mic_effect_set_dvol(mic_old);
         #else
-        if(!vol){
+        printf("                  set mic vol %d\n",vol);
+        audio_mic_set_gain(vol);
+        if(!vol && mic_old){
             user_mic_en(0);
-        }else if(!mic_old){
+        }else if(vol && !mic_old){
             user_mic_en(1);
         }
-        printf(">>>>>>>>>>>>>>>> set mic vol %d\n",mic_old);
-        audio_mic_set_gain(vol);
         #endif
-
-        mic_old = vol;      
+        mic_old = vol;
     }
 }
 
@@ -475,10 +516,9 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
     static u8 table_cnt = 0;
     static bool for_flag = 0;
     u32 average = 0;
-    static u32 old_average = 0;
     u32 tp_ad;
 
-    s32 mic_vol = 0;
+    u8 mic_vol = 0;
 
     //获取mic 旋钮音量
     if(1 == cmd){
@@ -493,12 +533,6 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
         tp_ad = vol_ad;
     }
 
-    // printf(">>>>>>>> mic vol ad %d\n",vol_ad);
-    //ad 512 无效
-    if((USER_EQ_MIC_AD_MIN > tp_ad) || ((USER_EQ_MIC_AD_MAX+20)) < tp_ad){
-        return mic_old;
-    }
-
     //平均值
     if(DIFFERENCE(vol_table[table_cnt?table_cnt-1:table_cnt],tp_ad)>50){
         memset(vol_table,0,sizeof(vol_table));
@@ -511,7 +545,7 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
         table_cnt = 0;
         for_flag = 1;
     }
-    for(int i = 0;i<20/*sizeof(vol_table)*/;i++){
+    for(int i = 0;i<(sizeof(vol_table)/sizeof(vol_table[0]))/*sizeof(vol_table)*/;i++){
         average+=vol_table[i];
     }
     if(for_flag||!table_cnt){
@@ -520,34 +554,20 @@ u8 user_mic_ad_2_vol(u8 cmd,u32 vol_ad){
         average/=table_cnt;
     }
 
-    tp_ad=average;
+    tp_ad = average;
     tp_ad = tp_ad>USER_EQ_MIC_AD_MAX?USER_EQ_MIC_AD_MAX:tp_ad;
     tp_ad = tp_ad<USER_EQ_MIC_AD_MIN?USER_EQ_MIC_AD_MIN:tp_ad;
 
-    // 0 600 615 650 670 700 740 820 900
-    u32 level[]={0,610,620,640,670,700,800,890,1024,1024};
-    for(int i = 0;(i+1)<sizeof(level);i++){
-        if((tp_ad>level[i]) && (tp_ad<=level[i+1])){
-            mic_vol = i;
+    u32 level[]={USER_EQ_MIC_AD_MAX,792,700,651,630,609,595,0};
+    // r_printf("level >>>>>>>>>>> %d",(sizeof(level)/sizeof(level[0])));
+    for(int n = 0;n<(sizeof(level)/sizeof(level[0]));n++){
+        if(tp_ad>=level[n]){
+            mic_vol = n;
             break;
         }
     }
-    mic_vol = mic_vol?mic_vol+USER_EQ_MIC_GAIN_MIN:mic_vol;
-
-    if(tp_ad<((level[2]+level[1])/2)){
-        if(!mic_old /*|| 1==mic_vol*/){
-            if(DIFFERENCE(old_average,average)<6){
-                old_average = average;
-                return mic_old;
-            }
-        }
-    }
-    old_average = average;
-
-    printf(">>>>> mic_old %d mic_vol %d ad %d average %d tp_ad %d\n",mic_old,mic_vol,vol_ad,average,tp_ad);
-
-    mic_old = mic_vol;
-
+    mic_old = mic_vol = mic_vol?mic_vol+USER_EQ_MIC_GAIN_MIN:mic_vol;
+    // printf(">>>>>>>> mic vol %d",mic_old);
     user_mic_vol_update(mic_old);
 
 #endif
@@ -610,6 +630,7 @@ void user_mic_reverb_updata(u32 vol){
      rev_old != vol)){
         rev_old = vol;
         mic_status_old = user_get_mic_status();
+        printf("reverb %d\n",rev_old);
         mic_effect_set_echo_delay(rev_old);
      }
 
@@ -625,24 +646,33 @@ int user_mic_ad_2_reverb(u8 cmd, u32 reverb_ad){
         return reverb_value;
     }
 
-    //ad 512 无效    
-    if((USER_EQ_REV_AD_MAX < reverb_ad) || ((USER_EQ_REV_AD_MIN) > reverb_ad)){
-        return reverb_value;
-    }
+    //ad 512 无效
+    // if(DIFFERENCE(reverb_ad,512)<60){
+    //     return reverb_value;
+    // }
 
     u32 tp_ad=reverb_ad;
     tp_ad = tp_ad>USER_EQ_REV_AD_MAX?USER_EQ_REV_AD_MAX:tp_ad;
     tp_ad = tp_ad<USER_EQ_REV_AD_MIN?USER_EQ_REV_AD_MIN:tp_ad;
 
-    tp_value = ((tp_ad-USER_EQ_REV_AD_MIN)*(USER_EQ_REV_GAIN_MAX-USER_EQ_REV_GAIN_MIN)*10)/(USER_EQ_REV_AD_MAX-USER_EQ_REV_AD_MIN);    
+
+    tp_value = ((USER_EQ_REV_AD_MAX-tp_ad)*(USER_EQ_REV_GAIN_MAX-USER_EQ_REV_GAIN_MIN)*10)/(USER_EQ_REV_AD_MAX-USER_EQ_REV_AD_MIN);    
     tp_value = (tp_value/10)+(tp_value%10>5?1:0);
-    if(tp_value>15){
+
+    if(!reverb_value && DIFFERENCE(tp_value,reverb_value)<3){
+        return reverb_value;
+    }
+
+    if(tp_value){
         tp_value += USER_EQ_REV_GAIN_MIN;
     }else{
         tp_value = 0;
     }
 
-    // printf(">>>>> reverb %d mic_vol %d ad %d\n",reverb_value,tp_value,reverb_ad);
+    if(tp_value && DIFFERENCE(tp_value,reverb_value)<2){
+        return reverb_value;
+    }
+    // printf(">>>>> reverb %d reverb_value %d ad %d\n",reverb_value,tp_value,reverb_ad);//return reverb_value;
 
     reverb_value = tp_value;
     user_mic_reverb_updata(reverb_value);
@@ -658,9 +688,18 @@ int user_ex_mic_get_reverb(void){
 }
 
 void user_4ad_fun_features(u32 *vol){
-    user_bass_terble_updata(vol[USER_EQ_BASS_BIT],vol[USER_EQ_TERBLE_BIT]);
-    user_mic_ad_2_vol(0,vol[USER_MIC_VOL_BIT]);
-    user_mic_ad_2_reverb(0,vol[USER_REVER_BOL_BIT]);
+    
+    if(!(DIFFERENCE(vol[USER_EQ_BASS_BIT],512)<50)) 
+        user_bass_terble_updata(vol[USER_EQ_BASS_BIT],vol[USER_EQ_TERBLE_BIT]);
+
+    if(user_record_status(0xff) || (!user_get_mic_status())){
+        return;
+    }
+
+    if(!(DIFFERENCE(vol[USER_MIC_VOL_BIT],512)<50))
+        user_mic_ad_2_vol(0,vol[USER_MIC_VOL_BIT]);
+    if(!(DIFFERENCE(vol[USER_REVER_BOL_BIT],512)<50))
+        user_mic_ad_2_reverb(0,vol[USER_REVER_BOL_BIT]);
 }
 // cmd 0:ad 1:ir key 2：低电 3:对箱同步
 u8 user_key_set_sys_vol_flag(u8 cmd){
