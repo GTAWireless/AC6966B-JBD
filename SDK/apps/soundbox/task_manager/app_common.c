@@ -445,11 +445,11 @@ int app_common_key_msg_deal(struct sys_event *event)
         //     break;
         // }
         // power_event_to_user(POWER_EVENT_POWER_WARNING);
-        power_event_to_user(POWER_EVENT_POWER_LOW);
-        break;
+        // power_event_to_user(POWER_EVENT_POWER_LOW);
+        // break;
 
         if(APP_IDLE_TASK != app_get_curr_task()){
-            // user_power_off_class(2);
+            user_power_off_class(2);
         }    
     case USER_LOW_POWER_OFF:
         #if USER_IR_POWER
