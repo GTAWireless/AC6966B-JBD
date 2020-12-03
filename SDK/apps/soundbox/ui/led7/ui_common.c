@@ -9,7 +9,7 @@ static void led7_show_hi(void *hd)
     dis->lock(1);
     dis->clear();
     dis->setXY(0, 0);
-    dis->show_string((u8 *)"Lod");
+    dis->show_string((u8 *)"Lod ");
     dis->lock(0);
 }
 static void led7_show_updata(void *hd)
@@ -53,7 +53,7 @@ static void led7_show_wait(void *hd)
     dis->lock(1);
     dis->clear();
     dis->setXY(0, 0);
-    dis->show_string((u8 *)" Lod");
+    dis->show_string((u8 *)"Lod ");
     dis->lock(0);
 }
 
