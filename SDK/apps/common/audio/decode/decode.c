@@ -88,9 +88,17 @@ int audio_dec_app_audio_state_exit(struct audio_dec_app_hdl *dec, u32 flag)
     return 0;
 }
 
+static void user_test_audio_dec(void *priv){
+    struct audio_dec_file_app_hdl *file_dec = (struct audio_dec_file_app_hdl *)priv;
+    audio_dec_app_audio_state_switch(file_dec->dec, file_dec->flag & AUDIO_DEC_FILE_FLAG_AUDIO_STATE_MASK);
+}
 int audio_dec_file_app_init_ok(struct audio_dec_file_app_hdl *file_dec)
 {
+    #if (defined(USER_LOWER_POWER_TONE_MURMUR_EN) && USER_LOWER_POWER_TONE_MURMUR_EN)
+    sys_timeout_add(file_dec,user_test_audio_dec,50);
+    #else
     audio_dec_app_audio_state_switch(file_dec->dec, file_dec->flag & AUDIO_DEC_FILE_FLAG_AUDIO_STATE_MASK);
+    #endif
     return 0;
 }
 

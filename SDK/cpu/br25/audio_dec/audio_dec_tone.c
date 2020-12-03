@@ -202,7 +202,7 @@ static int tone_dec_file_app_evt_cb(void *priv, int event, int *param)
     case AUDIO_DEC_APP_EVENT_DEC_POST:
         break;
     case AUDIO_DEC_APP_EVENT_START_INIT_OK:
-        log_i("tone_file start init ok\n");
+        r_printf("tone_file start init ok\n");
         if (dec->cur_list->stream_handler) {
             // 删除原有的数据流，需要在回调中重新设置
             if (file_dec->dec->stream) {

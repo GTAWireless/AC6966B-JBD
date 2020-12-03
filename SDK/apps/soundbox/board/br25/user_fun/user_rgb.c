@@ -70,19 +70,26 @@ void user_rgb_dac_energy_get(void * priv){
     }
     rgb->dac_energy_scan_id = sys_hi_timeout_add(rgb,user_rgb_dac_energy_get,rgb->light_number?20:100);
 
-    static u32 dac_energy_max = 0;
+    static int dac_energy_max = 0;
     int fre_cnt = 0;
     int dac_energy = audio_dac_energy_get();
+    static int energy_table[10]={0};
+    int energy_table_cnt = 0;
 
-    if(!(timer_get_sec()%2)){
-        dac_energy_max = 0;
+    if(dac_energy_max<dac_energy || ((timer_get_ms()%200)>=160)){
+        energy_table[energy_table_cnt++]=dac_energy;
+        if(energy_table_cnt>(sizeof(energy_table)/sizeof(energy_table[0]))){
+            energy_table_cnt = 0;
+        }
     }
 
-    if(dac_energy>dac_energy_max){
-        dac_energy_max = dac_energy;
+    for(int i = 0;i<(sizeof(energy_table)/sizeof(energy_table[0]));i++){
+        if(dac_energy_max<energy_table[i]){
+            dac_energy_max = energy_table[i];
+        }
     }
 
-    if(dac_energy_max){
+    if(dac_energy_max && dac_energy){
         fre_cnt = ((rgb->info->number)*dac_energy)/dac_energy_max;
     }else{
         fre_cnt = 0;
@@ -335,7 +342,7 @@ void user_rgb_display_mode_1(void *priv){
     tp_light += tp_kk;
 
     tp_light %=rgb->info->number;
-    r_printf(".......... lin %d",tp_light);
+    // r_printf(".......... lin %d",tp_light);
     for(int i = 0;i<rgb->info->number;i++){
         if(rgb->brightness_table[i]<=(RGB_BRIGHTNESS_LEVEL/RGB_BRIGHTNESS_SEGMENT)){
             color_brightness = (255/RGB_BRIGHTNESS_LEVEL)*RGB_BRIGHTNESS_SEGMENT*rgb->brightness_table[i];

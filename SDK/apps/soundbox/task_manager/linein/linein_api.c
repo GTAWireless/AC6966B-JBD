@@ -427,8 +427,13 @@ void linein_key_vol_down()
     log_info("vol-:%d\n", __this->volume);
 }
 
-// u8 user_linein_set_vol(u8 vol){
-//     linein_volume_set(vol);
-//     return __this->volume;
-// }
+
+
+
+
+
+
+
+
+
 #endif

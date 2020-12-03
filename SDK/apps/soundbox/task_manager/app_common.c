@@ -444,7 +444,8 @@ int app_common_key_msg_deal(struct sys_event *event)
         //     user_low_power_show(kkkk);
         //     break;
         // }
-        
+        // power_event_to_user(POWER_EVENT_POWER_WARNING);
+        // break;
         #if USER_IR_POWER
         if(APP_IDLE_TASK != app_get_curr_task()){            
             user_power_off_class(2);          
@@ -582,10 +583,17 @@ int app_power_user_event_handler(struct device_event *dev)
         break;
     case POWER_EVENT_POWER_WARNING:
         puts("POWER_EVENT_POWER_WARNING app common\n");
-        // user_dow_sys_vol_10();
+        user_dow_sys_vol_10();
         // user_bt_tws_sync_msg_send(USER_TWS_SYNC_DOW_VOL_10,0);
         // bt_tws_api_push_cmd(SYNC_CMD_POWER_WARNING, 500);
         ui_update_status(STATUS_LOWPOWER);
+        // user_down_sys_vol_cnt(10);
+        // user_dow_sys_vol_10();
+        // delay2ms(50);    
+        #if (defined(USER_LOWER_POWER_TONE_MURMUR_EN) && USER_LOWER_POWER_TONE_MURMUR_EN) 
+        extern int audio_dac_vol_mute(u8 mute, u8 fade);            
+        audio_dac_vol_mute(1,1);
+        #endif
         tone_play_by_path(tone_table[IDEX_TONE_LOW_POWER], 1);
         return 0;
     }

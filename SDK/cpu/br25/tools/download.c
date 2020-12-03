@@ -177,7 +177,7 @@ del soundbox\standard\isd_config.ini
 del soundbox\standard\tone.cfg
 #ifdef CONFIG_DEBUG_ENABLE
 copy soundbox\standard\isd_config_pf.ini soundbox\standard\isd_config.ini
-copy soundbox\standard\tone_P_1105.cfg soundbox\standard\tone.cfg
+copy soundbox\standard\tone_P_1201.cfg soundbox\standard\tone.cfg
 soundbox\standard\download_printf.bat
 #else
 copy soundbox\standard\isd_config_sdk.ini soundbox\standard\isd_config.ini
