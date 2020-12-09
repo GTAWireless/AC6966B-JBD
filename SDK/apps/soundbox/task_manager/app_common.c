@@ -425,6 +425,7 @@ int app_common_key_msg_deal(struct sys_event *event)
         break;
     case KEY_LED_OR_RGB_MODE_CTL:
         puts("KEY_LED_OR_RGB_MODE_CTL\n");
+        tone_play_by_path(tone_table[IDEX_TONE_DI],USER_TONE_PLAY_MODE?1:0);
         user_led_io_fun(USER_IO_LED,LED_IO_FLIP);
         if(APP_IDLE_TASK != app_get_curr_task() && APP_FM_TASK != app_get_curr_task()){
             user_rgb_mode_set(USER_RGB_AUTO_SW,NULL);
