@@ -865,9 +865,11 @@ obj\Release\apps\soundbox\app_main.o
 -r=obj\Release\apps\soundbox\app_main.o,vbat_check_init,l
 -r=obj\Release\apps\soundbox\app_main.o,ui_update_status,l
 -r=obj\Release\apps\soundbox\app_main.o,user_fun_init,l
+-r=obj\Release\apps\soundbox\app_main.o,user_power_off_class,l
 -r=obj\Release\apps\soundbox\app_main.o,app_curr_task,l
 -r=obj\Release\apps\soundbox\app_main.o,log_tag_const_i_APP,l
 -r=obj\Release\apps\soundbox\app_main.o,app_var,pl
+-r=obj\Release\apps\soundbox\app_main.o,user_power_on_to_idle_flag,l
 obj\Release\apps\soundbox\board\br25\board_ac6082_demo\board_ac6082_demo.o
 obj\Release\apps\soundbox\board\br25\board_ac6082_demo\key_table\adkey_table.o
 obj\Release\apps\soundbox\board\br25\board_ac6082_demo\key_table\iokey_table.o
@@ -1260,6 +1262,7 @@ obj\Release\apps\soundbox\common\init.o
 -r=obj\Release\apps\soundbox\common\init.o,power_set_soft_poweroff,l
 -r=obj\Release\apps\soundbox\common\init.o,__errno,plx
 -r=obj\Release\apps\soundbox\common\init.o,main,plx
+-r=obj\Release\apps\soundbox\common\init.o,user_led_io_fun,l
 -r=obj\Release\apps\soundbox\common\init.o,wdt_close,l
 -r=obj\Release\apps\soundbox\common\init.o,os_init,
 -r=obj\Release\apps\soundbox\common\init.o,setup_arch,l
@@ -1275,6 +1278,7 @@ obj\Release\apps\soundbox\common\init.o
 -r=obj\Release\apps\soundbox\common\init.o,check_power_on_voltage,l
 -r=obj\Release\apps\soundbox\common\init.o,syscfg_read,l
 -r=obj\Release\apps\soundbox\common\init.o,syscfg_write,l
+-r=obj\Release\apps\soundbox\common\init.o,user_led_io,l
 -r=obj\Release\apps\soundbox\common\init.o,app_var,l
 -r=obj\Release\apps\soundbox\common\init.o,power_reset_src,l
 -r=obj\Release\apps\soundbox\common\init.o,early_initcall_begin,
@@ -1940,15 +1944,16 @@ obj\Release\apps\soundbox\power_manage\app_power_manage.o
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,vbat_is_low_power,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,check_power_on_voltage,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,clr_wdt,l
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,timer_get_ms,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,os_time_dly,
--r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,power_set_soft_poweroff,l
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_led_io_fun,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_reset_vddiom_lev,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_key_low_power_off,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,log_tag_const_i_APP_POWER,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_low_power_off_tws_flag,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_var,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,vbat_check_lp_target,pl
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_power_on_to_idle_flag,pl
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_led_io,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,VBAT_STATUS,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,VBAT_CHECK_TIME,pl
 obj\Release\apps\soundbox\smartbox\browser\browser.o

@@ -965,6 +965,8 @@ void board_set_soft_poweroff(void)
 {
     u32 porta_value = 0xffff;
     u32 portb_value = 0xfffe;
+    
+    
 
     key_wakeup_enable();
     gpio_dir(GPIOA, 0, 16, porta_value, GPIO_OR);
@@ -979,6 +981,12 @@ void board_set_soft_poweroff(void)
     gpio_set_pd(GPIOB, 1, 15, ~portb_value, GPIO_AND);
     gpio_die(GPIOB, 1, 15, ~portb_value, GPIO_AND);
     gpio_dieh(GPIOB, 1, 15, ~portb_value, GPIO_AND);
+
+    gpio_dir(GPIOC, 0, 16, porta_value, GPIO_OR);
+    gpio_set_pu(GPIOC, 0, 16, ~porta_value, GPIO_AND);
+    gpio_set_pd(GPIOC, 0, 16, ~porta_value, GPIO_AND);
+    gpio_die(GPIOC, 0, 16, ~porta_value, GPIO_AND);
+    gpio_dieh(GPIOC, 0, 16, ~porta_value, GPIO_AND);
 
     gpio_set_pull_up(IO_PORT_DP, 0);
     gpio_set_pull_down(IO_PORT_DP, 0);

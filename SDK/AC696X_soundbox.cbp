@@ -212,7 +212,9 @@
 					<Add before="$compiler $options $includes -D__LD__ -E -P cpu\br25\sdk_used_list.c -o cpu\br25\sdk_used_list.used" />
 					<Add before="$compiler $options $includes -D__LD__ -E -P cpu\br25\sdk_ld.c -o cpu\br25\sdk.ld" />
 					<Add before="$compiler $options $includes -D__LD__ -E -P cpu\br25\tools\download.c -o cpu\br25\tools\download.bat" />
+					<Add before="$compiler $options $includes -D__LD__ -E -P cpu\br25\tools\Package.c -o cpu\br25\tools\Package.bat" />
 					<Add after="cpu\br25\tools\download.bat sdk" />
+					<Add after="cpu\br25\tools\Package.bat sdk" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
@@ -1710,10 +1712,6 @@
 		<Unit filename="include_lib/update/uart_update.h" />
 		<Unit filename="include_lib/update/update.h" />
 		<Unit filename="include_lib/update/update_loader_download.h" />
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

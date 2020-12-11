@@ -115,7 +115,13 @@ void app_main()
         app_curr_task = APP_POWERON_TASK;
     }
 
-    user_fun_init();
+    extern bool user_power_on_to_idle_flag;
+    if(!user_power_on_to_idle_flag){
+        user_fun_init();
+    }else{
+        user_power_off_class(1);
+        app_curr_task = APP_IDLE_TASK;
+    }
     
     app_task_loop();
 }

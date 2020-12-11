@@ -34992,13 +34992,13 @@
 	"board_ac6965e/user_ac6965e_cfg.h"
 	"board_ac6969d_demo/user_ac6969d_cfg.h"
 
-1607672347 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\board_ac6966b_cfg.h
+1607681663 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\board_ac6966b_cfg.h
 	"usb_std_class_def.h"
 	"app_config.h"
 
 1601359722 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\common\usb\usb_std_class_def.h
 
-1607653611 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\include\app_config.h
+1607682692 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\include\app_config.h
 	"board_config.h"
 	"usb_common_def.h"
 	"btcontroller_mode.h"
@@ -35046,7 +35046,7 @@
 
 1607672901 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_config.h
 
-1607672347 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\user_ac6966b_cfg.h
+1607677205 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\user_ac6966b_cfg.h
 
 1604460270 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6965e\user_ac6965e_cfg.h
 
@@ -35864,7 +35864,7 @@
 	"ui/style_jl01.h"
 	"ui/style_jl02.h"
 
-1607672347 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_pa.h
+1607677205 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_pa.h
 
 1605178237 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_ad.h
 
@@ -37342,7 +37342,7 @@
 1601359722 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\include_lib\media\media_develop\media\cpu\br25\commproc.h
 	"generic/typedef.h"
 
-1606219806 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\app_main.c
+1607682614 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\app_main.c
 	"system/includes.h"
 	"app_config.h"
 	"asm/pwm_led.h"
@@ -37515,7 +37515,7 @@
 	"app_config.h"
 	"app_task.h"
 
-1607672347 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\board_ac6966b.c
+1607678469 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\board_ac6966b.c
 	"gpio.h"
 	"app_config.h"
 	"system/includes.h"
@@ -37978,7 +37978,7 @@
 1606219251 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_dev_check.c
 	"user_fun_cfg.h"
 
-1607673025 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_fun.c
+1607681493 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_fun.c
 	"user_fun_cfg.h"
 
 1606357729 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_led.c
@@ -37990,7 +37990,7 @@
 1607673041 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_pa.c
 	"user_fun_cfg.h"
 
-1607672347 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb.c
+1607677205 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb.c
 	"user_fun_cfg.h"
 
 1606785797 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb_dev.c
@@ -38055,7 +38055,7 @@
 	"typedef.h"
 	"JL_rcsp_protocol.h"
 
-1606357800 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\common\init.c
+1607680597 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\common\init.c
 	"app_config.h"
 	"system/includes.h"
 	"asm/charge.h"
@@ -38179,7 +38179,7 @@
 1601359722 d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\include\task_manager\bt\bt_ble.h
 	"typedef.h"
 
-1607673128 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\power_manage\app_power_manage.c
+1607682465 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\power_manage\app_power_manage.c
 	"system/includes.h"
 	"app_power_manage.h"
 	"app_main.h"
@@ -38914,7 +38914,7 @@
 	"btstack/avctp_user.h"
 	"pitchshifter/pitchshifter_api.h"
 
-1607673209 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\app_common.c
+1607677205 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\app_common.c
 	"common/app_common.h"
 	"app_task.h"
 	"app_main.h"
@@ -39370,7 +39370,7 @@
 	"usb/host/usb_host.h"
 	"asm/power/p33.h"
 
-1607672347 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\linein\linein.c
+1607677205 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\linein\linein.c
 	"system/app_core.h"
 	"system/includes.h"
 	"server/server_core.h"
@@ -39955,7 +39955,7 @@
 	"asm/power_interface.h"
 	"jiffies.h"
 
-1607672347 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\cpu\br25\audio_common\app_audio.c
+1607677205 source:d:\sq\1211\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\cpu\br25\audio_common\app_audio.c
 	"system/includes.h"
 	"media/includes.h"
 	"app_config.h"

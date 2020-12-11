@@ -683,7 +683,7 @@ REGISTER_LP_TARGET(vbat_check_lp_target) = {
     .is_idle = vbat_check_idle_query,
 };
 
-
+bool user_power_on_to_idle_flag = 0;
 void check_power_on_voltage(void)
 {
 #if(TCFG_SYS_LVD_EN == 1)
@@ -695,30 +695,36 @@ void check_power_on_voltage(void)
     while (1) {
         clr_wdt();
         val = get_vbat_level();
-        if(timer_get_ms()<300){
-            printf("%d\n",val);
-            continue;
-        }
         printf("vbat: %d tone v:%d\n", val,app_var.poweroff_tone_v);
         if ((val < LOW_POWER_ON_VAL/*app_var.poweroff_tone_v*/) || adc_check_vbat_lowpower()) {
             low_power_cnt++;
             normal_power_cnt = 0;
             if (low_power_cnt > 10) {
                 ui_update_status(STATUS_POWERON_LOWPOWER);
+                
                 os_time_dly(100);
-                log_info("power on low power , enter softpoweroff!\n");
+                #if (defined(USER_LOW_POWER_OFF_SOFTR_EN) && !USER_LOW_POWER_OFF_SOFTR_EN)
+                // user_power_off();
+                user_led_io_fun(USER_IO_LED,LED_POWER_OFF);
+                user_power_on_to_idle_flag = 1;               
+                return;
+                #endif
+                r_printf("power on low power , enter softpoweroff!\n");
                 power_set_soft_poweroff();
+                // r_printf("power on low power , enter 00softpoweroff!\n");
             }
         } else {
             normal_power_cnt++;
             low_power_cnt = 0;
             if (normal_power_cnt > 10) {
                 vbat_check_init();
+                user_led_io_fun(USER_IO_LED,LED_POWER_ON);
                 return;
             }
         }
     }
 #endif
+
 }
 
 

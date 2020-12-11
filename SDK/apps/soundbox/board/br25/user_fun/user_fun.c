@@ -1031,8 +1031,8 @@ void user_fun_init(void){
     user_4ad_check_init(user_4ad_fun_features);
     user_sys_vol_ad_check_init(user_sys_vol_callback_fun);
 
-    user_led_io_fun(USER_IO_LED,LED_IO_INIT);
-    user_led_io_fun(USER_IO_LED,LED_POWER_ON);
+    // user_led_io_fun(USER_IO_LED,LED_IO_INIT);
+    // user_led_io_fun(USER_IO_LED,LED_POWER_ON);
 
     // #if (USER_IC_MODE == USER_IC_6966B)
     // ex_dev_detect_init(& user_mic_check);

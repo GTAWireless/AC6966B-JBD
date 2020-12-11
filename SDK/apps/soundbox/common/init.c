@@ -181,6 +181,7 @@ __attribute__((used)) int *__errno()
 
 int main()
 {
+    user_led_io_fun(USER_IO_LED,LED_IO_INIT);
     wdt_close();
 
     os_init();
