@@ -359,6 +359,9 @@ static void  linein_api_tone_play_end_callback(void *priv, int flag)
     }
 
     switch (index) {
+    case IDEX_TONE_LOW_POWER:
+    linein_start();
+    app_audio_state_switch(APP_AUDIO_STATE_MUSIC, get_max_sys_vol());
     case IDEX_TONE_MAX_VOL:
         ///提示音播放结束
         puts(">>>>>>> linein tone play end linein statr\n");
@@ -407,8 +410,35 @@ void linein_key_vol_up()
     log_info("vol+:%d\n", __this->volume);
 }
 
+//linein mode set vol
+bool user_linein_set_vol(u8 vol){
+    u8 tp_vol= vol;
+    if(APP_LINEIN_TASK != app_get_curr_task()){
+        return false;
+    }
 
+    if(get_max_sys_vol()<tp_vol){
+        tp_vol = get_max_sys_vol();
+    }
 
+    if(__this){
+        linein_volume_set(tp_vol);        
+    }
+    
+    return true;
+}
+
+bool user_lienin_play_low_power_tone(void){
+    if(APP_LINEIN_TASK != app_get_curr_task()){
+        return false;
+    }
+    
+    linein_stop();
+    extern void  linein_api_tone_play_end_callback(void *priv, int flag);
+    tone_play_with_callback_by_name(tone_table[IDEX_TONE_MAX_VOL],USER_TONE_PLAY_MODE?1:0,linein_api_tone_play_end_callback,(void *)IDEX_TONE_LOW_POWER);
+
+    return true;
+}
 /*
    @note    在linein 情况下针对了某些情景进行了处理，设置音量需要使用独立接口
 */

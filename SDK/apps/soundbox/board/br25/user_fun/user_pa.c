@@ -70,6 +70,10 @@ void user_pa_ex_linein(u8 cmd){
     }
 }
 
+bool user_get_pa_lienin_mute(void){
+    return pa_in_fun.pa_io->pa_linein_mute;
+}
+
 bool user_pa_ex_manual(u8 cmd){
     if(0xff == cmd){
     }else if(0xaa == cmd){
@@ -515,12 +519,12 @@ int user_pa_check_class_mode(void *pa){
     }
 
     user_attr_gpio_set(pa_info->port_mute,USER_GPIO_HI,0);
-    user_attr_gpio_set(pa_info->port_abd,USER_GPIO_IN_IO,1);
+    user_attr_gpio_set(pa_info->port_abd,USER_GPIO_IN_IO,60);
 
     //单双io类型检测
     if(gpio_read(pa_info->port_abd)){
         tp_pa_pin_mode = 2;//双线 
-        user_attr_gpio_set(pa_info->port_mute,USER_GPIO_IN_IO_PU,1);
+        user_attr_gpio_set(pa_info->port_mute,USER_GPIO_IN_IO_PU,60);
     }else{
         tp_pa_pin_mode = 1;//单线
     }
@@ -528,7 +532,7 @@ int user_pa_check_class_mode(void *pa){
 
     //功放 mute abd控制方式检测
     if(2 == tp_pa_pin_mode){//双线        
-        user_attr_gpio_set(pa_info->port_mute,USER_GPIO_IN_IO_PU,1);
+        user_attr_gpio_set(pa_info->port_mute,USER_GPIO_IN_IO_PU,60);
         //mute pin悬空会出现检测不准
         if(gpio_read(pa_info->port_mute)){
             pa_ctrl->pa_mode = USER_PA_MODE_1;
@@ -536,7 +540,7 @@ int user_pa_check_class_mode(void *pa){
             pa_ctrl->pa_mode = USER_PA_MODE_0;
         }
     }else{//单线
-        user_attr_gpio_set(pa_info->port_mute,USER_GPIO_OUT_H,1);
+        user_attr_gpio_set(pa_info->port_mute,USER_GPIO_OUT_H,60);
         if(gpio_read(pa_info->port_abd)){
             pa_ctrl->pa_mode = USER_PA_MODE_2;//电压控制
             r_printf(">>>>>>>>>>  USER_PA_MODE_2\n");

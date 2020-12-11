@@ -67,7 +67,7 @@
 #define USER_WAKEUP_EN          1//wakeup_param 软关机是否是能唤醒
 
 #define USER_LOWER_POWER_TONE_MURMUR_EN     1//Murmur音乐音量小提示音音量大 播放提示音有杂音
-
+#define USER_LOW_POWER_OFF_TWS_SYNC_EN      (0)//对箱同步低电关机使能
 #if ((EQ_SECTION_MAX<=USER_EQ_BASS_INDEX || EQ_SECTION_MAX<=USER_EQ_TERBLE_INDEX))
 #error "高低音超出总eq段"
 #endif

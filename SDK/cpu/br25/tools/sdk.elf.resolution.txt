@@ -1085,6 +1085,7 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,led7_show_icon,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,led7_clear_icon,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_set_and_sync_sys_vol,pl
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_linein_set_vol,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,app_audio_set_volume,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,tws_api_get_tws_state,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_get_tws_state,l
@@ -1135,12 +1136,9 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,sys_timeout_del,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,sys_timeout_add,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_fun_spi_pb6_mult,pl
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,gpio_set_die,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,gpio_set_direction,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,gpio_set_pull_down,l
--r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,gpio_set_pull_up,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_vbat_check_init,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,adc_add_sample_ch,l
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,adc_set_sample_freq,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_fun_get_vbat,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,adc_get_value,l
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_fun.o,user_fm_vol_set,pl
@@ -1193,6 +1191,7 @@ obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_automute,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_mic,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_linein,pl
+-r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_get_pa_lienin_mute,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_manual,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_pa_ex_uptata,pl
 -r=obj\Release\apps\soundbox\board\br25\user_fun\user_pa.o,user_print_timer,pl
@@ -1308,6 +1307,7 @@ obj\Release\apps\soundbox\common\user_cfg.o
 -r=obj\Release\apps\soundbox\common\user_cfg.o,printf_buf,l
 -r=obj\Release\apps\soundbox\common\user_cfg.o,bt_max_pwr_set,l
 -r=obj\Release\apps\soundbox\common\user_cfg.o,aec_cfg_fill,l
+-r=obj\Release\apps\soundbox\common\user_cfg.o,user_key_set_sys_vol_flag,l
 -r=obj\Release\apps\soundbox\common\user_cfg.o,printf,l
 -r=obj\Release\apps\soundbox\common\user_cfg.o,get_random_number,l
 -r=obj\Release\apps\soundbox\common\user_cfg.o,syscfg_write,l
@@ -1940,11 +1940,13 @@ obj\Release\apps\soundbox\power_manage\app_power_manage.o
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,vbat_is_low_power,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,check_power_on_voltage,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,clr_wdt,l
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,timer_get_ms,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,os_time_dly,
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,power_set_soft_poweroff,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_reset_vddiom_lev,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_key_low_power_off,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,log_tag_const_i_APP_POWER,l
+-r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,user_low_power_off_tws_flag,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,app_var,l
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,vbat_check_lp_target,pl
 -r=obj\Release\apps\soundbox\power_manage\app_power_manage.o,VBAT_STATUS,pl
@@ -2059,8 +2061,8 @@ obj\Release\apps\soundbox\task_manager\app_common.o
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,app_audio_get_volume,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,app_audio_get_max_volume,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,tone_play_by_path,l
--r=obj\Release\apps\soundbox\task_manager\app_common.o,app_audio_volume_up,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,ui_set_tmp_menu,l
+-r=obj\Release\apps\soundbox\task_manager\app_common.o,app_audio_volume_up,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,app_audio_volume_down,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_rgb_mode_set,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_eq_mode_sw,l
@@ -2082,6 +2084,7 @@ obj\Release\apps\soundbox\task_manager\app_common.o
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,app_power_user_event_handler,pl
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,user_dow_sys_vol_10,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,ui_update_status,l
+-r=obj\Release\apps\soundbox\task_manager\app_common.o,user_lienin_play_low_power_tone,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,audio_dac_vol_mute,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,app_power_event_handler,l
 -r=obj\Release\apps\soundbox\task_manager\app_common.o,app_default_event_deal,pl
@@ -2884,9 +2887,12 @@ obj\Release\apps\soundbox\task_manager\linein\linein_api.o
 -r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,get_max_sys_vol,l
 -r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,tone_play_with_callback_by_name,l
 -r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,ui_set_tmp_menu,l
+-r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,user_linein_set_vol,pl
+-r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,app_get_curr_task,l
+-r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,user_lienin_play_low_power_tone,pl
 -r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,linein_key_vol_down,pl
 -r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,audio_linein_via_dac_open,l
--r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,app_get_curr_task,l
+-r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,app_audio_state_switch,l
 -r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,puts,l
 -r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,sys_timeout_del,l
 -r=obj\Release\apps\soundbox\task_manager\linein\linein_api.o,log_tag_const_i_APP_LINEIN,l

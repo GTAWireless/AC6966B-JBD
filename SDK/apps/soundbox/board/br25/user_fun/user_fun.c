@@ -104,7 +104,7 @@ __attribute__((weak)) void user_attr_gpio_set(u32 gpio,u8 cmd,int delay_cnt){
     }
 
     if(delay_cnt){
-        delay(60);
+        delay(delay_cnt);
     }
 }
 void user_message_filtering(int key_event){   
@@ -160,7 +160,6 @@ void user_led7_flash_lowpower(void){
         led7_show_icon(LED7_CHARGE);
     }else if(0 == ret){
         led7_clear_icon(LED7_CHARGE);
-        // led7_clear_all_icon();
     }else if(0x55 == ret){
         led7_clear_icon(LED7_CHARGE);
         led7_clear_all_icon();
@@ -169,7 +168,12 @@ void user_led7_flash_lowpower(void){
 
 //设置本地music音量 并同步到对箱
 void user_set_and_sync_sys_vol(u8 vol){
-    app_audio_set_volume(APP_AUDIO_STATE_MUSIC, vol, 1);
+    
+    extern bool user_linein_set_vol(u8 vol);
+    if(user_linein_set_vol(vol)/*linein*/ == false){
+        //其他模式
+        app_audio_set_volume(APP_AUDIO_STATE_MUSIC, vol, 1);
+    }    
     user_key_set_sys_vol_flag(2);
     if(tws_api_get_tws_state() & TWS_STA_SIBLING_CONNECTED){
         extern int user_get_tws_state(void);
@@ -702,7 +706,7 @@ void user_4ad_fun_features(u32 *vol){
     if(!(DIFFERENCE(vol[USER_REVER_BOL_BIT],512)<50))
         user_mic_ad_2_reverb(0,vol[USER_REVER_BOL_BIT]);
 }
-// cmd 0:ad 1:ir key 2：低电 3:对箱同步
+// cmd 0:ad 1:ir key 2：低电 3:对箱同步 4:开机记忆音量
 u8 user_key_set_sys_vol_flag(u8 cmd){
     static u8 user_ir_key_set_sys_bol_flag = 0;
 #if (defined(USER_SYS_VOL_CHECK_EN) && USER_SYS_VOL_CHECK_EN)  
@@ -726,10 +730,10 @@ void user_daley_set_sys_vol(void *priv){
 
     s8 get_vol = app_audio_get_volume(APP_AUDIO_STATE_MUSIC);
     s8 set_sys_vol = 0;
-
+    #define USER_SET_SYS_VOL_STEP_VALUE 3//Step value
     if(vol != get_vol){
-        if(DIFFERENCE(vol,get_vol)>4){
-            set_sys_vol = vol>get_vol?get_vol+4:get_vol-4;
+        if(DIFFERENCE(vol,get_vol)>USER_SET_SYS_VOL_STEP_VALUE){
+            set_sys_vol = vol>get_vol?get_vol+USER_SET_SYS_VOL_STEP_VALUE:get_vol-USER_SET_SYS_VOL_STEP_VALUE;
         }else{
             set_sys_vol = vol;
         }
@@ -738,7 +742,7 @@ void user_daley_set_sys_vol(void *priv){
         if(APP_LINEIN_TASK == app_get_curr_task()){
             linein_volume_set(set_sys_vol);
         }else{
-            app_audio_set_volume(APP_AUDIO_STATE_MUSIC, vol, 1);
+            app_audio_set_volume(APP_AUDIO_STATE_MUSIC, set_sys_vol, 1);
         }
     
         UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
@@ -763,7 +767,7 @@ void user_sys_vol_callback_fun(u32 *vol){
     static u32 dif_ad_old = 0;
     u32 cur_vol_ad = 0;//当前系统音量转换成ad值
     u32 cur_ad_vol = 0;//当前ad值转换成系统音量
-    u32 level_ad = (USER_SYS_VOL_AD_MAX-USER_SYS_VOL_AD_MIN)/app_audio_get_max_volume();
+    u32 level_ad = (USER_SYS_VOL_AD_MAX-USER_SYS_VOL_AD_MIN)/get_max_sys_vol();
     u32 cur_ad = vol[0];
     u32 cur_vol = 0;
     bool sys_vol_update_flag = 0;
@@ -777,32 +781,38 @@ void user_sys_vol_callback_fun(u32 *vol){
     cur_ad = cur_ad<USER_SYS_VOL_AD_MIN?0:cur_ad;
 
     //按键调音量之后 如果ad比上一次ad变化不大不设置 系统音量
-    if(user_key_set_sys_vol_flag(0xff) && (DIFFERENCE(cur_ad,dif_ad_old)<(level_ad*2))){
+    static u8 set_sys_vol_flag = 0;
+    if(user_key_set_sys_vol_flag(0xff) != set_sys_vol_flag){
+        set_sys_vol_flag = user_key_set_sys_vol_flag(0xff);
         dif_ad_old = cur_ad;
+    }
+
+    if(set_sys_vol_flag && (DIFFERENCE(cur_ad,dif_ad_old)<(level_ad*2))){
+        //dif_ad_old = cur_ad;
         return;
     }else{
         user_key_set_sys_vol_flag(0);
     }
 
     //当前系统音量转换成ad值
-    cur_vol_ad = 10*(USER_SYS_VOL_AD_MAX-USER_SYS_VOL_AD_MIN)*app_audio_get_volume(APP_AUDIO_STATE_MUSIC)/app_audio_get_max_volume();
+    cur_vol_ad = 10*(USER_SYS_VOL_AD_MAX-USER_SYS_VOL_AD_MIN)*app_audio_get_volume(APP_AUDIO_STATE_MUSIC)/get_max_sys_vol();
     cur_vol_ad = cur_vol_ad/10+(cur_vol_ad%10>5?1:0);
 
     //当前ad值转换成系统音量
-    cur_ad_vol = (cur_ad * app_audio_get_max_volume()*10 / (USER_SYS_VOL_AD_MAX-USER_SYS_VOL_AD_MIN));
+    cur_ad_vol = (cur_ad * get_max_sys_vol()*10 / (USER_SYS_VOL_AD_MAX-USER_SYS_VOL_AD_MIN));
     cur_ad_vol = cur_ad_vol/10+(cur_ad_vol%10>5?1:0);
-    cur_ad_vol = cur_ad_vol>app_audio_get_max_volume()?app_audio_get_max_volume():cur_ad_vol;
+    cur_ad_vol = cur_ad_vol>get_max_sys_vol()?get_max_sys_vol():cur_ad_vol;
 
     if(DIFFERENCE(cur_ad,cur_vol_ad)>=level_ad/*2*level_ad/3*/){
         sys_vol_update_flag = 1;
-    }else if((cur_vol_ad!=app_audio_get_max_volume() && cur_ad_vol == app_audio_get_max_volume())){
+    }else if((cur_vol_ad!=get_max_sys_vol() && cur_ad_vol == get_max_sys_vol())){
         sys_vol_update_flag = 1;
-    }else if(!cur_ad_vol && app_audio_get_max_volume()){
+    }else if(!cur_ad_vol && get_max_sys_vol()){
         sys_vol_update_flag = 1;
     }else if(DIFFERENCE(cur_ad,dif_ad_old)>60){
         sys_vol_update_flag = 1;
     }
-
+// app_audio_state_switch(APP_AUDIO_STATE_MUSIC, get_max_sys_vol());
     if(sys_vol_update_flag){
         if(app_audio_get_volume(APP_AUDIO_STATE_MUSIC) != cur_ad_vol){
             u32 volume = cur_ad_vol;
@@ -890,10 +900,7 @@ void user_music_set_file_number(int number){
 //spi pb6 clk 引脚复用设置
 void user_fun_spi_pb6_mult(void){
     #if (defined(USER_VBAT_CHECK_EN) && USER_VBAT_CHECK_EN)
-    gpio_set_die(user_power_io.pro, 0);
-    gpio_set_direction(user_power_io.pro, 1);
-    gpio_set_pull_down(user_power_io.pro, 0);
-    gpio_set_pull_up(user_power_io.pro, 0);
+    user_attr_gpio_set(user_power_io.pro,USER_GPIO_IN_AD,35);
     #endif
 }
 
@@ -901,6 +908,8 @@ void user_vbat_check_init(void){
     #if (defined(USER_VBAT_CHECK_EN) && USER_VBAT_CHECK_EN)
     user_fun_spi_pb6_mult();
     adc_add_sample_ch(user_power_io.ch);          //注意：初始化AD_KEY之前，先初始化ADC
+    
+    adc_set_sample_freq(user_power_io.ch,5);
     // if(timer_get_ms()>3000){
     //     adc_set_sample_freq(user_power_io.ch,10);
     // }
@@ -912,14 +921,25 @@ u16 user_fun_get_vbat(void){
     static u16 tp = 0;
     #if (defined(USER_VBAT_CHECK_EN) && USER_VBAT_CHECK_EN)
     u32 vddio_m = 0;
-    u32 tp_ad = adc_get_value(user_power_io.ch);
+    u32 tp_ad = 0;//adc_get_value(user_power_io.ch);
+    tp_ad = adc_get_value(user_power_io.ch);
 
-    vddio_m  = 220+(TCFG_LOWPOWER_VDDIOM_LEVEL-VDDIOM_VOL_22V)*20;
+    // //立即获取dac值
+    // extern void adc_enter_occupy_mode(u32 ch);
+    // extern u32 adc_occupy_run();
+    // extern void adc_exit_occupy_mode();
+    // adc_enter_occupy_mode(user_power_io.ch);
+    // tp_ad = user_power_io.vol = adc_occupy_run();
+    // adc_exit_occupy_mode();
 
-    // printf("user vbat >>>> ad:%d vbat:%dV\n",tp_ad,(vddio_m*2*tp_ad)/0x3ffL);
-    user_power_io.vol = (vddio_m*2*tp_ad)/0x3ffL;
+
+    vddio_m  = 220+(TCFG_LOWPOWER_VDDIOM_LEVEL)*20;
+
+    user_power_io.vol = (vddio_m*2*tp_ad*10)/0x3ffL;
+    user_power_io.vol = (user_power_io.vol+5)/10;
+    user_power_io.vol-=6;//修正
+    // printf("user vbat >>>> ad:%d %d vbat:%dV\n",tp_ad,tp_ad*20*vddio_m/0x3ffL,user_power_io.vol);
     tp = user_power_io.vol;
-
     #endif
     return tp;
 }

@@ -188,6 +188,7 @@ static void  max_tone_play_end_callback(void *priv, int flag)
     }
 }
 
+extern bool user_lienin_play_low_power_tone(void);
 int app_common_key_msg_deal(struct sys_event *event)
 {
     int ret = false;
@@ -321,6 +322,7 @@ int app_common_key_msg_deal(struct sys_event *event)
                 //     music_player_stop(0);
                 // }
                 tone_play_by_path(tone_table[IDEX_TONE_MAX_VOL], USER_TONE_PLAY_MODE?1:0);
+                UI_SHOW_MENU(MENU_MAIN_VOL, 1000, app_audio_get_volume(APP_AUDIO_STATE_MUSIC), NULL);
                 break;
                 // tone_play_with_callback_by_name(TONE_MAX_VOL,USER_TONE_PLAY_MODE?1:0,max_tone_play_end_callback,(void *)IDEX_TONE_MAX_VOL);
 #endif
@@ -597,6 +599,12 @@ int app_power_user_event_handler(struct device_event *dev)
         // user_down_sys_vol_cnt(10);
         // user_dow_sys_vol_10();
         // delay2ms(50);    
+
+        //is linein mode
+        if(true == user_lienin_play_low_power_tone()){
+            break;
+        }
+
         #if (defined(USER_LOWER_POWER_TONE_MURMUR_EN) && USER_LOWER_POWER_TONE_MURMUR_EN) 
         extern int audio_dac_vol_mute(u8 mute, u8 fade);            
         audio_dac_vol_mute(1,1);

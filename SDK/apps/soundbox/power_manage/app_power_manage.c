@@ -155,6 +155,11 @@ static void  power_off_tone_play_end_callback(void *priv, int flag)
     }
 }
 
+//对箱低电是否同步关机
+#if (defined(USER_LOW_POWER_OFF_TWS_SYNC_EN) && !USER_LOW_POWER_OFF_TWS_SYNC_EN)
+bool user_low_power_off_tws_flag = 0;
+#endif
+
 int app_power_event_handler(struct device_event *dev)
 {
     int ret = false;
@@ -176,6 +181,11 @@ int app_power_event_handler(struct device_event *dev)
         // break;
     case POWER_EVENT_POWER_LOW:
         r_printf(" POWER_EVENT_POWER_LOW");
+        #if (defined(USER_LOW_POWER_OFF_TWS_SYNC_EN) && !USER_LOW_POWER_OFF_TWS_SYNC_EN)
+        if(!user_low_power_off_tws_flag){
+            break;
+        }
+        #endif
         //低电关机需要关闭sdgp引脚供电设备
         user_power_off_class(1);
 
@@ -469,29 +479,45 @@ void vbat_check(void *priv)
 
     unit_cnt++;
 
-    if(bat_val <= 360){
-        low_dow_sys_vol_cnt++;
+    static u8 high_priority_power_off =0;
+    //高优先级关机
+    if(bat_val < LOW_POWER_SHUTDOWN || adc_check_vbat_lowpower()) { 
+        high_priority_power_off++;
     }else{
-        low_dow_sys_vol_cnt = 0;
-        tp_low_war_cnt = 0;
-        low_warn_cnt = 0;
-        low_off_cnt = 0;
-        user_low_power_show(0);
+        high_priority_power_off = 0;
     }
 
-    /* if (bat_val < LOW_POWER_OFF_VAL) { */
-    if ((bat_val <= app_var.poweroff_tone_v) || adc_check_vbat_lowpower()) {
+    //低电关机
+    if (bat_val < LOW_POWER_OFF_VAL || adc_check_vbat_lowpower()) { 
+    // if ((bat_val <= app_var.poweroff_tone_v) || adc_check_vbat_lowpower()) {
         low_off_cnt++;
+    }else{        
+        low_off_cnt = 0;
     }
-    /* if (bat_val < LOW_POWER_WARN_VAL) { */
-    if (bat_val <= app_var.warning_tone_v) {
+
+    //低电提醒
+    if (bat_val < LOW_POWER_WARN_VAL) {
+    // if (bat_val <= app_var.warning_tone_v) {
         low_warn_cnt++;
     }else{
         // puts(">>>>> max power vol\n");
-        tp_low_war_cnt = 0;
+        tp_low_war_cnt = 0;//5次降音量关机标志
         low_warn_cnt = 0;
-        low_off_cnt = 0;
   
+    }
+
+    //低电降音量
+    if(bat_val <= LOW_POWER_WOW_VOL_VAL){
+        low_dow_sys_vol_cnt++;
+    }else{
+        low_dow_sys_vol_cnt = 0;
+        user_low_power_show(0);
+    }
+
+    //设置触发直接关机条件
+    if(high_priority_power_off>=10){
+        low_off_cnt = detect_cnt;
+        low_power_cnt = 6;
     }
 #if TCFG_CHARGE_ENABLE
     if (bat_val >= CHARGE_CCVOL_V) {
@@ -513,7 +539,8 @@ void vbat_check(void *priv)
                 low_voice_cnt = 0;
                 power_normal_cnt = 0;
                 cur_bat_st = VBAT_LOWPOWER;
-                if (low_power_cnt > 6) {
+                r_printf("low_power_cnt %d",low_power_cnt);
+                if (low_power_cnt > 1) {
                     log_info("\n*******Low Power,enter softpoweroff******%d**\n",low_power_cnt);
                     low_power_cnt = 0;
                     if(vbat_timer){
@@ -526,6 +553,9 @@ void vbat_check(void *priv)
                         lowpower_timer = 0 ;
                     }
                     user_down_sys_vol_cnt(10);
+                    #if (defined(USER_LOW_POWER_OFF_TWS_SYNC_EN) && !USER_LOW_POWER_OFF_TWS_SYNC_EN)
+                    user_low_power_off_tws_flag = 1;
+                    #endif
                     power_event_to_user(POWER_EVENT_POWER_LOW);
                 }
             } else if (low_warn_cnt > (detect_cnt / 2)) { //低电提醒
@@ -558,6 +588,9 @@ void vbat_check(void *priv)
                         tp_low_war_cnt = 0;
                         printf(">>>>>>>>> power off low\n");
                         user_down_sys_vol_cnt(10);
+                        #if (defined(USER_LOW_POWER_OFF_TWS_SYNC_EN) && !USER_LOW_POWER_OFF_TWS_SYNC_EN)
+                        user_low_power_off_tws_flag = 1;
+                        #endif
                         power_event_to_user(POWER_EVENT_POWER_LOW);
                         if(vbat_timer){
                             sys_timer_del(vbat_timer);
@@ -662,8 +695,12 @@ void check_power_on_voltage(void)
     while (1) {
         clr_wdt();
         val = get_vbat_level();
-        printf("vbat: %d\n", val);
-        if ((val < app_var.poweroff_tone_v) || adc_check_vbat_lowpower()) {
+        if(timer_get_ms()<300){
+            printf("%d\n",val);
+            continue;
+        }
+        printf("vbat: %d tone v:%d\n", val,app_var.poweroff_tone_v);
+        if ((val < LOW_POWER_ON_VAL/*app_var.poweroff_tone_v*/) || adc_check_vbat_lowpower()) {
             low_power_cnt++;
             normal_power_cnt = 0;
             if (low_power_cnt > 10) {

@@ -11,6 +11,7 @@
 #include "asm/pwm_led.h"
 #include "aec_user.h"
 #include "app_power_manage.h"
+#include "user_fun_cfg.h"
 
 
 #define LOG_TAG_CONST       USER_CFG
@@ -309,6 +310,8 @@ void cfg_file_parse(u8 idx)
         ret = syscfg_read(CFG_MUSIC_VOL, &music_volume, 1);
         if (ret < 0) {
             music_volume = -1;
+        }else{
+            user_key_set_sys_vol_flag(4);
         }
 #endif
         if (default_volume > audio_cfg.max_sys_vol) {
@@ -380,7 +383,7 @@ void cfg_file_parse(u8 idx)
     log_info("warning_tone_v:%d poweroff_tone_v:%d\n", app_var.warning_tone_v, app_var.poweroff_tone_v);
 #else
     app_var.warning_tone_v = LOW_POWER_WARN_VAL;
-    app_var.poweroff_tone_v = LOW_POWER_OFF_VAL;
+    app_var.poweroff_tone_v = LOW_POWER_ON_VAL;
     log_info("warning_tone_v:%d poweroff_tone_v:%d\n", app_var.warning_tone_v, app_var.poweroff_tone_v);
 #endif
 
