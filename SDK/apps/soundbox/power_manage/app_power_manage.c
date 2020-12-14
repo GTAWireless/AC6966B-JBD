@@ -703,14 +703,18 @@ void check_power_on_voltage(void)
                 ui_update_status(STATUS_POWERON_LOWPOWER);
                 
                 os_time_dly(100);
+                r_printf("power on low power , enter softpoweroff!\n");
                 #if (defined(USER_LOW_POWER_OFF_SOFTR_EN) && !USER_LOW_POWER_OFF_SOFTR_EN)
                 // user_power_off();
                 user_led_io_fun(USER_IO_LED,LED_POWER_OFF);
                 user_power_on_to_idle_flag = 1;               
                 return;
-                #endif
-                r_printf("power on low power , enter softpoweroff!\n");
+                #else
+                // user_attr_gpio_set(USER_IO_LED,USER_GPIO_OUT_L,60);
+                user_led_io_fun(USER_IO_LED,LED_POWER_OFF);
                 power_set_soft_poweroff();
+                #endif
+                for(;;);
                 // r_printf("power on low power , enter 00softpoweroff!\n");
             }
         } else {

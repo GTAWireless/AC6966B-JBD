@@ -941,7 +941,7 @@ u16 user_fun_get_vbat(void){
     // printf("user vbat >>>> ad:%d %d vbat:%dV\n",tp_ad,tp_ad*20*vddio_m/0x3ffL,user_power_io.vol);
     tp = user_power_io.vol;
     #ifdef CONFIG_DEBUG_ENABLE
-    return 380;
+    // return 380;
     #endif
     #endif
     return tp;

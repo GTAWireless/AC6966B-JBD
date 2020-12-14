@@ -2016,111 +2016,111 @@ END GROUP
  .text          0x01e00120       0x7e include_lib/liba/br25/cpu.a(startup.o)
                 0x01e00120                _start
  *(.text*)
- .text          0x01e0019e    0x1accc cpu\br25\tools\sdk.elf.o
+ .text          0x01e0019e    0x1acc6 cpu\br25\tools\sdk.elf.o
                 0x01e01e10                update_result_get
                 0x01e0501c                __errno
                 0x01e05052                main
-                0x01e11a88                app_bank_init
-                0x01e121de                exception_analyze
- .text          0x01e1ae6a        0x0 include_lib/liba/br25/cpu.a(fm_dem.o)
- .text          0x01e1ae6a        0x0 include_lib/liba/br25/system.a(port_asm_mmu.o)
- .text          0x01e1ae6a       0xa2 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_round.o)
-                0x01e1ae6a                round
- .text          0x01e1af0c       0xce C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-w_exp.o)
-                0x01e1af0c                exp
- .text          0x01e1afda       0xc2 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-w_log.o)
-                0x01e1afda                log
- .text          0x01e1b09c      0x28e C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-w_pow.o)
-                0x01e1b09c                pow
- .text          0x01e1b32a      0x280 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-e_exp.o)
-                0x01e1b32a                __ieee754_exp
- .text          0x01e1b5aa      0x31a C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-e_log.o)
-                0x01e1b5aa                __ieee754_log
- .text          0x01e1b8c4      0x84a C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-e_pow.o)
-                0x01e1b8c4                __ieee754_pow
- .text          0x01e1c10e      0x14a C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-e_sqrt.o)
-                0x01e1c10e                __ieee754_sqrt
- .text          0x01e1c258        0x4 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_fabs.o)
-                0x01e1c258                fabs
- .text          0x01e1c25c       0x10 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_finite.o)
-                0x01e1c25c                finite
- .text          0x01e1c26c       0x62 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_fpclassify.o)
-                0x01e1c26c                __fpclassifyd
- .text          0x01e1c2ce        0x0 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_lib_ver.o)
- .text          0x01e1c2ce        0x4 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_matherr.o)
-                0x01e1c2ce                matherr
- .text          0x01e1c2d2        0xa C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_nan.o)
-                0x01e1c2d2                nan
- .text          0x01e1c2dc      0x120 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_rint.o)
-                0x01e1c2dc                rint
- .text          0x01e1c3fc       0xe2 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_scalbn.o)
-                0x01e1c3fc                scalbn
- .text          0x01e1c4de       0x20 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_copysign.o)
-                0x01e1c4de                copysign
- .text          0x01e1c4fe        0x0 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-ctype_.o)
- .text          0x01e1c4fe       0x38 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-memcmp.o)
- .text          0x01e1c536       0xc2 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-memcpy.o)
- .text          0x01e1c5f8       0x28 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-memmem.o)
- .text          0x01e1c620       0x2c C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-memset.o)
- .text          0x01e1c64c       0x18 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strcat.o)
-                0x01e1c64c                strcat
- .text          0x01e1c664       0x14 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strchr.o)
- .text          0x01e1c678       0xa0 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strcmp.o)
- .text          0x01e1c718       0x6e C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strcpy.o)
- .text          0x01e1c786        0xc C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strlen.o)
- .text          0x01e1c792       0x20 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strncmp.o)
- .text          0x01e1c7b2       0x26 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strncpy.o)
-                0x01e1c7b2                strncpy
- .text          0x01e1c7d8       0x24 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strrchr.o)
-                0x01e1c7d8                strrchr
- .text          0x01e1c7fc       0x2a C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strstr.o)
- .text          0x01e1c826       0x10 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strtok.o)
-                0x01e1c826                strtok
- .text          0x01e1c836       0x54 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strtok_r.o)
-                0x01e1c836                __strtok_r
-                0x01e1c886                strtok_r
- .text          0x01e1c88a        0x0 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-impure.o)
- .text          0x01e1c88a      0x314 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(adddf3.o)
-                0x01e1c8ca                __adddf3
- .text          0x01e1cb9e      0x1a0 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(comparedf2.o)
-                0x01e1cb9e                __ledf2
-                0x01e1cb9e                __cmpdf2
-                0x01e1cc4e                __gedf2
-                0x01e1ccf6                __unorddf2
-                0x01e1cd36                __eqdf2
-                0x01e1cd38                __ltdf2
-                0x01e1cd3a                __nedf2
-                0x01e1cd3c                __gtdf2
- .text          0x01e1cd3e      0x346 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(divdf3.o)
-                0x01e1cd74                __divdf3
- .text          0x01e1d084       0x54 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(fixdfsi.o)
- .text          0x01e1d0d8       0x4c C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(floatsidf.o)
-                0x01e1d0d8                __floatsidf
- .text          0x01e1d124      0x2fa C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(muldf3.o)
-                0x01e1d15a                __muldf3
- .text          0x01e1d41e        0x6 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(subdf3.o)
-                0x01e1d41e                __subdf3
- .text          0x01e1d424       0x7a C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(extendsfdf2.o)
-                0x01e1d424                __extendsfdf2
- .text          0x01e1d49e       0x3c C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(fixunsdfsi.o)
-                0x01e1d49e                __fixunsdfsi
- .text          0x01e1d4da       0x34 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(floatunsidf.o)
-                0x01e1d4da                __floatunsidf
- .text          0x01e1d50e      0x142 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(truncdfsf2.o)
-                0x01e1d50e                __truncdfsf2
- .text          0x01e1d650       0x10 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(udivdi3.o)
-                0x01e1d650                __udivdi3
- .text          0x01e1d660      0x226 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(udivmoddi4.o)
-                0x01e1d660                __udivmoddi4
-                0x01e1d886                bank_stub_start = .
+                0x01e11a82                app_bank_init
+                0x01e121d8                exception_analyze
+ .text          0x01e1ae64        0x0 include_lib/liba/br25/cpu.a(fm_dem.o)
+ .text          0x01e1ae64        0x0 include_lib/liba/br25/system.a(port_asm_mmu.o)
+ .text          0x01e1ae64       0xa2 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_round.o)
+                0x01e1ae64                round
+ .text          0x01e1af06       0xce C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-w_exp.o)
+                0x01e1af06                exp
+ .text          0x01e1afd4       0xc2 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-w_log.o)
+                0x01e1afd4                log
+ .text          0x01e1b096      0x28e C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-w_pow.o)
+                0x01e1b096                pow
+ .text          0x01e1b324      0x280 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-e_exp.o)
+                0x01e1b324                __ieee754_exp
+ .text          0x01e1b5a4      0x31a C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-e_log.o)
+                0x01e1b5a4                __ieee754_log
+ .text          0x01e1b8be      0x84a C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-e_pow.o)
+                0x01e1b8be                __ieee754_pow
+ .text          0x01e1c108      0x14a C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-e_sqrt.o)
+                0x01e1c108                __ieee754_sqrt
+ .text          0x01e1c252        0x4 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_fabs.o)
+                0x01e1c252                fabs
+ .text          0x01e1c256       0x10 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_finite.o)
+                0x01e1c256                finite
+ .text          0x01e1c266       0x62 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_fpclassify.o)
+                0x01e1c266                __fpclassifyd
+ .text          0x01e1c2c8        0x0 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_lib_ver.o)
+ .text          0x01e1c2c8        0x4 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_matherr.o)
+                0x01e1c2c8                matherr
+ .text          0x01e1c2cc        0xa C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_nan.o)
+                0x01e1c2cc                nan
+ .text          0x01e1c2d6      0x120 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_rint.o)
+                0x01e1c2d6                rint
+ .text          0x01e1c3f6       0xe2 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_scalbn.o)
+                0x01e1c3f6                scalbn
+ .text          0x01e1c4d8       0x20 C:\JL\pi32\pi32v2-lib\r3\libm.a(lib_a-s_copysign.o)
+                0x01e1c4d8                copysign
+ .text          0x01e1c4f8        0x0 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-ctype_.o)
+ .text          0x01e1c4f8       0x38 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-memcmp.o)
+ .text          0x01e1c530       0xc2 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-memcpy.o)
+ .text          0x01e1c5f2       0x28 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-memmem.o)
+ .text          0x01e1c61a       0x2c C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-memset.o)
+ .text          0x01e1c646       0x18 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strcat.o)
+                0x01e1c646                strcat
+ .text          0x01e1c65e       0x14 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strchr.o)
+ .text          0x01e1c672       0xa0 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strcmp.o)
+ .text          0x01e1c712       0x6e C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strcpy.o)
+ .text          0x01e1c780        0xc C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strlen.o)
+ .text          0x01e1c78c       0x20 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strncmp.o)
+ .text          0x01e1c7ac       0x26 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strncpy.o)
+                0x01e1c7ac                strncpy
+ .text          0x01e1c7d2       0x24 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strrchr.o)
+                0x01e1c7d2                strrchr
+ .text          0x01e1c7f6       0x2a C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strstr.o)
+ .text          0x01e1c820       0x10 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strtok.o)
+                0x01e1c820                strtok
+ .text          0x01e1c830       0x54 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-strtok_r.o)
+                0x01e1c830                __strtok_r
+                0x01e1c880                strtok_r
+ .text          0x01e1c884        0x0 C:\JL\pi32\pi32v2-lib\r3\libc.a(lib_a-impure.o)
+ .text          0x01e1c884      0x314 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(adddf3.o)
+                0x01e1c8c4                __adddf3
+ .text          0x01e1cb98      0x1a0 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(comparedf2.o)
+                0x01e1cb98                __ledf2
+                0x01e1cb98                __cmpdf2
+                0x01e1cc48                __gedf2
+                0x01e1ccf0                __unorddf2
+                0x01e1cd30                __eqdf2
+                0x01e1cd32                __ltdf2
+                0x01e1cd34                __nedf2
+                0x01e1cd36                __gtdf2
+ .text          0x01e1cd38      0x346 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(divdf3.o)
+                0x01e1cd6e                __divdf3
+ .text          0x01e1d07e       0x54 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(fixdfsi.o)
+ .text          0x01e1d0d2       0x4c C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(floatsidf.o)
+                0x01e1d0d2                __floatsidf
+ .text          0x01e1d11e      0x2fa C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(muldf3.o)
+                0x01e1d154                __muldf3
+ .text          0x01e1d418        0x6 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(subdf3.o)
+                0x01e1d418                __subdf3
+ .text          0x01e1d41e       0x7a C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(extendsfdf2.o)
+                0x01e1d41e                __extendsfdf2
+ .text          0x01e1d498       0x3c C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(fixunsdfsi.o)
+                0x01e1d498                __fixunsdfsi
+ .text          0x01e1d4d4       0x34 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(floatunsidf.o)
+                0x01e1d4d4                __floatunsidf
+ .text          0x01e1d508      0x142 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(truncdfsf2.o)
+                0x01e1d508                __truncdfsf2
+ .text          0x01e1d64a       0x10 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(udivdi3.o)
+                0x01e1d64a                __udivdi3
+ .text          0x01e1d65a      0x226 C:\JL\pi32\pi32v2-lib\r3\libcompiler-rt.a(udivmoddi4.o)
+                0x01e1d65a                __udivmoddi4
+                0x01e1d880                bank_stub_start = .
  *(.bank.stub.*)
                 0x00000000                bank_stub_size = (. - bank_stub_start)
  *(.LOG_TAG_CONST*)
  *(.rodata*)
  .rodata.str1.1
-                0x01e1d886      0xd29 cpu\br25\tools\sdk.elf.o
+                0x01e1d880      0xd29 cpu\br25\tools\sdk.elf.o
                                 0xd89 (size before relaxing)
- *fill*         0x01e1e5af        0x1 
+ *fill*         0x01e1e5a9        0x7 
  .rodata        0x01e1e5b0     0x4b0c cpu\br25\tools\sdk.elf.o
  .rodata.str4.4
                 0x01e230bc       0x20 cpu\br25\tools\sdk.elf.o
@@ -3739,11 +3739,11 @@ OUTPUT(cpu\br25\tools\sdk.elf elf32-pi32v2)
 .debug_frame    0x00000000    0x12460
  .debug_frame   0x00000000    0x12460 cpu\br25\tools\sdk.elf.o
 
-.debug_line     0x00000000    0x78f71
- .debug_line    0x00000000    0x78be1 cpu\br25\tools\sdk.elf.o
- .debug_line    0x00078be1      0x104 include_lib/liba/br25/cpu.a(startup.o)
- .debug_line    0x00078ce5      0x1da include_lib/liba/br25/cpu.a(fm_dem.o)
- .debug_line    0x00078ebf       0xb2 include_lib/liba/br25/system.a(port_asm_mmu.o)
+.debug_line     0x00000000    0x7903f
+ .debug_line    0x00000000    0x78caf cpu\br25\tools\sdk.elf.o
+ .debug_line    0x00078caf      0x104 include_lib/liba/br25/cpu.a(startup.o)
+ .debug_line    0x00078db3      0x1da include_lib/liba/br25/cpu.a(fm_dem.o)
+ .debug_line    0x00078f8d       0xb2 include_lib/liba/br25/system.a(port_asm_mmu.o)
 
 .debug_aranges  0x00000000       0x68
  .debug_aranges

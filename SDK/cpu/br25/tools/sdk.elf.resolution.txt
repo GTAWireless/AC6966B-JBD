@@ -1263,7 +1263,6 @@ obj\Release\apps\soundbox\common\init.o
 -r=obj\Release\apps\soundbox\common\init.o,power_set_soft_poweroff,l
 -r=obj\Release\apps\soundbox\common\init.o,__errno,plx
 -r=obj\Release\apps\soundbox\common\init.o,main,plx
--r=obj\Release\apps\soundbox\common\init.o,user_led_io_fun,l
 -r=obj\Release\apps\soundbox\common\init.o,wdt_close,l
 -r=obj\Release\apps\soundbox\common\init.o,os_init,
 -r=obj\Release\apps\soundbox\common\init.o,setup_arch,l
@@ -1279,7 +1278,6 @@ obj\Release\apps\soundbox\common\init.o
 -r=obj\Release\apps\soundbox\common\init.o,check_power_on_voltage,l
 -r=obj\Release\apps\soundbox\common\init.o,syscfg_read,l
 -r=obj\Release\apps\soundbox\common\init.o,syscfg_write,l
--r=obj\Release\apps\soundbox\common\init.o,user_led_io,l
 -r=obj\Release\apps\soundbox\common\init.o,app_var,l
 -r=obj\Release\apps\soundbox\common\init.o,power_reset_src,l
 -r=obj\Release\apps\soundbox\common\init.o,early_initcall_begin,
