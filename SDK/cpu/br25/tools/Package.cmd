@@ -58,32 +58,6 @@ set "RELEASE_PATH=%RELEASE_PATH%\%CheckCode%"
 ::删除临时文件
 if exist "%YIname%" (del %YIname%)
 
-
-set /a a+=1
-echo %a%. 检测文件夹是否存在
-if exist "%RELEASE_PATH%" (
-	echo %CheckCode%文件夹已存
-	CHOICE /C YN /M "删除请按 Y，否则按 N"
-	if ERRORLEVEL 2 goto cancel_flag
-	if ERRORLEVEL 1 goto delete_flag
-	
-) else (
-	::echo 创建%CheckCode%....	
-	goto create_flag
-)
-
-:cancel_flag
-goto _EXIT
-:delete_flag
-echo 删除中.....
-rd /q /s %RELEASE_PATH%
-:create_flag
-md "%RELEASE_PATH%"
-
-
-
-
-
 set /a a+=1
 echo %a%.文件名
 set "release_file_name=%Customer%[%Project%]-主控%IC%(设备名%Bluetooth% 校验码%CheckCode%){负责人%Writer%}_%timedata%"
@@ -111,6 +85,26 @@ ren %YIname% %LOG_FILE_NAME%
 if exist "%YIname%" (del %YIname%)
 start /wait notepad %LOG_FILE_NAME%
 
+set /a a+=1
+echo %a%. 检测文件夹是否存在
+if exist "%RELEASE_PATH%" (
+	echo %CheckCode%文件夹已存
+	CHOICE /C YN /M "删除请按 Y，否则按 N"
+	if ERRORLEVEL 2 goto cancel_flag
+	if ERRORLEVEL 1 goto delete_flag
+	
+) else (
+	::echo 创建%CheckCode%....	
+	goto create_flag
+)
+
+:cancel_flag
+goto _EXIT
+:delete_flag
+echo 删除中.....
+rd /q /s %RELEASE_PATH%
+:create_flag
+md "%RELEASE_PATH%"
 
 set /a a+=1
 echo %a%. 打包BINFILE、flash目录
