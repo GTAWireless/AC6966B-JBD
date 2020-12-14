@@ -1,7 +1,8 @@
 #include "app_config.h"
 
-#define USER_PACKAGE_EN
-#ifdef USER_PACKAGE_EN
+// #define USER_PACKAGE_EN
+#ifndef CONFIG_DEBUG_ENABLE
+// #ifdef USER_PACKAGE_EN
 
 ::cd cpu\br25\tools
 cd  %~dp0

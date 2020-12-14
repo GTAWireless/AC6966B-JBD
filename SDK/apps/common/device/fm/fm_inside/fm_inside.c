@@ -64,10 +64,33 @@ bool fm_inside_read_id(void *priv)
     return (bool)fm_inside_id_read();
 }
 
+//fm进idle电流大
+void user_fm_inside_powerdown(void){
+
+//   JL_ANA->WLA_CON3 &= ~(
+//       LPF_EN_12v_1(1) |
+//       BTADC_LDO_EN_12v_1(1) |
+//       ADCI_EN_12v_1(1) | 
+//       ADCQ_EN_12v_1(1) \
+//     );
+//   JL_ANA->WLA_CON4 &= ~ADC_REF_EN_12v_1(1);
+
+
+  JL_ANA->WLA_CON3 &= ~(BIT(0) | BIT(17) | BIT(20) | BIT(21));
+  JL_ANA->WLA_CON4 &= ~BIT(3);
+  JL_ANA->WLA_CON9 = 0;
+  JL_ANA->WLA_CON10 = 0;
+  JL_ANA->WLA_CON13 = 0;
+  
+  JL_ANA->WLA_CON9 = 0;
+  JL_ANA->WLA_CON10 = 0;
+  JL_ANA->WLA_CON13 = 0;
+}
 void fm_inside_powerdown(void *priv)
 {
     fm_inside_off();
     /* dac_channel_off(FM_INSI_CHANNEL, FADE_ON); */
+    user_fm_inside_powerdown();
     fm_dec_close();
     clock_remove_set(FM_INSIDE_CLK);
 }

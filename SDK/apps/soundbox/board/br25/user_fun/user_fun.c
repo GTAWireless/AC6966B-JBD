@@ -937,9 +937,12 @@ u16 user_fun_get_vbat(void){
 
     user_power_io.vol = (vddio_m*2*tp_ad*10)/0x3ffL;
     user_power_io.vol = (user_power_io.vol+5)/10;
-    user_power_io.vol-=6;//修正
+    user_power_io.vol-=2;//修正
     // printf("user vbat >>>> ad:%d %d vbat:%dV\n",tp_ad,tp_ad*20*vddio_m/0x3ffL,user_power_io.vol);
     tp = user_power_io.vol;
+    #ifdef CONFIG_DEBUG_ENABLE
+    return 380;
+    #endif
     #endif
     return tp;
 }

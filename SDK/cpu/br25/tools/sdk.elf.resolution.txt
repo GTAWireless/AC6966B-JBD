@@ -266,6 +266,7 @@ obj\Release\apps\common\device\fm\fm_inside\fm_inside.o
 -r=obj\Release\apps\common\device\fm\fm_inside\fm_inside.o,fm_inside_freq_set,l
 -r=obj\Release\apps\common\device\fm\fm_inside\fm_inside.o,fm_inside_read_id,pl
 -r=obj\Release\apps\common\device\fm\fm_inside\fm_inside.o,fm_inside_id_read,l
+-r=obj\Release\apps\common\device\fm\fm_inside\fm_inside.o,user_fm_inside_powerdown,pl
 -r=obj\Release\apps\common\device\fm\fm_inside\fm_inside.o,fm_inside_powerdown,pl
 -r=obj\Release\apps\common\device\fm\fm_inside\fm_inside.o,fm_inside_off,l
 -r=obj\Release\apps\common\device\fm\fm_inside\fm_inside.o,fm_dec_close,l
