@@ -478,6 +478,8 @@ static void __ui_led7_port_set_hz(u8 port)
     gpio_set_pull_down(port, 0);
     gpio_set_pull_up(port, 0);
     gpio_set_direction(port, 1);
+    // gpio_set_hd0(port, 1);
+    // gpio_set_hd(port, 1);
 }
 
 /*----------------------------------------------------------------------------*/

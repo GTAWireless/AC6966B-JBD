@@ -2,7 +2,7 @@
 
 // #define USER_PACKAGE_EN
 #ifndef CONFIG_DEBUG_ENABLE
-// #ifdef USER_PACKAGE_EN
+// #ifdef CONFIG_DEBUG_ENABLE
 
 ::cd cpu\br25\tools
 cd  %~dp0

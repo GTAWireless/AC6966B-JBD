@@ -250,36 +250,46 @@ u16 user_get_vbat_level(u16 level){
     #define USER_VBAT_TABLE_SIZE    40
 
     static u16 save_table_old[USER_VBAT_TABLE_SIZE] = {0};
-    static u8 i=0;
-    static u32 sam = 0;
+    static u8 cnt=0;
+    u32 sam = 0;
     u16 max = 0;
-    u16 mix = 0;
+    u16 mix = 0x3ffL;
 
-    save_table_old[i++]=level;
-    if(i++ >= USER_VBAT_TABLE_SIZE){
-        i = 0;
-        sam = 1;
+    save_table_old[cnt++]=level;
+    if(cnt >= USER_VBAT_TABLE_SIZE){
+        cnt = 0;
+    }
+
+    int j = 0;
+    for(int i = 0 ; i<USER_VBAT_TABLE_SIZE;i++){
+        if(save_table_old[i]){
+            sam+=save_table_old[i];
+            j++;
+        }
+
+        if(save_table_old[i]>max){
+            max = save_table_old[i];
+        }
+
+        if(save_table_old[i] < mix){
+            mix = save_table_old[i];
+        }
+    }
+    
+    if(USER_VBAT_TABLE_SIZE == j){
+        sam=((sam-mix)*10+5)/(j-1);
+        sam/=10;
     }else{
-    //    sam += level;
-    //    sam /= i;
+        sam/=j;
     }
-
-    for(int j = 0;j<USER_VBAT_TABLE_SIZE;j++){
-        if(save_table_old[j] && sam){
-            sam+=save_table_old[j];
-            sam/=2;
-        }
-        
-        if(save_table_old[j]>max){
-            max = save_table_old[j];
-        }
-
-        if(save_table_old[j] < mix){
-            mix = save_table_old[j];
+    // return sam;
+    if(!max){
+        for(int i = 0;i<USER_VBAT_TABLE_SIZE;i++){
+            r_printf("%d %d",i,save_table_old[i]);
         }
     }
-    // if(i)sam/=i;
-    // printf(">>>>>>>> vbat %d\n",sam);
+    r_printf("                         level:%d j:%d vbat:%d max:%d\n",level,j,sam,max);
+    // printf(">>>>>>>>level %d vbat %d\n",level,);
     return max;
 }
 
@@ -391,7 +401,7 @@ u8  get_cur_battery_level(void)
 void vbat_check_init(void)
 {
     if (vbat_timer == 0) {
-        vbat_timer = sys_timer_add(NULL, vbat_check, 20);
+        vbat_timer = sys_timer_add(NULL, vbat_check, 50);
         vbat_check_idle = 0;
     }
 }
@@ -462,7 +472,7 @@ void vbat_check(void *priv)
     }
     
     if (cur_timer_period == VBAT_TIMER_10_S) {
-        vbat_timer_update(50);
+        // vbat_timer_update(50);
         cur_timer_period = VBAT_TIMER_2_MS;
         vbat_check_idle = 0;
     }
@@ -476,7 +486,7 @@ void vbat_check(void *priv)
     cur_battery_level = battery_value_to_phone_level(bat_val);
 
     // printf("bv:%d, bl:%d , check_vbat:%d\n", bat_val, cur_battery_level, adc_check_vbat_lowpower());
-
+    
     unit_cnt++;
 
     static u8 high_priority_power_off =0;
@@ -501,7 +511,9 @@ void vbat_check(void *priv)
         low_warn_cnt++;
     }else{
         // puts(">>>>> max power vol\n");
-        tp_low_war_cnt = 0;//5次降音量关机标志
+        if(bat_val>=(LOW_POWER_WARN_VAL+10)){
+            tp_low_war_cnt = 0;//5次降音量关机标志
+        }
         low_warn_cnt = 0;
   
     }
