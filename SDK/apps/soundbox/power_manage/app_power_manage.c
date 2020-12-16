@@ -288,7 +288,7 @@ u16 user_get_vbat_level(u16 level){
             r_printf("%d %d",i,save_table_old[i]);
         }
     }
-    r_printf("                         level:%d j:%d vbat:%d max:%d\n",level,j,sam,max);
+    // r_printf("                         level:%d j:%d vbat:%d max:%d\n",level,j,sam,max);
     // printf(">>>>>>>>level %d vbat %d\n",level,);
     return max;
 }

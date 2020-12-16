@@ -40856,13 +40856,13 @@
 	"board_ac6965e/user_ac6965e_cfg.h"
 	"board_ac6969d_demo/user_ac6969d_cfg.h"
 
-1607996587 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\board_ac6966b_cfg.h
+1608016963 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\board_ac6966b_cfg.h
 	"usb_std_class_def.h"
 	"app_config.h"
 
 1601359722 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\common\usb\usb_std_class_def.h
 
-1608000168 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\include\app_config.h
+1608106873 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\include\app_config.h
 	"board_config.h"
 	"usb_common_def.h"
 	"btcontroller_mode.h"
@@ -40910,7 +40910,7 @@
 
 1607672901 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_config.h
 
-1607932726 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\user_ac6966b_cfg.h
+1608101723 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\user_ac6966b_cfg.h
 
 1604460270 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6965e\user_ac6965e_cfg.h
 
@@ -41728,7 +41728,7 @@
 	"ui/style_jl01.h"
 	"ui/style_jl02.h"
 
-1607914553 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_pa.h
+1608083691 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_pa.h
 
 1605178237 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_ad.h
 
@@ -43188,7 +43188,7 @@
 1601359722 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\include_lib\media\media_develop\media\cpu\br25\commproc.h
 	"generic/typedef.h"
 
-1607914553 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\app_main.c
+1608016925 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\app_main.c
 	"system/includes.h"
 	"app_config.h"
 	"asm/pwm_led.h"
@@ -43361,7 +43361,7 @@
 	"app_config.h"
 	"app_task.h"
 
-1607914553 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\board_ac6966b.c
+1608083691 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\board_ac6966b\board_ac6966b.c
 	"gpio.h"
 	"app_config.h"
 	"system/includes.h"
@@ -43824,7 +43824,7 @@
 1606219251 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_dev_check.c
 	"user_fun_cfg.h"
 
-1607925454 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_fun.c
+1608083691 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_fun.c
 	"user_fun_cfg.h"
 
 1606357729 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_led.c
@@ -43836,7 +43836,7 @@
 1607673041 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_pa.c
 	"user_fun_cfg.h"
 
-1607914553 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb.c
+1608106800 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb.c
 	"user_fun_cfg.h"
 
 1606785797 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb_dev.c
@@ -43901,7 +43901,7 @@
 	"typedef.h"
 	"JL_rcsp_protocol.h"
 
-1607925400 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\common\init.c
+1608016772 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\common\init.c
 	"app_config.h"
 	"system/includes.h"
 	"asm/charge.h"
@@ -44025,7 +44025,7 @@
 1601359722 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\include\task_manager\bt\bt_ble.h
 	"typedef.h"
 
-1607998624 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\power_manage\app_power_manage.c
+1608084983 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\power_manage\app_power_manage.c
 	"system/includes.h"
 	"app_power_manage.h"
 	"app_main.h"
@@ -44760,7 +44760,7 @@
 	"btstack/avctp_user.h"
 	"pitchshifter/pitchshifter_api.h"
 
-1607914553 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\app_common.c
+1608016898 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\app_common.c
 	"common/app_common.h"
 	"app_task.h"
 	"app_main.h"
@@ -45194,7 +45194,7 @@
 	"usb/host/usb_host.h"
 	"asm/power/p33.h"
 
-1607914553 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\linein\linein.c
+1608016763 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\linein\linein.c
 	"system/app_core.h"
 	"system/includes.h"
 	"server/server_core.h"
@@ -45779,7 +45779,7 @@
 	"asm/power_interface.h"
 	"jiffies.h"
 
-1607914553 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\cpu\br25\audio_common\app_audio.c
+1608016911 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\cpu\br25\audio_common\app_audio.c
 	"system/includes.h"
 	"media/includes.h"
 	"app_config.h"
@@ -46401,7 +46401,7 @@
 	"ui/ui_api.h"
 	"lcd_seg3x9_driver_cfg.h"
 
-1608000103 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\cpu\br25\ui_driver\led7\led7_driver.c
+1608083691 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\cpu\br25\ui_driver\led7\led7_driver.c
 	"includes.h"
 	"app_config.h"
 	"system/device/vm.h"
@@ -46460,7 +46460,7 @@
 	"dev_manager.h"
 	"user_fun_cfg.h"
 
-1607925689 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\common\device\fm\fm_inside\fm_inside.c
+1608083691 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\common\device\fm\fm_inside\fm_inside.c
 	"app_config.h"
 	"system/includes.h"
 	"fm/fm_manage.h"

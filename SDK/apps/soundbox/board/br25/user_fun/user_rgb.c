@@ -58,7 +58,41 @@ u32 random_number(u32 start, u32 end){
     return JL_TIMER0->CNT % (end - start + 1) + start;
 }
 
-void user_rgb_dac_energy_get(void * priv){
+//获取dac最大能量值
+#define USER_SAVE_SEC_MAX_DAC   3//单位s
+int user_max_dac_energy(int _dac_energy){
+    int dac_energy_max = 0;
+    // int dac_energy = audio_dac_energy_get();
+    static int energy_table[USER_SAVE_SEC_MAX_DAC]={0};
+    static u32 timer_cnt = 0;
+    static u8 cnt_data = 0;
+    //保存最近3秒最大能量值 
+    u32 cur_sec = timer_get_sec();
+    cur_sec-=timer_cnt;
+
+    if(cur_sec>=(sizeof(energy_table)/sizeof(energy_table[0]))){
+        timer_cnt = timer_get_sec();
+        cur_sec = 0;
+    }    
+    if(energy_table[cur_sec]<_dac_energy){
+        energy_table[cur_sec] = _dac_energy;
+    }
+    if(cnt_data!=cur_sec){
+        energy_table[cnt_data] = 0;
+        cnt_data = cur_sec;
+    }
+
+    //最大能量值
+    for(int i = 0;i<(sizeof(energy_table)/sizeof(energy_table[0]));i++){
+        if(dac_energy_max<energy_table[i]){
+            dac_energy_max = energy_table[i];
+        }
+    }
+    return  dac_energy_max;
+}
+
+//dac能量值转换为点亮灯数量
+void user_rgb_dac_energy_to_light_number(void * priv){
     RGB_FUN *rgb = (RGB_FUN *)priv;
 
     if(!rgb || !rgb->info || !rgb->dac_energy_scan_id || !rgb->info->number){
@@ -68,53 +102,26 @@ void user_rgb_dac_energy_get(void * priv){
     if(rgb->dac_energy_scan_id){
         rgb->dac_energy_scan_id = 0;
     }
-    rgb->dac_energy_scan_id = sys_hi_timeout_add(rgb,user_rgb_dac_energy_get,rgb->light_number?20:100);
+    rgb->dac_energy_scan_id = sys_hi_timeout_add(rgb,user_rgb_dac_energy_to_light_number,rgb->light_number?20:100);
 
-    static int dac_energy_max = 0;
     int fre_cnt = 0;
+    int dac_energy_max=0;
     int dac_energy = audio_dac_energy_get();
-    static int energy_table[10]={0};
-    int energy_table_cnt = 0;
 
-    if(dac_energy_max<dac_energy || ((timer_get_ms()%200)>=160)){
-        energy_table[energy_table_cnt++]=dac_energy;
-        if(energy_table_cnt>(sizeof(energy_table)/sizeof(energy_table[0]))){
-            energy_table_cnt = 0;
-        }
-    }
-
-    for(int i = 0;i<(sizeof(energy_table)/sizeof(energy_table[0]));i++){
-        if(dac_energy_max<energy_table[i]){
-            dac_energy_max = energy_table[i];
-        }
-    }
-
+    dac_energy_max = user_max_dac_energy(dac_energy);
     if(dac_energy_max && dac_energy){
         fre_cnt = ((rgb->info->number)*dac_energy)/dac_energy_max;
     }else{
         fre_cnt = 0;
     }
 
-    // if(fre_cnt>rgb->info->number && (rgb->light_number == rgb->info->number)){
-    //     fre_cnt = 0;
-    // }
-
     if(rgb->light_number<fre_cnt){
         rgb->light_number++;
     }else if(rgb->light_number>fre_cnt){
         rgb->light_number--;
     }
-    // if(rgb->light_number<fre_cnt && rgb->light_number<rgb->info->number){
-    //     rgb->light_number++;
-    // }else if(rgb->light_number>fre_cnt && rgb->light_number){
-    //     rgb->light_number--;
-    // }else if(rgb->light_number && rgb->light_number == fre_cnt){
-    //     rgb->light_number--;
-    // }
 
-    printf(">>> dac energy %d\n",rgb->light_number);
-    // rgb->dac_energy = dac_energy;
-
+    // printf(">>> dac energy %d\n",rgb->light_number);
 }
 
 /*
@@ -424,6 +431,7 @@ void user_rgb_display_mode_4(void *priv){
 }
 
 //单色闪烁
+#define USER_RGB_FLASH_FRE_GRADE    11//0-11级别
 void user_rgb_display_mode_5(void *priv){
     RGB_FUN *rgb = (RGB_FUN *)priv;
     if(!rgb || !rgb->info || rgb->info->rend_flag || !rgb->info->number){
@@ -432,21 +440,30 @@ void user_rgb_display_mode_5(void *priv){
 
     u32 tp_time = timer_get_ms();
     static u32 sys_time_old = 0;
-    u16 tp_freq = 0;
+    static u8 tp_freq = 0;
+    u8 flash_fre_cnt= 0;
 
-    if(rgb->light_number>rgb->info->number*5/10){
-        tp_freq = 200;
-    }else if(rgb->light_number>rgb->info->number/3){
-        tp_freq = 500;
-    }else if(rgb->light_number>rgb->info->number/4){
-        tp_freq = 1000;
+    u32 dac_energy = audio_dac_energy_get();
+    u32 dac_energy_max = user_max_dac_energy(dac_energy);
+
+    if(dac_energy>(dac_energy_max*5/10)){
+        flash_fre_cnt = (USER_RGB_FLASH_FRE_GRADE-1);
+    }else if(dac_energy>(dac_energy_max/3)){
+        flash_fre_cnt = USER_RGB_FLASH_FRE_GRADE/2;
+    }else if(dac_energy>(dac_energy_max/4)){
+        flash_fre_cnt = 1;
     }else{
-        tp_freq = 0;
+        flash_fre_cnt = 0;
     }
-    // static u16 rand = 0;
-    if(tp_time-sys_time_old>1000 || tp_freq>rgb->freq){
+    if(flash_fre_cnt > tp_freq){
+        tp_freq++;
+    }else if(flash_fre_cnt < tp_freq){
+        tp_freq--;
+    }
+
+    if((tp_time-sys_time_old)>1000){
         sys_time_old = tp_time;
-        rgb->freq = tp_freq;    
+        rgb->freq = (USER_RGB_FLASH_FRE_GRADE-tp_freq)*100;
     }
 
 
@@ -686,7 +703,7 @@ void user_rgb_fun_init(void){
         user_rgb_mode_scan(rgb);
     }
 
-    rgb->dac_energy_scan_id = sys_hi_timeout_add(rgb,user_rgb_dac_energy_get,300);
+    rgb->dac_energy_scan_id = sys_hi_timeout_add(rgb,user_rgb_dac_energy_to_light_number,300);
 #endif
 }
 void user_rgb_fun_del(void){
@@ -703,12 +720,14 @@ void user_rgb_fun_del(void){
     }
     user_rgb_del(rgb->info);
 
+    #if (defined USER_RGB_BUFF_MALLOC_EN && USER_RGB_BUFF_MALLOC_EN)
     if(rgb->info->spi_buff){
         free(rgb->info->spi_buff);
     }
     if(rgb->info->rgb_buff){
         free(rgb->info->rgb_buff);
     }
+    #endif
 #endif
 }
 
