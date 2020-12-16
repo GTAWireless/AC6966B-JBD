@@ -129,6 +129,9 @@ start "" "%RELEASE_PATH%"
 	echo CheckCodeOld=%CheckCode%
 )>%OLD_CODE_FLIN%
 
+del "%RELEASE_PATH%\..\%LOG_FILE_NAME%" 1>nul
+copy "%LOG_FILE_NAME%" "%RELEASE_PATH%\..\..\%LOG_FILE_NAME%" 1>nul
+copy "%LOG_FILE_NAME%" "%RELEASE_PATH%\%LOG_FILE_NAME%" 1>nul
 
 ::pause
 :_EXIT
