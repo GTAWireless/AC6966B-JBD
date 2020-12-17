@@ -176,6 +176,8 @@ static void fm_app_start(void)
 
     user_fm_vol_set(1);
     user_fm_task_init_flag = 1;
+    user_rgb_mode_set_or_get(USER_RGB_STATUS_LOCK,NULL);
+    user_rgb_mode_set_or_get(USER_RGB_FM_MODE,NULL);
 }
 
 static void fm_app_uninit(void)
@@ -244,6 +246,7 @@ void app_fm_task()
         if (app_task_exitting()) {
             user_pa_ex_strl(PA_CLASS_D);
             fm_app_uninit();
+            user_rgb_mode_set_or_get(USER_RGB_STATUS_ULOCK,NULL);
             return;
         }
     }

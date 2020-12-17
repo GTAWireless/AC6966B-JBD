@@ -359,7 +359,7 @@ int app_common_key_msg_deal(struct sys_event *event)
             data.sys_vol_max = app_audio_get_max_volume();
             data.sys_vol = app_audio_get_volume(APP_AUDIO_STATE_MUSIC);
             
-            user_rgb_mode_set(USER_RGB_SYS_VOL,&data);
+            user_rgb_mode_set_or_get(USER_RGB_SYS_VOL,&data);
 
         }        
 #if (TCFG_DEC2TWS_ENABLE)
@@ -429,8 +429,8 @@ int app_common_key_msg_deal(struct sys_event *event)
         puts("KEY_LED_OR_RGB_MODE_CTL\n");
         tone_play_by_path(tone_table[IDEX_TONE_DI],USER_TONE_PLAY_MODE?1:0);
         user_led_io_fun(USER_IO_LED,LED_IO_FLIP);
-        if(APP_IDLE_TASK != app_get_curr_task() && APP_FM_TASK != app_get_curr_task()){
-            user_rgb_mode_set(USER_RGB_AUTO_SW,NULL);
+        if(APP_IDLE_TASK != app_get_curr_task() /*&& APP_FM_TASK != app_get_curr_task()*/){
+            user_rgb_mode_set_or_get(USER_RGB_AUTO_SW,NULL);
         }
         extern void user_tws_sync_info(void);
         // user_tws_sync_info();
@@ -501,7 +501,7 @@ int app_common_key_msg_deal(struct sys_event *event)
         #endif
         break;
     case USER_KEY_RGB_MODE:
-        user_rgb_mode_set(USER_RGB_AUTO_SW,NULL);
+        user_rgb_mode_set_or_get(USER_RGB_AUTO_SW,NULL);
         break;
     case USER_KEY_RGB_BASS:
         {

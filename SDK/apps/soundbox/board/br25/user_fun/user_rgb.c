@@ -19,6 +19,7 @@ RGB_INFO user_rgb_info={
     .init_flag = 0,
     .rend_flag = 0,
     .updata_flag = 0,
+    .updata_only = 0,
     .number = USER_RGB_NUMBER,
     .spi_scan_time = 20,
     .spi_port = USER_RGB_DATA,//SPI2,
@@ -30,6 +31,9 @@ RGB_INFO user_rgb_info={
     #if USER_RGB_BUFF_MALLOC_EN
     .rgb_buff = NULL,
     .spi_buff = NULL,
+    #else
+    .rgb_buff = {0},
+    .spi_buff = {0},    
     #endif
 };
 RGB_FUN user_rgb_fun = {
@@ -40,6 +44,7 @@ RGB_FUN user_rgb_fun = {
     .info = &user_rgb_info,
     .cur_colour = {0xff,0x0,0x0},
     .cur_mode = USER_RGB_MODE_MAX,
+    .mode_lock = USER_RGB_NULL,
     .mode_scan_time = 100,
     .light_number = 0,
     .dac_energy_scan_id = 0,
@@ -66,14 +71,14 @@ int user_max_dac_energy(int _dac_energy){
     static int energy_table[USER_SAVE_SEC_MAX_DAC]={0};
     static u32 timer_cnt = 0;
     static u8 cnt_data = 0;
-    //保存最近3秒最大能量值 
+    //保存最近3秒最大能量值
     u32 cur_sec = timer_get_sec();
     cur_sec-=timer_cnt;
 
     if(cur_sec>=(sizeof(energy_table)/sizeof(energy_table[0]))){
         timer_cnt = timer_get_sec();
         cur_sec = 0;
-    }    
+    }
     if(energy_table[cur_sec]<_dac_energy){
         energy_table[cur_sec] = _dac_energy;
     }
@@ -256,6 +261,7 @@ void user_rgb_clean_interrupt(void *priv){
     }
     rgb->interrupt_id = 0;
     rgb->interrupt = 0;
+    rgb->info->updata_only = 0;
 }
 //bass状态显示
 void user_rgb_bass_display(void *priv,void *data){
@@ -463,9 +469,13 @@ void user_rgb_display_mode_5(void *priv){
 
     if((tp_time-sys_time_old)>1000){
         sys_time_old = tp_time;
-        rgb->freq = (USER_RGB_FLASH_FRE_GRADE-tp_freq)*100;
+        if(tp_freq){
+            rgb->freq = (USER_RGB_FLASH_FRE_GRADE-tp_freq)*100;
+        }else{
+            rgb->freq = 0;
+        }
+        r_printf("freq %d",tp_freq);        
     }
-
 
     if(!rgb->freq || ((tp_time%(rgb->freq)) >= ((rgb->freq)/3))){
         user_rgb_same_colour(rgb->info,&rgb->cur_colour);
@@ -536,6 +546,11 @@ void user_rgb_mode_scan(void *priv){
             }
             user_rgb_display_mode_5(rgb);
             break;
+        case USER_RGB_FM_MODE:
+            rgb->cur_colour.r = 0x00;
+            rgb->cur_colour.g = 0xff;
+            rgb->cur_colour.b = 0x00;
+            user_rgb_same_colour(rgb->info,&rgb->cur_colour);
         case USER_RGB_MODE_OFF:
             break;
         default:
@@ -544,6 +559,11 @@ void user_rgb_mode_scan(void *priv){
     }
 
     rgb->info->updata_flag = 0;
+
+    if(rgb->mode_lock != USER_RGB_NULL && !rgb->info->updata_only){
+        r_printf(">>>>> updata_only");
+        rgb->info->updata_only = 2;
+    }
     sys_timeout_add(rgb,user_rgb_mode_scan,rgb->mode_scan_time);
 }
 
@@ -568,7 +588,7 @@ void user_rgb_display_vol(u8 vol,u16 display_time){
     data.sys_vol_max = app_audio_get_max_volume();
     data.sys_vol = vol;//app_audio_get_volume(APP_AUDIO_STATE_MUSIC);
     printf(">>>>>> max %d vol %d",data.sys_vol_max,data.sys_vol);
-    user_rgb_mode_set(USER_RGB_SYS_VOL,&data);
+    user_rgb_mode_set_or_get(USER_RGB_SYS_VOL,&data);
 #endif
 }
 
@@ -579,18 +599,55 @@ void user_rgb_display_bass(u8 bass,u16 display_time){
     data.display_time = display_time;
     data.bass = bass;
 
-    user_rgb_mode_set(USER_RGB_EQ_BASS,&data);
+    user_rgb_mode_set_or_get(USER_RGB_EQ_BASS,&data);
 #endif
 }
 
+
+//保存rgb mode
+static u16 rgb_save_id = 0;
+static void user_save_rgb_mode_do(void *priv)
+{
+#if USER_RGB_EN
+    RGB_FUN *rgb = (RGB_FUN *)P_RGB_FUN;
+    u8 tp_rgb_mode = 0xff;
+    local_irq_disable();
+    syscfg_read(CFG_USER_RGB_MODE_ID, &tp_rgb_mode, 1);        
+    if(tp_rgb_mode!=rgb->cur_mode && ( (USER_RGB_MODE_1 <= rgb->cur_mode) && (rgb->cur_mode < USER_RGB_MODE_MAX))){
+        r_printf("save rgb mode %d",rgb->cur_mode);
+        syscfg_write(CFG_USER_RGB_MODE_ID, &rgb->cur_mode, 1);
+    }
+    local_irq_enable();
+    rgb_save_id = 0;
+#endif
+}
+
+static void user_save_rgb_mode(void *priv,u32 msec)
+{
+
+    local_irq_disable();
+    if (rgb_save_id) {
+        sys_hi_timer_del(rgb_save_id);
+        rgb_save_id = 0;
+    }
+    if(msec){
+        rgb_save_id = sys_hi_timeout_add(priv, user_save_rgb_mode_do, msec);
+    }else{
+        r_printf("user_save_rgb_mode_do");
+        user_save_rgb_mode_do(priv);
+    }
+    local_irq_enable();
+}
+
 //模式设置
-u8 user_rgb_mode_set(USER_GRB_MODE mode,void *priv){
+u8 user_rgb_mode_set_or_get(USER_GRB_MODE cmd,void *priv){
     u8 ret = 0;
 #if USER_RGB_EN
     RGB_FUN *rgb = (RGB_FUN *)P_RGB_FUN;
-
-    if (!rgb || !rgb->info || USER_RGB_POWER_OFF==rgb->cur_mode){
-        printf(">>>>> rgb p error\n");
+    USER_GRB_MODE mode = cmd;
+    if (!rgb || !rgb->info || USER_RGB_POWER_OFF==rgb->cur_mode
+    ){
+        printf(">>>>> user_rgb_mode_set_or_get rgb p error %d %d %d\n",!rgb,!rgb->info , USER_RGB_POWER_OFF==rgb->cur_mode);
         return rgb->cur_mode;
     }
 
@@ -605,13 +662,13 @@ u8 user_rgb_mode_set(USER_GRB_MODE mode,void *priv){
     USER_RGB_MODE_7,//绿色 闪烁
     USER_RGB_MODE_8,//蓝色 闪烁
     USER_RGB_MODE_9,//白色 闪烁
-    USER_RGB_MODE_OFF,//关灯         
+    USER_RGB_MODE_OFF,//关灯
     };
     #elif (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_2)
     USER_GRB_MODE cycle_mode[]={
     USER_RGB_MODE_1,//节奏渐变 旋转
     USER_RGB_MODE_2,//对称 升降
-    USER_RGB_MODE_3,//渐变  
+    USER_RGB_MODE_3,//渐变
     USER_RGB_MODE_OFF,//关灯
     };
     #elif (USER_RGB_LOOP_MODE == USER_RGB_LOOP_MODE_3)
@@ -620,12 +677,33 @@ u8 user_rgb_mode_set(USER_GRB_MODE mode,void *priv){
     USER_RGB_MODE_6,//红色 闪烁
     USER_RGB_MODE_7,//绿色 闪烁
     USER_RGB_MODE_8,//蓝色 闪烁
-    USER_RGB_MODE_9,//白色 闪烁    
-    USER_RGB_MODE_OFF,//关灯    
+    USER_RGB_MODE_9,//白色 闪烁
+    USER_RGB_MODE_OFF,//关灯
     };
+
+    if(app_check_curr_task(APP_FM_TASK) &&
+    ( (USER_RGB_MODE_1 <= mode && USER_RGB_MODE_MAX > mode) || (mode == USER_RGB_AUTO_SW))
+    ){
+        if(rgb->cur_mode!=USER_RGB_MODE_OFF){
+            mode = USER_RGB_MODE_OFF;
+        }else{
+            mode = USER_RGB_FM_MODE;
+        }
+    }
     #endif
-    static u8 cur_mode = -1; 
+
+    static u8 cur_mode = -1;
     switch (mode){
+    case USER_RGB_STATUS_ULOCK:
+        r_printf("USER_RGB_STATUS_ULOCK mode=%d",rgb->mode_lock);
+        rgb->cur_mode = rgb->mode_lock;
+        rgb->mode_lock = USER_RGB_NULL;
+        break;
+    case USER_RGB_STATUS_LOCK:
+        r_printf("USER_RGB_STATUS_LOCK mode=%d",rgb->cur_mode);
+        user_save_rgb_mode(rgb,0);
+        rgb->mode_lock = rgb->cur_mode;
+        break;
     case USER_RGB_AUTO_SW:
         r_printf("cur_mode %d %d",cur_mode,sizeof(cycle_mode)/sizeof(cycle_mode[0]));
         cur_mode++;
@@ -634,6 +712,7 @@ u8 user_rgb_mode_set(USER_GRB_MODE mode,void *priv){
         }
         rgb->cur_mode = cycle_mode[cur_mode];
         printf("user rgb mode %d\n",rgb->cur_mode);
+        user_save_rgb_mode(rgb,5000);
         break;
     case USER_RGB_SYS_VOL:
         puts("USER_RGB_SYS_VOL\n");
@@ -655,21 +734,27 @@ u8 user_rgb_mode_set(USER_GRB_MODE mode,void *priv){
     case USER_RGB_MODE_7://绿色 闪烁
     case USER_RGB_MODE_8://蓝色 闪烁
     case USER_RGB_MODE_9://白色 闪烁
+        user_save_rgb_mode(rgb,5000);
+    case USER_RGB_MODE_OFF:
+    case USER_RGB_FM_MODE:
         rgb->cur_mode = mode;
         break;
     default:
         break;
     }
+    
+    rgb->info->updata_only = 0;
     ret = rgb->cur_mode;
 #endif
     return ret;
 }
 
+
 void user_rgb_fun_init(void){
 #if USER_RGB_EN
     RGB_FUN *rgb = (RGB_FUN *)P_RGB_FUN;
     if (!rgb || !rgb->info || !rgb->info->number){
-        printf(">>>>> rgb p error\n");
+        printf(">>>>> user_rgb_fun_init rgb p error\n");
         return;
     }
 
@@ -686,8 +771,16 @@ void user_rgb_fun_init(void){
         return;
     }
     #endif
-
-    user_rgb_mode_set(USER_RGB_AUTO_SW,rgb);
+    
+    //读取vm中保存rgb mode
+    u8 tp_rgb_mode = 0xff;
+    syscfg_read(CFG_USER_RGB_MODE_ID, &tp_rgb_mode, 1);
+    if(0xff != tp_rgb_mode){
+        user_rgb_mode_set_or_get(tp_rgb_mode, rgb);
+    }else{
+        user_rgb_mode_set_or_get(USER_RGB_AUTO_SW,rgb);
+    }
+    // user_rgb_clear_colour(rgb->info);
 
     // printf(">>>>>>>>>>>>>> user spi %d\n",user_rgb_fun.info->spi_port);
     for(int i = 0;i<rgb->info->number;i++){
@@ -710,7 +803,7 @@ void user_rgb_fun_del(void){
 #if USER_RGB_EN
     RGB_FUN *rgb = (RGB_FUN *)P_RGB_FUN;
     if (!rgb || !rgb->info || !rgb->info->number){
-        printf(">>>>> rgb p error\n");
+        printf(">>>>> user_rgb_fun_del rgb p error\n");
         return;
     }
 

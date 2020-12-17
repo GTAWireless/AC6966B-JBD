@@ -40862,7 +40862,7 @@
 
 1601359722 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\common\usb\usb_std_class_def.h
 
-1608106873 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\include\app_config.h
+1608171985 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\include\app_config.h
 	"board_config.h"
 	"usb_common_def.h"
 	"btcontroller_mode.h"
@@ -41195,7 +41195,7 @@
 1601359722 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\include_lib\system\power_manage.h
 	"generic/typedef.h"
 
-1601359722 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\include_lib\system\syscfg_id.h
+1608119829 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\include_lib\system\syscfg_id.h
 	"typedef.h"
 
 1602508255 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\include_lib\system\bank_switch.h
@@ -41734,9 +41734,9 @@
 
 1602224184 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_led.h
 
-1606785733 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb_dev.h
+1608111932 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb_dev.h
 
-1606705167 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb.h
+1608168700 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb.h
 
 1602224184 f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_mic.h
 	"user_dev_check.h"
@@ -43824,7 +43824,7 @@
 1606219251 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_dev_check.c
 	"user_fun_cfg.h"
 
-1608083691 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_fun.c
+1608111511 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_fun.c
 	"user_fun_cfg.h"
 
 1606357729 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_led.c
@@ -43836,10 +43836,10 @@
 1607673041 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_pa.c
 	"user_fun_cfg.h"
 
-1608106800 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb.c
+1608171767 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb.c
 	"user_fun_cfg.h"
 
-1606785797 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb_dev.c
+1608170012 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\board\br25\user_fun\user_rgb_dev.c
 	"user_fun_cfg.h"
 
 1601359722 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\common\dev_status.c
@@ -44760,7 +44760,7 @@
 	"btstack/avctp_user.h"
 	"pitchshifter/pitchshifter_api.h"
 
-1608016898 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\app_common.c
+1608168193 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\app_common.c
 	"common/app_common.h"
 	"app_task.h"
 	"app_main.h"
@@ -46420,7 +46420,7 @@
 1601359722 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\cpu\br25\ui_driver\ui_common.c
 	"includes.h"
 
-1607911459 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\fm\fm.c
+1608170502 source:f:\2020\jbd\jbd[ac696x]\source_code\ac696n_soundbox_sdk_v1.1.1\sdk\apps\soundbox\task_manager\fm\fm.c
 	"media/includes.h"
 	"system/includes.h"
 	"app_config.h"

@@ -37,10 +37,14 @@ typedef enum{
     USER_RGB_MODE_OFF,//关灯
     USER_RGB_MODE_MAX,
     USER_RGB_POWER_OFF,//关机
+    USER_RGB_FM_MODE,//FM
     USER_RGB_AUTO_SW,//自动切换
     USER_RGB_SYS_VOL,//音量显示
     USER_RGB_EQ_BASS,//BASS状态显示
     USER_RGB_STATUS,
+    USER_RGB_STATUS_LOCK,
+    USER_RGB_STATUS_ULOCK,
+    USER_RGB_NULL,
 }USER_GRB_MODE;
 
 typedef struct _USER_RGB_FUN_{
@@ -53,6 +57,7 @@ typedef struct _USER_RGB_FUN_{
     u8 step_value; //亮度步进值
 
     USER_GRB_MODE cur_mode;//当前模式
+    USER_GRB_MODE mode_lock;//锁定模式
     u16 mode_scan_time;//模式扫描时间
     RGB_COLOUR cur_colour;//当前颜色
     int light_number;//dac_energy;//dac 能量 映射到点亮灯的颗数
@@ -62,7 +67,7 @@ typedef struct _USER_RGB_FUN_{
 
 
 void user_rgb_fun_init(void);
-u8   user_rgb_mode_set(USER_GRB_MODE mode,void *priv);
+u8   user_rgb_mode_set_or_get(USER_GRB_MODE mode,void *priv);
 void user_rgb_display_vol(u8 vol,u16 display_time);
 void user_rgb_display_bass(u8 bass,u16 display_time);
 void user_rgb_fun_del(void);

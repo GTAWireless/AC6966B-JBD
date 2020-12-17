@@ -104,15 +104,21 @@ void user_rgb_send(void *priv){
         return;
     }
     // printf(">>>> clck spi %d sys %d\n",clk_get("spi"),clk_get("sys"));
-    if(rgb->init_flag && rgb && !rgb->updata_flag && rgb->init_flag && rgb->spi_buff && rgb->rgb_buff){
+    if(((timer_get_ms()>3000)) && rgb->init_flag && rgb && !rgb->updata_flag && rgb->init_flag && rgb->spi_buff && rgb->rgb_buff){
         rgb->rend_flag = 1;
         user_rgb_set_all(rgb->spi_buff,rgb->rgb_buff,rgb->number,&(rgb->code));
         rgb->rend_flag = 0;
-        int send_ret = spi_dma_send(rgb->spi_port,(u8*)rgb->spi_buff,sizeof(SPI_COLOUR)*rgb->number);
-        if(send_ret<0){
-            printf("user rgb spi send data error\n");
-        }
         rgb -> time_id = sys_timeout_add(rgb,user_rgb_send,rgb->spi_scan_time);
+        if(1 != rgb->updata_only){            
+            int send_ret = spi_dma_send(rgb->spi_port,(u8*)rgb->spi_buff,sizeof(SPI_COLOUR)*rgb->number);
+            if(send_ret<0){
+                printf("user rgb spi send data error\n");
+            }
+            if(rgb->updata_only){
+                r_printf(">>>>>>>> set updata_only");
+                rgb->updata_only = 1;
+            }
+        }
     }else{
         rgb -> time_id = sys_timeout_add(rgb,user_rgb_send,10);
     }

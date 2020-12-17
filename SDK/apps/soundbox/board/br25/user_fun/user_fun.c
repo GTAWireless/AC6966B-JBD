@@ -291,7 +291,7 @@ void user_tws_sync_info(void){
         user_bt_tws_sync_msg_send(USER_TWS_SYNC_LED,ret);
     }
 
-    ret = user_rgb_mode_set(USER_RGB_STATUS,NULL);
+    ret = user_rgb_mode_set_or_get(USER_RGB_STATUS,NULL);
     if(ret){
         // user_bt_tws_send_led_mode(1,ret);
         user_bt_tws_sync_msg_send(USER_TWS_SYNC_RGB,ret);
@@ -1004,7 +1004,7 @@ void user_power_off(void){
     user_led_io_fun(USER_IO_LED,LED_POWER_OFF);
     // user_pa_ex_strl(PA_POWER_OFF);
     // user_sd_power(0);
-    user_rgb_mode_set(USER_RGB_POWER_OFF,NULL);
+    user_rgb_mode_set_or_get(USER_RGB_POWER_OFF,NULL);
 
     user_mic_check_en(0);
 }

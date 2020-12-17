@@ -28,6 +28,7 @@ typedef struct _USER_RGB_INFO_{
     bool init_flag;
     bool rend_flag;
     bool updata_flag;//灯颜色更新标志
+    u8   updata_only;//只更新一次数据
     RGB_CODE code;
     u8 spi_port;//spi
     u16 number;//灯总颗数
